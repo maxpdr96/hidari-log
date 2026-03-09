@@ -1,5 +1,734 @@
 # hidari-log
 
+[![Java 25](https://img.shields.io/badge/Java-25-ED8B00?logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![Maven](https://img.shields.io/badge/Maven-3.8%2B-C71A36?logo=apachemaven&logoColor=white)](https://maven.apache.org/)
+[![Spring Boot 4.0.3](https://img.shields.io/badge/Spring%20Boot-4.0.3-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Spring Shell 4.0.1](https://img.shields.io/badge/Spring%20Shell-4.0.1-6DB33F?logo=spring&logoColor=white)](https://spring.io/projects/spring-shell)
+[![CLI](https://img.shields.io/badge/App-CLI-2C3E50)](https://github.com/maxpdr96/hidari-log)
+
+## English
+
+Smart Log Viewer is an interactive CLI for analyzing log files, built with Java 25, Spring Boot 4.0, and Spring Shell 4.0.
+
+```
+  _     _     _            _       _
+ | |__ (_) __| | __ _ _ __(_)     | | ___   __ _
+ | '_ \| |/ _` |/ _` | '__| |___ | |/ _ \ / _` |
+ | | | | | (_| | (_| | |  | |___|| | (_) | (_| |
+ |_| |_|_|\__,_|\__,_|_|  |_|    |_|\___/ \__, |
+                                           |___/
+```
+
+---
+
+## Requirements
+
+- Java 25+
+- Maven 3.8+
+- Ollama with `llama3.2` (optional, for AI commands)
+
+## Build and Run
+
+```bash
+mvn package -DskipTests
+java -jar target/hidari-log-1.0.0.jar
+```
+
+To enable AI analysis:
+
+```bash
+java -jar target/hidari-log-1.0.0.jar --hidari.ai.enabled=true
+```
+
+---
+
+## Architecture
+
+```
+com.hidari.log/
+├── model/       LogEntry, LogLevel, LogFormat, LogContext
+├── parser/      LogParser (interface) + 6 implementations + ParserFactory
+├── service/     LogLoaderService, LogFilterService, LogStatsService,
+│                StackTraceService, AnomalyDetectionService, AiService,
+│                ExportService, LogManipulationService, TailService
+├── command/     AbrirCommand, FiltrarCommand, StatsCommand, DetectarCommand,
+│                StackTraceCommand, TailCommand, AiCommand, ManipularCommand,
+│                ExportarCommand
+├── config/      ShellConfig
+└── util/        ConsoleFormatter
+```
+
+### Data Model
+
+**LogEntry** (immutable record) represents each log entry:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| lineNumber | long | Original file position |
+| timestamp | LocalDateTime | Parsed timestamp |
+| level | LogLevel | TRACE, DEBUG, INFO, WARN, ERROR, FATAL |
+| logger | String | Source class/logger |
+| thread | String | Execution thread |
+| message | String | Log message |
+| stackTrace | String | Stack trace, when present |
+| raw | String | Original unparsed line |
+
+**LogContext** (Spring bean) keeps in-memory state:
+- Full list of loaded entries
+- Filtered list, when a filter is active
+- Metadata: source name, format, time range
+
+---
+
+## Application Flows
+
+### 1. Opening and Parsing Logs
+
+```
+Command: abrir
+     |
+     v
+LogLoaderService
+     |
+     ├── loadFile()      -> Reads a file from disk
+     ├── loadFolder()    -> Reads all *.log files from a directory
+     ├── loadGlob()      -> Reads files matching a glob pattern
+     ├── loadFromUrl()   -> Downloads via HTTP
+     └── loadFromStdin() -> Reads from standard input
+     |
+     v
+ParserFactory.autoDetect()    <- Samples the first 20 lines
+     |
+     ├── Tries JSON first (lines starting with '{')
+     ├── Tries Logback
+     ├── Tries Log4j
+     ├── Tries Nginx
+     ├── Tries Apache
+     └── Fallback: Logback
+     |
+     v
+Specific parser processes all lines
+     |
+     ├── Extracts: timestamp, level, logger, thread, message
+     ├── Detects stack traces (lines with "at ", "Caused by:", "...")
+     └── Groups stack traces with the previous log entry
+     |
+     v
+LogContext.load() <- Stores parsed entries in memory
+```
+
+**Supported formats:**
+
+| Format | Detection Pattern | Example |
+|--------|-------------------|---------|
+| Logback | `yyyy-MM-dd HH:mm:ss.SSS [thread] LEVEL class - msg` | `2025-03-01 08:00:01.123 [main] INFO com.example.App - Started` |
+| Log4j | `yyyy-MM-dd HH:mm:ss,SSS LEVEL [thread] class - msg` | `2025-03-01 08:00:01,123 ERROR [main] com.example.App - Failed` |
+| JSON | JSON lines with known fields | `{"@timestamp":"...","level":"INFO","message":"..."}` |
+| Nginx | Combined log format | `192.168.1.1 - - [01/Mar/2025:08:00:01 +0000] "GET / HTTP/1.1" 200 1234` |
+| Apache | Combined log + error log format | Same as Nginx plus error log format |
+| Custom | User-defined pattern | `{data} [{thread}] {nivel} {classe} - {mensagem}` |
+
+The JSON parser auto-detects field names:
+- Timestamp: `timestamp`, `@timestamp`, `time`, `datetime`, `date`, `ts`
+- Level: `level`, `severity`, `log_level`, `loglevel`, `lvl`
+- Message: `message`, `msg`, `log`, `text`
+- Logger: `logger`, `logger_name`, `loggerName`, `class`, `category`
+- Thread: `thread`, `thread_name`, `threadName`
+- Stack: `stack_trace`, `stackTrace`, `exception`, `error.stack_trace`
+
+---
+
+### 2. Log Filtering
+
+```
+Command: filtrar (with multiple combinable options)
+     |
+     v
+LogFilterService.filter()
+     |
+     ├── Filters by level (exact or minimum)
+     │     --nivel ERROR,WARN       -> only these levels
+     │     --nivel-minimo WARN      -> WARN + ERROR + FATAL
+     │
+     ├── Filters by time
+     │     --de "2025-03-01 08:00"  -> starting from
+     │     --ate "2025-03-01 09:00" -> until
+     │     --ultimos 30m            -> last 30 minutes
+     │     --hoje / --ontem         -> date shortcuts
+     │
+     ├── Filters by content
+     │     --texto "NullPointer"    -> case-insensitive search
+     │     --regex "userId=[0-9]+"  -> regex search
+     │     --classe "PaymentService"-> filter by logger
+     │     --thread "http-nio"      -> filter by thread
+     │     --excluir "HealthCheck"  -> exclude entries
+     │
+     └── All filters can be combined (logical AND)
+     |
+     v
+LogContext.applyFilter() <- Stores filtered result
+     |
+     v
+Returns: "Filtro aplicado: 234 de 10.000 entradas (2%)"
+```
+
+Filters always operate on `allEntries()` (the original dataset). To remove filters, use `limpar-filtro`.
+
+The `mostrar` command displays current entries with pagination:
+- Color by level (FATAL=bold red, ERROR=red, WARN=yellow, INFO=green, DEBUG=cyan)
+- First 3 stack trace lines with indicator for remaining lines
+- Abbreviated logger name (example: `com.example.service.PaymentService` -> `PaymentService`)
+
+---
+
+### 3. Statistics and Analysis
+
+```
+Command: stats
+     |
+     v
+LogStatsService.stats()
+     |
+     ├── Computes: total entries, period, duration
+     └── Level distribution with ASCII bars:
+           ERROR  [████████░░░░░░░░░░░░]  7%  337.490
+           WARN   [███░░░░░░░░░░░░░░░░░] 14%  674.981
+```
+
+```
+Command: timeline --intervalo 1h --nivel ERROR
+     |
+     v
+LogStatsService.timeline()
+     |
+     ├── Groups entries into time buckets
+     ├── Computes volume per bucket
+     └── Displays ASCII chart with peak marker:
+           08:00  [████████░░]  234
+           09:00  [██████████]  456  <- peak
+           10:00  [██░░░░░░░░]   89
+```
+
+```
+Command: top-erros --limite 10
+     |
+     v
+LogStatsService.topErrors()
+     |
+     ├── Filters ERROR+FATAL entries
+     ├── Extracts an error "signature":
+     │     - Exception class + code location
+     │     - Example: "NullPointerException em PaymentService.java:89"
+     ├── Groups by signature and counts occurrences
+     └── Sorts by frequency (most frequent first)
+```
+
+```
+Commands: por-classe, por-thread
+     |
+     v
+LogStatsService.byClass() / byThread()
+     |
+     ├── Groups by logger or thread
+     ├── Top 20 with proportional bars
+     └── Displays counts per group
+```
+
+---
+
+### 4. Anomaly Detection
+
+```
+Command: anomalias
+     |
+     v
+AnomalyDetectionService.detectAnomalies()
+     |
+     ├── 1. ERROR SPIKES
+     │     - Groups errors into 5-minute buckets
+     │     - Computes average errors per bucket
+     │     - Alerts if bucket > 3x average (and > 5 errors)
+     │     -> [CRITICO] Pico de erros as 14:23 (847 erros em 5 min, media: ~12/5min)
+     │
+     ├── 2. NEW ERRORS
+     │     - Identifies errors with only 1 occurrence
+     │     -> [CRITICO] Erro unico (primeira ocorrencia): OutOfMemoryError
+     │
+     ├── 3. RECURRING PATTERNS
+     │     - Normalizes messages (removes UUIDs, timestamps, numbers)
+     │     - Computes average interval between occurrences
+     │     - Computes standard deviation of intervals
+     │     - Alerts if deviation < 50% of average (consistent pattern)
+     │     -> [ALERTA] Padrao recorrente a cada ~30min: Connection timeout
+     │
+     └── 4. LOG GAPS
+           - Computes average entry density
+           - Detects intervals > 5min and > 10x average interval
+           -> [ALERTA] Queda brusca de logs as 03:12 (gap de 15 min, possivel restart/crash)
+```
+
+```
+Command: correlacionar --evento "OutOfMemoryError" --janela 5m
+     |
+     v
+AnomalyDetectionService.correlate()
+     |
+     ├── Searches event in logs (message + stackTrace)
+     ├── Finds the first occurrence
+     ├── Collects up to 50 entries in the time window (+-5min)
+     └── Displays them with highlight (>>>) on the event entry:
+           08:43:01 INFO  Request processed...
+           08:43:15 WARN  Memory usage above warning...
+      >>> 08:43:22 FATAL OutOfMemoryError: Java heap space
+           08:43:23 ERROR Failed to process payment...
+```
+
+```
+Command: padroes
+     |
+     v
+AnomalyDetectionService.detectPatterns()
+     |
+     ├── Filters errors (ERROR+)
+     ├── Normalizes messages:
+     │     - UUIDs -> <UUID>
+     │     - Timestamps -> <TIMESTAMP>
+     │     - Numbers -> <N>
+     ├── Groups by normalized message
+     └── Top 10 patterns with counts
+```
+
+```
+Command: primeiros-erros
+     |
+     v
+AnomalyDetectionService.firstErrors()
+     |
+     ├── Walks logs in chronological order
+     ├── Records the first occurrence of each error type
+     └── Top 20 unique errors in order of appearance
+```
+
+---
+
+### 5. Stack Trace Analysis
+
+```
+Command: stacktraces
+     |
+     v
+StackTraceService.listStackTraces(agrupar=false)
+     |
+     ├── Filters entries with hasStackTrace()
+     └── Displays up to 20 stack traces:
+           [1] 2025-03-01 08:05:12 NullPointerException: Cannot invoke...
+               at com.example.service.PaymentService.process(PaymentService.java:89)
+               at com.example.controller.OrderController.checkout(OrderController.java:145)
+               ... (3 more lines)
+```
+
+```
+Command: stacktraces --agrupar-similares
+     |
+     v
+StackTraceService.listStackTraces(agrupar=true)
+     |
+     ├── Extracts signature: exception class + first "at " line
+     ├── Groups by signature
+     ├── Sorts by frequency (most common first)
+     └── Displays with count and period:
+           [1.234 occurrences] NullPointerException
+             at PaymentService.process(PaymentService.java:89)
+             at OrderController.checkout(OrderController.java:145)
+             ...
+             First: 2025-03-01 08:12 | Last: 2025-03-08 22:45
+```
+
+```
+Command: stacktraces-exportar --saida stacks.txt
+     |
+     v
+StackTraceService.exportStackTraces()
+     |
+     └── Writes file with format:
+           === 2025-03-01 08:05:12 ERROR ===
+           NullPointerException: Cannot invoke method on null reference
+           java.lang.NullPointerException: ...
+               at com.example.service.PaymentService.process(...)
+               ...
+```
+
+---
+
+### 6. Real-Time Monitoring
+
+```
+Command: tail --arquivo app.log --nivel ERROR --filtro "Payment" --destacar "ERROR,timeout"
+     |
+     v
+TailService.tail()
+     |
+     ├── Checks whether a tail is already running (stops previous one)
+     ├── Opens file with RandomAccessFile
+     ├── Seeks to the end of the file (-4KB)
+     ├── Starts a background virtual thread (Java 25)
+     └── Loop:
+           ├── Reads a new line from file
+           ├── If there is a line:
+           │     ├── Detects level (looks for FATAL/ERROR/WARN/INFO/DEBUG/TRACE in text)
+           │     ├── Applies minimum level filter
+           │     ├── Applies text filter
+           │     ├── Colors by level
+           │     ├── Highlights terms with yellow background
+           │     └── Prints to stdout
+           └── If there is no line:
+                 └── Waits 200ms and tries again
+
+Command: tail-stop
+     |
+     v
+TailService.stop() <- Sets AtomicBoolean to false, thread exits
+```
+
+---
+
+### 7. File Manipulation
+
+```
+Command: dividir --por dia --saida ./por-dia
+     |
+     v
+LogManipulationService.splitByDay()
+     |
+     ├── Groups entries by timestamp LocalDate
+     ├── Creates one file per day: 2025-03-01.log, 2025-03-02.log, ...
+     └── Writes original lines (raw) to each file
+```
+
+```
+Command: dividir --por nivel --saida ./por-nivel
+     |
+     v
+LogManipulationService.splitByLevel()
+     |
+     ├── Groups entries by LogLevel
+     └── Creates: trace.log, debug.log, info.log, warn.log, error.log, fatal.log
+```
+
+```
+Command: dividir --por tamanho --arquivo big.log --tamanho 100MB --saida ./partes
+     |
+     v
+LogManipulationService.splitBySize()
+     |
+     ├── Reads original file line by line
+     ├── Accumulates bytes until reaching limit
+     └── Creates: big_part1.log, big_part2.log, ...
+```
+
+```
+Command: mesclar --pasta /logs --saida merged.log --ordenar-por-data
+     |
+     v
+LogManipulationService.mergeFolder()
+     |
+     ├── Lists all *.log files in directory (1 level)
+     ├── Concatenates all lines
+     ├── Sorts lexicographically (when using --ordenar-por-data)
+     └── Writes output file
+```
+
+---
+
+### 8. Exporting
+
+```
+Command: exportar --formato json --saida erros.json
+     |
+     v
+ExportService.export()
+     |
+     ├── Gets LogContext.currentEntries() (filtered if active)
+     └── Converts to requested format:
+           |
+           ├── JSON: Array of objects with all fields
+           │     [{"line":1,"timestamp":"...","level":"ERROR","logger":"...","message":"..."}]
+           │
+           ├── CSV: Header + escaped values
+           │     linha,timestamp,nivel,logger,thread,mensagem
+           │     1,2025-03-01 08:05:12,ERROR,PaymentService,http-nio-8080-exec-4,"Payment failed"
+           │
+           ├── HTML: Table with dark theme, inline CSS, colors by level
+           │     <table> with .ERROR, .WARN, .INFO classes for coloring
+           │     Stack traces in <div class="stack">
+           │
+           └── Markdown: Markdown table
+                 | # | Timestamp | Nivel | Logger | Mensagem |
+```
+
+---
+
+### 9. AI Analysis (Ollama)
+
+```
+Activation: --hidari.ai.enabled=true (or application.properties)
+Requirements: Ollama running + llama3.2 model installed
+
+Command: explicar --erro "NullPointerException"
+     |
+     v
+AiService.explainError()
+     |
+     ├── Filters ERROR+ entries containing the text
+     ├── Limits to 5 relevant entries
+     ├── Formats them for the prompt (timestamp + level + logger + message + stack)
+     ├── Sends POST to Ollama /api/generate
+     │     Body: {"model":"llama3.2","prompt":"...","stream":false}
+     └── Displays formatted answer with colors
+```
+
+```
+Command: causa-raiz
+     |
+     v
+AiService.rootCause()
+     |
+     ├── Collects up to 20 errors from log
+     ├── Prompt asks for: root cause, event sequence, correlations
+     └── Sends to Ollama and displays answer
+```
+
+```
+Command: sugerir-fix --stack-trace 3
+     |
+     v
+AiService.suggestFix()
+     |
+     ├── Finds the 3rd stack trace in logs
+     ├── Prompt asks for: explanation, fix code, prevention
+     └── Sends to Ollama and displays answer
+```
+
+```
+Command: resumir
+     |
+     v
+AiService.summarize()
+     |
+     ├── Computes metrics: total, errors, warnings, top 5 errors
+     ├── Includes a sample of the 20 most recent logs
+     ├── Prompt asks for: overall status, critical issues, recommendations
+     └── Sends to Ollama and displays answer
+```
+
+Communication with Ollama uses `java.net.http.HttpClient` (no Spring Web dependency).
+
+---
+
+## Full Command Reference
+
+### Opening
+
+| Command | Description | Options |
+|---------|-------------|---------|
+| `abrir` | Load log file | `--arquivo`, `--pasta`, `--extensao`, `--glob`, `--url`, `--formato`, `--padrao` |
+
+### Filters
+
+| Command | Description | Options |
+|---------|-------------|---------|
+| `filtrar` | Apply filters | `--nivel`, `--nivel-minimo`, `--de`, `--ate`, `--ultimos`, `--texto`, `--regex`, `--classe`, `--thread`, `--excluir`, `--hoje`, `--ontem` |
+| `limpar-filtro` | Clear filters | - |
+| `mostrar` | Show entries | `--limite`, `--offset` |
+
+### Statistics
+
+| Command | Description | Options |
+|---------|-------------|---------|
+| `stats` | Overview | - |
+| `timeline` | Volume by interval | `--intervalo`, `--nivel` |
+| `top-erros` | Most frequent errors | `--limite` |
+| `por-classe` | Entries by class | `--nivel` |
+| `por-thread` | Entries by thread | - |
+
+### Detection
+
+| Command | Description | Options |
+|---------|-------------|---------|
+| `anomalias` | Detect anomalies | - |
+| `padroes` | Recurring patterns | - |
+| `correlacionar` | Event context | `--evento`, `--janela` |
+| `primeiros-erros` | First occurrence | - |
+
+### Stack Traces
+
+| Command | Description | Options |
+|---------|-------------|---------|
+| `stacktraces` | List stack traces | `--agrupar-similares` |
+| `stacktraces-exportar` | Export stack traces | `--saida` |
+
+### Monitoring
+
+| Command | Description | Options |
+|---------|-------------|---------|
+| `tail` | Real-time monitoring | `--arquivo`, `--nivel`, `--filtro`, `--destacar` |
+| `tail-stop` | Stop monitoring | - |
+
+### Manipulation
+
+| Command | Description | Options |
+|---------|-------------|---------|
+| `dividir` | Split log | `--por` (dia/nivel/tamanho), `--arquivo`, `--tamanho`, `--saida` |
+| `mesclar` | Merge logs | `--arquivos`, `--pasta`, `--saida`, `--ordenar-por-data` |
+
+### Exporting
+
+| Command | Description | Options |
+|---------|-------------|---------|
+| `exportar` | Export logs | `--formato` (json/csv/html/markdown), `--saida` |
+
+### AI (requires --hidari.ai.enabled=true)
+
+| Command | Description | Options |
+|---------|-------------|---------|
+| `explicar` | Explain error with AI | `--erro` |
+| `causa-raiz` | Identify root cause | `--janela` |
+| `sugerir-fix` | Suggest fix | `--stack-trace` |
+| `resumir` | Executive summary | `--periodo` |
+
+---
+
+## Usage Examples
+
+### Basic investigation flow
+
+```bash
+# 1. Open log
+abrir --arquivo /var/log/app.log
+
+# 2. View overview
+stats
+
+# 3. View top errors
+top-erros --limite 5
+
+# 4. Filter errors from the last 2 hours
+filtrar --nivel ERROR --ultimos 2h
+
+# 5. Show filtered entries
+mostrar --limite 50
+
+# 6. Analyze grouped stack traces
+stacktraces --agrupar-similares
+
+# 7. Detect anomalies
+anomalias
+
+# 8. Correlate a specific event
+correlacionar --evento "OutOfMemoryError" --janela 10m
+
+# 9. Export errors to a report
+exportar --formato html --saida relatorio.html
+```
+
+### AI flow
+
+```bash
+# Start with AI enabled
+# java -jar hidari-log-1.0.0.jar --hidari.ai.enabled=true
+
+abrir --arquivo app.log
+explicar --erro "NullPointerException em PaymentService"
+causa-raiz
+sugerir-fix --stack-trace 1
+resumir
+```
+
+### Real-time monitoring
+
+```bash
+tail --arquivo /var/log/app.log --nivel ERROR --destacar "FATAL,OutOfMemory"
+# ... logs appear in real time with colors ...
+tail-stop
+```
+
+### File manipulation
+
+```bash
+# Open and split by day
+abrir --arquivo big-app.log
+dividir --por dia --saida ./logs-por-dia
+
+# Merge logs from a folder
+mesclar --pasta /var/log/app --saida combined.log --ordenar-por-data
+```
+
+---
+
+## Configuration
+
+`application.properties` file:
+
+```properties
+# Shell
+spring.main.banner-mode=console
+spring.shell.interactive.enabled=true
+spring.shell.command.script.enabled=false
+spring.shell.command.help.enabled=true
+
+# Logging
+logging.level.root=WARN
+logging.level.com.hidari=INFO
+
+# AI (Ollama)
+hidari.ai.enabled=false
+hidari.ai.ollama-url=http://localhost:11434
+hidari.ai.model=llama3.2
+```
+
+All properties can be overridden via command line:
+
+```bash
+java -jar hidari-log-1.0.0.jar \
+  --hidari.ai.enabled=true \
+  --hidari.ai.model=llama3.2 \
+  --hidari.ai.ollama-url=http://localhost:11434
+```
+
+---
+
+## Technology Stack
+
+| Technology | Version | Usage |
+|------------|---------|-------|
+| Java | 25 | Runtime (virtual threads, records, pattern matching) |
+| Spring Boot | 4.0.3 | Base framework, DI, auto-configuration |
+| Spring Shell | 4.0.1 | Interactive CLI with JLine |
+| Jackson | 2.x | JSON log parsing and export |
+| Ollama | - | Local LLM for AI analysis |
+
+---
+
+## Sample Files
+
+The `samples/` folder contains generated logs for testing:
+
+| File | Lines | Description |
+|------|-------|-------------|
+| `app-small.log` | 200 | Simple log, 1 day |
+| `app-medium.log` | 2.000 | 3 days, normal distribution |
+| `app-large.log` | 10.000 | 7 days, error spike at 14h |
+| `app-xlarge.log` | 50.000 | 14 days, spike at 15h |
+| `app-errors.log` | 1.500 | 35% errors, 3% FATAL |
+| `prod-crash.log` | 500 | Crash scenario (40% error, 5% FATAL) |
+| `app-json.log` | 800 | JSON format (Logstash-style) |
+| `access.log` | 600 | Nginx combined format |
+| `daily-2025-03-*.log` | ~400 each | 5 files, 1 per day |
+
+---
+
+## Portugues (Brasil)
+
 Smart Log Viewer - Ferramenta CLI interativa para analise de arquivos de log, construida com Java 25, Spring Boot 4.0 e Spring Shell 4.0.
 
 ```
