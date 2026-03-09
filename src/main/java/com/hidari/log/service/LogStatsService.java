@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class LogStatsService {
+    private static final int DEFAULT_TOP_ERRORS_LIMIT = 10;
 
     private final LogContext context;
 
@@ -122,6 +123,7 @@ public class LogStatsService {
 
     public String topErrors(int limite) {
         if (!context.isLoaded()) return "Nenhum log carregado. Use 'abrir' primeiro.";
+        int effectiveLimit = limite > 0 ? limite : DEFAULT_TOP_ERRORS_LIMIT;
 
         var errors = context.currentEntries().stream()
                 .filter(e -> e.level().isAtLeast(LogLevel.ERROR))
@@ -132,13 +134,13 @@ public class LogStatsService {
 
         var sorted = errors.entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-                .limit(limite)
+                .limit(effectiveLimit)
                 .toList();
 
         if (sorted.isEmpty()) return "Nenhum erro encontrado nos logs carregados.";
 
         var sb = new StringBuilder();
-        sb.append("\n").append(ConsoleFormatter.bold("TOP " + limite + " ERROS:")).append("\n\n");
+        sb.append("\n").append(ConsoleFormatter.bold("TOP " + effectiveLimit + " ERROS:")).append("\n\n");
 
         for (int i = 0; i < sorted.size(); i++) {
             var entry = sorted.get(i);

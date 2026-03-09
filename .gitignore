@@ -1,2 +1,38 @@
-# Project exclude paths
+# Build output
 /target/
+/out/
+
+# Maven
+/.mvn/timing.properties
+/dependency-reduced-pom.xml
+
+# IDEs and editors
+/.idea/
+/.vscode/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local environment overrides
+.env
+.env.*
+!.env.example
+
+# Runtime artifacts
+*.pid
+*.seed
+*.tmp
+*.temp
+
+# Local logs generated while running the CLI/app
+*.log
+*.log.*
+*.log/
+!src/test/resources/**/*.log
