@@ -1,0 +1,1194 @@
+2025-03-10 13:00:35.000 [scheduler-2] FATAL  com.example.service.EmailService - Application startup failed - missing required configuration
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource'
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	Caused by: java.lang.IllegalArgumentException: URL must not be null
+	at com.example.config.DatabaseConfig.dataSource(DatabaseConfig.java:34)
+2025-03-10 13:01:23.000 [http-nio-8080-exec-10] WARN  com.example.job.MetricsJob - Payment gateway response slow (2945ms)
+2025-03-10 13:01:38.000 [kafka-consumer-1] INFO  com.example.controller.UserController - Email sent to user_42799@example.com
+2025-03-10 13:02:28.000 [scheduler-2] ERROR  com.example.service.InventoryService - Scheduled task failed: data-sync-job
+2025-03-10 13:04:03.000 [async-pool-2] INFO  com.example.job.SyncJob - Cleanup job started - removed 747 expired sessions
+2025-03-10 13:04:34.000 [scheduler-2] FATAL  com.example.repository.OrderRepository - Kafka broker unreachable - message processing halted
+org.apache.kafka.common.errors.TimeoutException: Failed to update metadata after 60000 ms
+	at org.apache.kafka.clients.producer.KafkaProducer.doSend(KafkaProducer.java:999)
+	at com.example.service.OrderService.publishEvent(OrderService.java:178)
+	Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:741)
+2025-03-10 13:05:15.000 [http-nio-8080-exec-8] ERROR  com.example.service.EmailService - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 13:06:52.000 [http-nio-8080-exec-3] INFO  com.example.config.DatabaseConfig - Message published to queue: order.created
+2025-03-10 13:07:14.000 [async-pool-1] ERROR  com.example.service.DatabaseService - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 13:07:50.000 [http-nio-8080-exec-2] WARN  com.example.job.SyncJob - SSL certificate expires in 30 days
+2025-03-10 13:08:35.000 [http-nio-8080-exec-9] ERROR  com.example.service.UserService - WebSocket connection dropped: session_27907
+2025-03-10 13:09:48.000 [scheduler-2] INFO  com.example.job.CleanupJob - PUT /api/users/profile - 200 OK (456ms)
+2025-03-10 13:10:53.000 [scheduler-2] INFO  com.example.service.PaymentService - POST /api/orders - 201 Created (1719ms)
+2025-03-10 13:12:47.000 [http-nio-8080-exec-7] INFO  com.example.service.ReportService - GET /api/products - 200 OK (2429ms)
+2025-03-10 13:14:14.000 [http-nio-8080-exec-1] INFO  com.example.job.MetricsJob - Email sent to user_21608@example.com
+2025-03-10 13:15:03.000 [http-nio-8080-exec-10] WARN  com.example.service.OrderService - SSL certificate expires in 30 days
+2025-03-10 13:16:08.000 [http-nio-8080-exec-9] ERROR  com.example.controller.OrderController - NullPointerException: Cannot invoke method on null reference
+java.lang.NullPointerException: Cannot invoke method on null reference
+	at com.example.service.PaymentService.process(PaymentService.java:89)
+	at com.example.controller.OrderController.checkout(OrderController.java:145)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 13:17:18.000 [http-nio-8080-exec-5] INFO  com.example.repository.OrderRepository - Scheduled job completed in 7447ms
+2025-03-10 13:19:11.000 [http-nio-8080-exec-7] WARN  com.example.service.PaymentService - Deprecated API endpoint called: /api/v1/users
+2025-03-10 13:19:47.000 [main] ERROR  com.example.service.DatabaseService - Message delivery failed: queue=order.notifications
+2025-03-10 13:19:58.000 [async-pool-1] INFO  com.example.controller.AdminController - Report generated: monthly_sales_2025-03.pdf
+2025-03-10 13:20:23.000 [http-nio-8080-exec-1] INFO  com.example.repository.UserRepository - DELETE /api/sessions/84228 - 204 No Content
+2025-03-10 13:21:25.000 [http-nio-8080-exec-6] WARN  com.example.config.SecurityConfig - Disk usage at 75% on /var/log
+2025-03-10 13:23:01.000 [scheduler-2] INFO  com.example.repository.ProductRepository - Database connection pool initialized (size: 10)
+2025-03-10 13:24:00.000 [http-nio-8080-exec-2] WARN  com.example.job.CleanupJob - Memory usage above warning threshold: 63%
+2025-03-10 13:25:51.000 [http-nio-8080-exec-9] ERROR  com.example.job.CleanupJob - Scheduled task failed: data-sync-job
+2025-03-10 13:27:27.000 [http-nio-8080-exec-2] INFO  com.example.service.NotificationService - Batch processing completed: 3789 records in 5177ms
+2025-03-10 13:27:29.000 [http-nio-8080-exec-3] ERROR  com.example.service.PaymentService - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 13:28:47.000 [http-nio-8080-exec-3] ERROR  com.example.job.CleanupJob - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 13:30:31.000 [http-nio-8080-exec-8] INFO  com.example.repository.ProductRepository - Kafka consumer joined group: order-processing
+2025-03-10 13:32:00.000 [http-nio-8080-exec-4] INFO  com.example.service.InventoryService - Cache refreshed successfully (4182 entries)
+2025-03-10 13:33:03.000 [http-nio-8080-exec-8] ERROR  com.example.controller.AdminController - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 13:34:44.000 [http-nio-8080-exec-4] INFO  com.example.controller.AdminController - Cleanup job started - removed 2889 expired sessions
+2025-03-10 13:34:46.000 [http-nio-8080-exec-7] ERROR  com.example.config.DatabaseConfig - WebSocket connection dropped: session_56916
+2025-03-10 13:36:10.000 [http-nio-8080-exec-7] WARN  com.example.controller.HealthController - JWT token expiring in less than 5 minutes for user_15826
+2025-03-10 13:37:21.000 [http-nio-8080-exec-1] WARN  com.example.controller.OrderController - JWT token expiring in less than 5 minutes for user_36723
+2025-03-10 13:37:46.000 [http-nio-8080-exec-9] INFO  com.example.service.PaymentService - Cache refreshed successfully (129 entries)
+2025-03-10 13:38:38.000 [kafka-consumer-1] FATAL  com.example.job.SyncJob - Kafka broker unreachable - message processing halted
+org.apache.kafka.common.errors.TimeoutException: Failed to update metadata after 60000 ms
+	at org.apache.kafka.clients.producer.KafkaProducer.doSend(KafkaProducer.java:999)
+	at com.example.service.OrderService.publishEvent(OrderService.java:178)
+	Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:741)
+2025-03-10 13:39:56.000 [http-nio-8080-exec-3] WARN  com.example.job.MetricsJob - Cache miss rate exceeding threshold (70%)
+2025-03-10 13:41:15.000 [kafka-consumer-1] INFO  com.example.repository.OrderRepository - GET /health - 200 OK (2ms)
+2025-03-10 13:41:56.000 [http-nio-8080-exec-7] ERROR  com.example.service.PaymentService - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 13:43:03.000 [http-nio-8080-exec-1] ERROR  com.example.job.CleanupJob - Authentication failed for user: admin_53756
+2025-03-10 13:44:06.000 [scheduler-1] WARN  com.example.config.DatabaseConfig - Request queue depth increasing: 1932 pending
+2025-03-10 13:45:26.000 [http-nio-8080-exec-7] ERROR  com.example.repository.ProductRepository - Scheduled task failed: data-sync-job
+2025-03-10 13:46:40.000 [http-nio-8080-exec-8] INFO  com.example.service.EmailService - GET /api/products - 200 OK (5378ms)
+2025-03-10 13:46:42.000 [scheduler-2] INFO  com.example.service.OrderService - Message published to queue: order.created
+2025-03-10 13:47:35.000 [main] WARN  com.example.config.SecurityConfig - Slow query detected: SELECT * FROM orders WHERE status='pending' (7320ms)
+2025-03-10 13:48:20.000 [http-nio-8080-exec-5] WARN  com.example.repository.OrderRepository - Memory usage above warning threshold: 95%
+2025-03-10 13:49:38.000 [async-pool-2] ERROR  com.example.job.MetricsJob - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-10 13:50:08.000 [http-nio-8080-exec-9] ERROR  com.example.controller.HealthController - Message delivery failed: queue=order.notifications
+2025-03-10 13:51:35.000 [main] INFO  com.example.controller.PaymentController - SSL certificate valid until 2026-12-31
+2025-03-10 13:52:58.000 [async-pool-1] INFO  com.example.controller.HealthController - Database connection pool initialized (size: 10)
+2025-03-10 13:54:18.000 [http-nio-8080-exec-5] ERROR  com.example.service.InventoryService - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 13:54:45.000 [main] WARN  com.example.job.CleanupJob - Request queue depth increasing: 619 pending
+2025-03-10 13:56:11.000 [scheduler-2] INFO  com.example.job.BackupJob - DELETE /api/sessions/27078 - 204 No Content
+2025-03-10 13:58:02.000 [http-nio-8080-exec-1] INFO  com.example.service.OrderService - Message published to queue: order.created
+2025-03-10 13:58:04.000 [scheduler-1] INFO  com.example.config.DatabaseConfig - DELETE /api/sessions/60516 - 204 No Content
+2025-03-10 13:58:30.000 [http-nio-8080-exec-9] FATAL  com.example.job.SyncJob - OutOfMemoryError: Java heap space
+java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.util.Arrays.copyOf(Arrays.java:3512)
+	at com.example.service.ReportService.loadAllData(ReportService.java:234)
+	at com.example.job.BackupJob.run(BackupJob.java:45)
+2025-03-10 13:59:23.000 [async-pool-1] INFO  com.example.controller.AdminController - Kafka consumer joined group: order-processing
+2025-03-10 13:59:55.000 [http-nio-8080-exec-1] INFO  com.example.config.SecurityConfig - GET /api/users - 200 OK (4747ms)
+2025-03-10 14:00:43.000 [async-pool-2] ERROR  com.example.controller.HealthController - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 14:02:20.000 [http-nio-8080-exec-6] ERROR  com.example.controller.PaymentController - Authentication failed for user: admin_83148
+2025-03-10 14:02:52.000 [http-nio-8080-exec-1] ERROR  com.example.config.DatabaseConfig - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 14:03:00.000 [http-nio-8080-exec-10] ERROR  com.example.config.DatabaseConfig - StackOverflowError in recursive call
+java.lang.StackOverflowError
+	at com.example.service.CacheService.resolve(CacheService.java:34)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	... 1024 more
+2025-03-10 14:03:23.000 [scheduler-2] ERROR  com.example.service.UserService - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-10 14:04:13.000 [http-nio-8080-exec-3] ERROR  com.example.config.DatabaseConfig - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-10 14:04:55.000 [http-nio-8080-exec-2] ERROR  com.example.job.CleanupJob - File upload failed: size exceeds maximum (50MB)
+2025-03-10 14:05:41.000 [async-pool-2] ERROR  com.example.job.CleanupJob - Scheduled task failed: data-sync-job
+2025-03-10 14:07:37.000 [scheduler-2] ERROR  com.example.job.SyncJob - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 14:08:42.000 [http-nio-8080-exec-3] ERROR  com.example.service.CacheService - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 14:09:11.000 [http-nio-8080-exec-6] ERROR  com.example.service.AuthService - Template rendering failed: email/order-confirmation.html
+2025-03-10 14:10:51.000 [http-nio-8080-exec-5] ERROR  com.example.controller.OrderController - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 14:12:38.000 [scheduler-2] ERROR  com.example.job.SyncJob - Authentication failed for user: admin_3173
+2025-03-10 14:13:04.000 [http-nio-8080-exec-2] ERROR  com.example.job.MetricsJob - External API returned 500: https://api.partner.com/v2/sync
+2025-03-10 14:13:46.000 [async-pool-1] ERROR  com.example.job.SyncJob - Message delivery failed: queue=order.notifications
+2025-03-10 14:15:14.000 [http-nio-8080-exec-2] ERROR  com.example.service.PaymentService - WebSocket connection dropped: session_80995
+2025-03-10 14:16:47.000 [kafka-consumer-2] ERROR  com.example.config.DatabaseConfig - File upload failed: size exceeds maximum (50MB)
+2025-03-10 14:18:39.000 [http-nio-8080-exec-7] ERROR  com.example.job.SyncJob - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-10 14:20:12.000 [async-pool-1] ERROR  com.example.controller.AdminController - StackOverflowError in recursive call
+java.lang.StackOverflowError
+	at com.example.service.CacheService.resolve(CacheService.java:34)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	... 1024 more
+2025-03-10 14:22:06.000 [http-nio-8080-exec-3] ERROR  com.example.service.OrderService - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 14:22:16.000 [http-nio-8080-exec-10] FATAL  com.example.repository.OrderRepository - Database connection pool exhausted - application cannot serve requests
+java.lang.RuntimeException: No available connections in pool
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:52)
+	at com.example.repository.UserRepository.findAll(UserRepository.java:18)
+	Caused by: java.sql.SQLException: Pool exhausted, max connections reached
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:155)
+2025-03-10 14:23:27.000 [http-nio-8080-exec-9] ERROR  com.example.config.SecurityConfig - StackOverflowError in recursive call
+java.lang.StackOverflowError
+	at com.example.service.CacheService.resolve(CacheService.java:34)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	... 1024 more
+2025-03-10 14:24:20.000 [http-nio-8080-exec-9] ERROR  com.example.job.MetricsJob - Message delivery failed: queue=order.notifications
+2025-03-10 14:25:14.000 [http-nio-8080-exec-5] ERROR  com.example.service.CacheService - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-10 14:26:44.000 [kafka-consumer-1] ERROR  com.example.service.EmailService - Failed to process payment for order #27813
+2025-03-10 14:27:29.000 [http-nio-8080-exec-5] FATAL  com.example.controller.PaymentController - Disk full - cannot write to /var/log
+java.io.IOException: No space left on device
+	at java.base/java.io.FileOutputStream.writeBytes(FileOutputStream.java:233)
+	at ch.qos.logback.core.FileAppender.writeOut(FileAppender.java:156)
+2025-03-10 14:28:39.000 [http-nio-8080-exec-7] ERROR  com.example.job.MetricsJob - Failed to process payment for order #60364
+2025-03-10 14:29:10.000 [kafka-consumer-2] ERROR  com.example.service.EmailService - StackOverflowError in recursive call
+java.lang.StackOverflowError
+	at com.example.service.CacheService.resolve(CacheService.java:34)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	... 1024 more
+2025-03-10 14:29:44.000 [http-nio-8080-exec-1] ERROR  com.example.repository.OrderRepository - Failed to process payment for order #8863
+2025-03-10 14:31:19.000 [http-nio-8080-exec-3] FATAL  com.example.repository.ProductRepository - Application startup failed - missing required configuration
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource'
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	Caused by: java.lang.IllegalArgumentException: URL must not be null
+	at com.example.config.DatabaseConfig.dataSource(DatabaseConfig.java:34)
+2025-03-10 14:32:51.000 [scheduler-1] ERROR  com.example.service.InventoryService - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 14:33:38.000 [http-nio-8080-exec-2] FATAL  com.example.job.CleanupJob - Kafka broker unreachable - message processing halted
+org.apache.kafka.common.errors.TimeoutException: Failed to update metadata after 60000 ms
+	at org.apache.kafka.clients.producer.KafkaProducer.doSend(KafkaProducer.java:999)
+	at com.example.service.OrderService.publishEvent(OrderService.java:178)
+	Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:741)
+2025-03-10 14:34:03.000 [http-nio-8080-exec-5] ERROR  com.example.config.DatabaseConfig - Authentication failed for user: admin_95794
+2025-03-10 14:34:53.000 [http-nio-8080-exec-2] ERROR  com.example.service.EmailService - Authentication failed for user: admin_14861
+2025-03-10 14:36:02.000 [scheduler-1] FATAL  com.example.service.EmailService - Database connection pool exhausted - application cannot serve requests
+java.lang.RuntimeException: No available connections in pool
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:52)
+	at com.example.repository.UserRepository.findAll(UserRepository.java:18)
+	Caused by: java.sql.SQLException: Pool exhausted, max connections reached
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:155)
+2025-03-10 14:36:34.000 [scheduler-1] ERROR  com.example.job.SyncJob - NullPointerException: Cannot invoke method on null reference
+java.lang.NullPointerException: Cannot invoke method on null reference
+	at com.example.service.PaymentService.process(PaymentService.java:89)
+	at com.example.controller.OrderController.checkout(OrderController.java:145)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 14:37:30.000 [scheduler-1] ERROR  com.example.service.CacheService - External API returned 500: https://api.partner.com/v2/sync
+2025-03-10 14:38:11.000 [http-nio-8080-exec-6] ERROR  com.example.service.ReportService - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 14:38:40.000 [scheduler-1] ERROR  com.example.job.MetricsJob - StackOverflowError in recursive call
+java.lang.StackOverflowError
+	at com.example.service.CacheService.resolve(CacheService.java:34)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	... 1024 more
+2025-03-10 14:38:57.000 [scheduler-2] ERROR  com.example.service.DatabaseService - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 14:39:13.000 [http-nio-8080-exec-9] ERROR  com.example.job.MetricsJob - Message delivery failed: queue=order.notifications
+2025-03-10 14:40:35.000 [http-nio-8080-exec-8] FATAL  com.example.service.OrderService - Application startup failed - missing required configuration
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource'
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	Caused by: java.lang.IllegalArgumentException: URL must not be null
+	at com.example.config.DatabaseConfig.dataSource(DatabaseConfig.java:34)
+2025-03-10 14:41:08.000 [async-pool-1] ERROR  com.example.job.BackupJob - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 14:41:36.000 [async-pool-2] ERROR  com.example.service.InventoryService - File upload failed: size exceeds maximum (50MB)
+2025-03-10 14:42:15.000 [async-pool-2] ERROR  com.example.controller.PaymentController - File upload failed: size exceeds maximum (50MB)
+2025-03-10 14:43:42.000 [scheduler-1] ERROR  com.example.service.CacheService - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-10 14:44:58.000 [http-nio-8080-exec-8] ERROR  com.example.repository.UserRepository - WebSocket connection dropped: session_55163
+2025-03-10 14:45:29.000 [http-nio-8080-exec-3] FATAL  com.example.service.OrderService - Database connection pool exhausted - application cannot serve requests
+java.lang.RuntimeException: No available connections in pool
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:52)
+	at com.example.repository.UserRepository.findAll(UserRepository.java:18)
+	Caused by: java.sql.SQLException: Pool exhausted, max connections reached
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:155)
+2025-03-10 14:47:03.000 [kafka-consumer-2] ERROR  com.example.controller.UserController - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 14:47:49.000 [http-nio-8080-exec-9] ERROR  com.example.job.MetricsJob - Authentication failed for user: admin_52899
+2025-03-10 14:48:37.000 [http-nio-8080-exec-1] ERROR  com.example.controller.OrderController - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 14:48:59.000 [http-nio-8080-exec-6] ERROR  com.example.controller.UserController - Message delivery failed: queue=order.notifications
+2025-03-10 14:50:26.000 [http-nio-8080-exec-8] ERROR  com.example.repository.OrderRepository - StackOverflowError in recursive call
+java.lang.StackOverflowError
+	at com.example.service.CacheService.resolve(CacheService.java:34)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	... 1024 more
+2025-03-10 14:50:44.000 [http-nio-8080-exec-10] ERROR  com.example.repository.OrderRepository - Template rendering failed: email/order-confirmation.html
+2025-03-10 14:51:11.000 [kafka-consumer-2] ERROR  com.example.service.DatabaseService - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 14:51:16.000 [http-nio-8080-exec-7] ERROR  com.example.service.NotificationService - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 14:51:45.000 [http-nio-8080-exec-4] ERROR  com.example.controller.UserController - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 14:52:15.000 [http-nio-8080-exec-6] ERROR  com.example.service.DatabaseService - Message delivery failed: queue=order.notifications
+2025-03-10 14:54:07.000 [http-nio-8080-exec-10] ERROR  com.example.config.DatabaseConfig - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 14:55:07.000 [async-pool-1] ERROR  com.example.job.SyncJob - Scheduled task failed: data-sync-job
+2025-03-10 14:56:56.000 [scheduler-1] ERROR  com.example.service.OrderService - Scheduled task failed: data-sync-job
+2025-03-10 14:58:35.000 [http-nio-8080-exec-3] ERROR  com.example.controller.HealthController - External API returned 500: https://api.partner.com/v2/sync
+2025-03-10 14:59:30.000 [scheduler-2] ERROR  com.example.config.SecurityConfig - NullPointerException: Cannot invoke method on null reference
+java.lang.NullPointerException: Cannot invoke method on null reference
+	at com.example.service.PaymentService.process(PaymentService.java:89)
+	at com.example.controller.OrderController.checkout(OrderController.java:145)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 15:00:20.000 [http-nio-8080-exec-4] INFO  com.example.service.InventoryService - PUT /api/users/profile - 200 OK (5183ms)
+2025-03-10 15:01:28.000 [http-nio-8080-exec-6] INFO  com.example.service.DatabaseService - DELETE /api/sessions/67351 - 204 No Content
+2025-03-10 15:01:32.000 [http-nio-8080-exec-6] INFO  com.example.service.NotificationService - POST /api/orders - 201 Created (5273ms)
+2025-03-10 15:01:43.000 [http-nio-8080-exec-2] ERROR  com.example.job.CleanupJob - NullPointerException: Cannot invoke method on null reference
+java.lang.NullPointerException: Cannot invoke method on null reference
+	at com.example.service.PaymentService.process(PaymentService.java:89)
+	at com.example.controller.OrderController.checkout(OrderController.java:145)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 15:02:19.000 [http-nio-8080-exec-10] ERROR  com.example.job.MetricsJob - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 15:03:26.000 [scheduler-1] INFO  com.example.controller.UserController - Configuration reloaded from application.properties
+2025-03-10 15:05:22.000 [kafka-consumer-2] WARN  com.example.controller.PaymentController - Disk usage at 47% on /var/log
+2025-03-10 15:05:39.000 [http-nio-8080-exec-6] ERROR  com.example.config.DatabaseConfig - Authentication failed for user: admin_13617
+2025-03-10 15:06:44.000 [http-nio-8080-exec-7] ERROR  com.example.job.BackupJob - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 15:07:58.000 [http-nio-8080-exec-2] ERROR  com.example.service.OrderService - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 15:09:56.000 [kafka-consumer-2] ERROR  com.example.repository.ProductRepository - Scheduled task failed: data-sync-job
+2025-03-10 15:11:35.000 [kafka-consumer-2] ERROR  com.example.service.ReportService - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 15:13:13.000 [scheduler-1] INFO  com.example.repository.OrderRepository - Database connection pool initialized (size: 10)
+2025-03-10 15:14:18.000 [http-nio-8080-exec-2] WARN  com.example.repository.OrderRepository - Rate limit approaching for client IP 192.168.1.250 (1745/100 requests)
+2025-03-10 15:15:38.000 [scheduler-2] INFO  com.example.service.AuthService - GET /api/products - 200 OK (1563ms)
+2025-03-10 15:16:15.000 [main] WARN  com.example.controller.PaymentController - Cache miss rate exceeding threshold (92%)
+2025-03-10 15:16:25.000 [http-nio-8080-exec-6] INFO  com.example.service.CacheService - PUT /api/users/profile - 200 OK (4071ms)
+2025-03-10 15:18:02.000 [http-nio-8080-exec-4] INFO  com.example.job.MetricsJob - POST /api/orders - 201 Created (1531ms)
+2025-03-10 15:19:32.000 [http-nio-8080-exec-8] ERROR  com.example.controller.OrderController - Scheduled task failed: data-sync-job
+2025-03-10 15:21:12.000 [http-nio-8080-exec-1] ERROR  com.example.controller.PaymentController - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 15:23:07.000 [http-nio-8080-exec-4] ERROR  com.example.job.SyncJob - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-10 15:23:11.000 [http-nio-8080-exec-8] WARN  com.example.job.MetricsJob - Cache miss rate exceeding threshold (73%)
+2025-03-10 15:23:44.000 [http-nio-8080-exec-9] INFO  com.example.service.ReportService - PUT /api/users/profile - 200 OK (7925ms)
+2025-03-10 15:25:35.000 [http-nio-8080-exec-2] FATAL  com.example.controller.OrderController - Kafka broker unreachable - message processing halted
+org.apache.kafka.common.errors.TimeoutException: Failed to update metadata after 60000 ms
+	at org.apache.kafka.clients.producer.KafkaProducer.doSend(KafkaProducer.java:999)
+	at com.example.service.OrderService.publishEvent(OrderService.java:178)
+	Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:741)
+2025-03-10 15:27:07.000 [http-nio-8080-exec-9] INFO  com.example.service.ReportService - Configuration reloaded from application.properties
+2025-03-10 15:28:06.000 [scheduler-2] ERROR  com.example.service.NotificationService - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 15:29:25.000 [http-nio-8080-exec-7] ERROR  com.example.controller.PaymentController - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-10 15:30:21.000 [kafka-consumer-1] ERROR  com.example.controller.UserController - Failed to process payment for order #73849
+2025-03-10 15:30:59.000 [http-nio-8080-exec-9] FATAL  com.example.controller.AdminController - Kafka broker unreachable - message processing halted
+org.apache.kafka.common.errors.TimeoutException: Failed to update metadata after 60000 ms
+	at org.apache.kafka.clients.producer.KafkaProducer.doSend(KafkaProducer.java:999)
+	at com.example.service.OrderService.publishEvent(OrderService.java:178)
+	Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:741)
+2025-03-10 15:31:28.000 [kafka-consumer-2] INFO  com.example.service.EmailService - Metrics published: CPU=22%, Memory=84%, Connections=8/10
+2025-03-10 15:32:11.000 [http-nio-8080-exec-8] ERROR  com.example.service.OrderService - External API returned 500: https://api.partner.com/v2/sync
+2025-03-10 15:32:26.000 [kafka-consumer-1] INFO  com.example.repository.UserRepository - Metrics published: CPU=40%, Memory=70%, Connections=6/10
+2025-03-10 15:33:57.000 [http-nio-8080-exec-8] ERROR  com.example.controller.UserController - File upload failed: size exceeds maximum (50MB)
+2025-03-10 15:34:58.000 [kafka-consumer-2] INFO  com.example.config.DatabaseConfig - Scheduled job completed in 6981ms
+2025-03-10 15:35:20.000 [http-nio-8080-exec-1] ERROR  com.example.service.NotificationService - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 15:37:03.000 [http-nio-8080-exec-5] ERROR  com.example.service.EmailService - Scheduled task failed: data-sync-job
+2025-03-10 15:38:31.000 [scheduler-1] INFO  com.example.job.BackupJob - Request processed: correlationId=95c8ae04-9e86-4025-84f6-f4d4ee95b905
+2025-03-10 15:38:34.000 [scheduler-1] FATAL  com.example.controller.UserController - Disk full - cannot write to /var/log
+java.io.IOException: No space left on device
+	at java.base/java.io.FileOutputStream.writeBytes(FileOutputStream.java:233)
+	at ch.qos.logback.core.FileAppender.writeOut(FileAppender.java:156)
+2025-03-10 15:40:20.000 [http-nio-8080-exec-9] ERROR  com.example.service.ReportService - WebSocket connection dropped: session_19634
+2025-03-10 15:42:15.000 [async-pool-2] WARN  com.example.controller.UserController - Low stock alert for product SKU-35197 (remaining: 3962)
+2025-03-10 15:43:38.000 [http-nio-8080-exec-1] ERROR  com.example.job.SyncJob - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 15:45:26.000 [http-nio-8080-exec-2] INFO  com.example.service.UserService - Metrics published: CPU=28%, Memory=30%, Connections=10/10
+2025-03-10 15:47:21.000 [http-nio-8080-exec-3] WARN  com.example.service.NotificationService - Cache miss rate exceeding threshold (55%)
+2025-03-10 15:48:33.000 [async-pool-2] ERROR  com.example.config.SecurityConfig - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 15:50:24.000 [async-pool-1] ERROR  com.example.service.PaymentService - Authentication failed for user: admin_57251
+2025-03-10 15:50:35.000 [main] INFO  com.example.job.BackupJob - Message published to queue: order.created
+2025-03-10 15:51:24.000 [main] ERROR  com.example.controller.PaymentController - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 15:52:57.000 [http-nio-8080-exec-9] ERROR  com.example.controller.PaymentController - File upload failed: size exceeds maximum (50MB)
+2025-03-10 15:53:53.000 [http-nio-8080-exec-5] ERROR  com.example.service.DatabaseService - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 15:54:44.000 [async-pool-2] INFO  com.example.job.CleanupJob - Scheduled job completed in 6142ms
+2025-03-10 15:56:34.000 [kafka-consumer-2] ERROR  com.example.config.SecurityConfig - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 15:57:35.000 [kafka-consumer-2] ERROR  com.example.controller.HealthController - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 15:58:51.000 [scheduler-2] ERROR  com.example.job.MetricsJob - StackOverflowError in recursive call
+java.lang.StackOverflowError
+	at com.example.service.CacheService.resolve(CacheService.java:34)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	... 1024 more
+2025-03-10 16:00:15.000 [kafka-consumer-2] INFO  com.example.service.AuthService - GET /api/products - 200 OK (686ms)
+2025-03-10 16:00:44.000 [async-pool-1] ERROR  com.example.controller.HealthController - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-10 16:02:06.000 [http-nio-8080-exec-9] INFO  com.example.service.CacheService - Kafka consumer joined group: order-processing
+2025-03-10 16:02:24.000 [main] INFO  com.example.service.CacheService - Database connection pool initialized (size: 10)
+2025-03-10 16:02:35.000 [scheduler-2] INFO  com.example.repository.ProductRepository - GET /health - 200 OK (2ms)
+2025-03-10 16:03:43.000 [scheduler-1] ERROR  com.example.service.EmailService - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 16:04:19.000 [http-nio-8080-exec-7] INFO  com.example.controller.UserController - Report generated: monthly_sales_2025-03.pdf
+2025-03-10 16:04:47.000 [scheduler-2] INFO  com.example.service.ReportService - GET /api/users - 200 OK (6757ms)
+2025-03-10 16:05:23.000 [async-pool-2] WARN  com.example.service.EmailService - Database connection pool usage high (94%)
+2025-03-10 16:06:56.000 [http-nio-8080-exec-1] INFO  com.example.job.BackupJob - Email sent to user_84584@example.com
+2025-03-10 16:08:37.000 [http-nio-8080-exec-4] INFO  com.example.config.DatabaseConfig - DELETE /api/sessions/50143 - 204 No Content
+2025-03-10 16:08:50.000 [http-nio-8080-exec-2] INFO  com.example.job.BackupJob - Report generated: monthly_sales_2025-03.pdf
+2025-03-10 16:10:47.000 [http-nio-8080-exec-9] ERROR  com.example.controller.OrderController - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 16:11:56.000 [scheduler-1] ERROR  com.example.service.NotificationService - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-10 16:12:36.000 [http-nio-8080-exec-5] WARN  com.example.config.DatabaseConfig - Rate limit approaching for client IP 192.168.1.253 (1384/100 requests)
+2025-03-10 16:12:43.000 [http-nio-8080-exec-9] ERROR  com.example.service.InventoryService - Failed to process payment for order #92559
+2025-03-10 16:12:50.000 [http-nio-8080-exec-6] ERROR  com.example.service.OrderService - Failed to process payment for order #8863
+2025-03-10 16:14:22.000 [async-pool-2] ERROR  com.example.service.NotificationService - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 16:14:33.000 [http-nio-8080-exec-4] WARN  com.example.job.MetricsJob - Memory usage above warning threshold: 40%
+2025-03-10 16:15:13.000 [async-pool-2] INFO  com.example.job.MetricsJob - POST /api/orders - 201 Created (6603ms)
+2025-03-10 16:16:48.000 [async-pool-2] ERROR  com.example.service.NotificationService - Failed to process payment for order #48107
+2025-03-10 16:18:15.000 [http-nio-8080-exec-2] ERROR  com.example.service.CacheService - Authentication failed for user: admin_97034
+2025-03-10 16:19:59.000 [scheduler-1] ERROR  com.example.controller.OrderController - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 16:20:07.000 [kafka-consumer-1] ERROR  com.example.controller.OrderController - Failed to process payment for order #41276
+2025-03-10 16:20:08.000 [scheduler-1] INFO  com.example.job.MetricsJob - GET /api/users - 200 OK (2066ms)
+2025-03-10 16:21:50.000 [http-nio-8080-exec-6] FATAL  com.example.repository.UserRepository - Disk full - cannot write to /var/log
+java.io.IOException: No space left on device
+	at java.base/java.io.FileOutputStream.writeBytes(FileOutputStream.java:233)
+	at ch.qos.logback.core.FileAppender.writeOut(FileAppender.java:156)
+2025-03-10 16:23:30.000 [async-pool-1] ERROR  com.example.controller.UserController - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 16:25:15.000 [http-nio-8080-exec-6] INFO  com.example.service.ReportService - User authenticated successfully: user_9552
+2025-03-10 16:26:33.000 [main] FATAL  com.example.job.CleanupJob - Application startup failed - missing required configuration
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource'
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	Caused by: java.lang.IllegalArgumentException: URL must not be null
+	at com.example.config.DatabaseConfig.dataSource(DatabaseConfig.java:34)
+2025-03-10 16:26:36.000 [http-nio-8080-exec-3] INFO  com.example.job.BackupJob - GET /api/users - 200 OK (284ms)
+2025-03-10 16:26:41.000 [http-nio-8080-exec-10] ERROR  com.example.job.CleanupJob - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 16:27:25.000 [http-nio-8080-exec-9] ERROR  com.example.service.PaymentService - Template rendering failed: email/order-confirmation.html
+2025-03-10 16:27:44.000 [async-pool-1] ERROR  com.example.repository.OrderRepository - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 16:28:49.000 [kafka-consumer-1] INFO  com.example.controller.AdminController - Kafka consumer joined group: order-processing
+2025-03-10 16:30:20.000 [main] ERROR  com.example.job.MetricsJob - WebSocket connection dropped: session_44722
+2025-03-10 16:31:07.000 [kafka-consumer-2] INFO  com.example.repository.ProductRepository - POST /api/orders - 201 Created (6909ms)
+2025-03-10 16:31:23.000 [http-nio-8080-exec-1] ERROR  com.example.service.DatabaseService - NullPointerException: Cannot invoke method on null reference
+java.lang.NullPointerException: Cannot invoke method on null reference
+	at com.example.service.PaymentService.process(PaymentService.java:89)
+	at com.example.controller.OrderController.checkout(OrderController.java:145)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 16:32:53.000 [async-pool-2] ERROR  com.example.service.InventoryService - Scheduled task failed: data-sync-job
+2025-03-10 16:34:41.000 [scheduler-2] WARN  com.example.repository.ProductRepository - Circuit breaker half-open for payment-service
+2025-03-10 16:35:53.000 [scheduler-1] FATAL  com.example.config.DatabaseConfig - Application startup failed - missing required configuration
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource'
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	Caused by: java.lang.IllegalArgumentException: URL must not be null
+	at com.example.config.DatabaseConfig.dataSource(DatabaseConfig.java:34)
+2025-03-10 16:36:37.000 [async-pool-2] INFO  com.example.job.SyncJob - Database connection pool initialized (size: 10)
+2025-03-10 16:37:05.000 [http-nio-8080-exec-10] INFO  com.example.job.CleanupJob - PUT /api/users/profile - 200 OK (639ms)
+2025-03-10 16:37:21.000 [http-nio-8080-exec-3] INFO  com.example.job.SyncJob - DELETE /api/sessions/33891 - 204 No Content
+2025-03-10 16:38:40.000 [async-pool-1] INFO  com.example.repository.OrderRepository - Cache refreshed successfully (3069 entries)
+2025-03-10 16:40:16.000 [http-nio-8080-exec-10] ERROR  com.example.service.UserService - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-10 16:41:21.000 [http-nio-8080-exec-9] INFO  com.example.service.DatabaseService - Cache refreshed successfully (4429 entries)
+2025-03-10 16:43:09.000 [http-nio-8080-exec-3] ERROR  com.example.controller.AdminController - External API returned 500: https://api.partner.com/v2/sync
+2025-03-10 16:43:40.000 [async-pool-2] WARN  com.example.config.DatabaseConfig - Response time degradation detected on /api/orders (1032ms avg)
+2025-03-10 16:43:48.000 [http-nio-8080-exec-4] INFO  com.example.job.BackupJob - Database connection pool initialized (size: 10)
+2025-03-10 16:45:24.000 [kafka-consumer-1] ERROR  com.example.service.InventoryService - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 16:46:32.000 [main] ERROR  com.example.repository.UserRepository - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-10 16:46:47.000 [http-nio-8080-exec-6] ERROR  com.example.controller.PaymentController - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 16:48:45.000 [http-nio-8080-exec-10] ERROR  com.example.controller.HealthController - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 16:50:26.000 [http-nio-8080-exec-7] ERROR  com.example.config.SecurityConfig - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-10 16:50:31.000 [http-nio-8080-exec-4] ERROR  com.example.job.MetricsJob - Template rendering failed: email/order-confirmation.html
+2025-03-10 16:51:08.000 [scheduler-2] ERROR  com.example.controller.AdminController - Message delivery failed: queue=order.notifications
+2025-03-10 16:53:08.000 [http-nio-8080-exec-3] ERROR  com.example.repository.UserRepository - WebSocket connection dropped: session_44957
+2025-03-10 16:54:18.000 [http-nio-8080-exec-2] FATAL  com.example.job.CleanupJob - Disk full - cannot write to /var/log
+java.io.IOException: No space left on device
+	at java.base/java.io.FileOutputStream.writeBytes(FileOutputStream.java:233)
+	at ch.qos.logback.core.FileAppender.writeOut(FileAppender.java:156)
+2025-03-10 16:56:00.000 [scheduler-1] INFO  com.example.controller.PaymentController - GET /api/products - 200 OK (7702ms)
+2025-03-10 16:57:18.000 [http-nio-8080-exec-2] INFO  com.example.job.BackupJob - Report generated: monthly_sales_2025-03.pdf
+2025-03-10 16:59:04.000 [http-nio-8080-exec-7] WARN  com.example.controller.PaymentController - Slow query detected: SELECT * FROM orders WHERE status='pending' (4160ms)
+2025-03-10 17:00:09.000 [http-nio-8080-exec-4] ERROR  com.example.service.ReportService - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 17:01:16.000 [http-nio-8080-exec-1] ERROR  com.example.job.CleanupJob - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 17:02:02.000 [http-nio-8080-exec-7] INFO  com.example.service.NotificationService - DELETE /api/sessions/4098 - 204 No Content
+2025-03-10 17:03:03.000 [http-nio-8080-exec-1] INFO  com.example.config.DatabaseConfig - Request processed: correlationId=d2917767-4e63-4742-84e1-0a717373b8c1
+2025-03-10 17:03:36.000 [async-pool-2] ERROR  com.example.repository.OrderRepository - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 17:04:58.000 [async-pool-1] ERROR  com.example.service.DatabaseService - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 17:06:30.000 [async-pool-2] INFO  com.example.repository.OrderRepository - Cleanup job started - removed 2086 expired sessions
+2025-03-10 17:07:24.000 [http-nio-8080-exec-10] WARN  com.example.service.PaymentService - Response time degradation detected on /api/orders (4148ms avg)
+2025-03-10 17:08:44.000 [http-nio-8080-exec-9] WARN  com.example.service.OrderService - Cache miss rate exceeding threshold (59%)
+2025-03-10 17:10:20.000 [async-pool-2] ERROR  com.example.service.DatabaseService - Failed to process payment for order #33338
+2025-03-10 17:11:04.000 [scheduler-1] ERROR  com.example.job.SyncJob - Message delivery failed: queue=order.notifications
+2025-03-10 17:11:18.000 [http-nio-8080-exec-5] ERROR  com.example.repository.OrderRepository - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-10 17:12:12.000 [http-nio-8080-exec-3] INFO  com.example.repository.OrderRepository - Kafka consumer joined group: order-processing
+2025-03-10 17:12:28.000 [http-nio-8080-exec-9] INFO  com.example.controller.PaymentController - Report generated: monthly_sales_2025-03.pdf
+2025-03-10 17:13:14.000 [http-nio-8080-exec-1] INFO  com.example.service.PaymentService - SSL certificate valid until 2026-12-31
+2025-03-10 17:13:52.000 [http-nio-8080-exec-2] INFO  com.example.service.AuthService - GET /api/users - 200 OK (2273ms)
+2025-03-10 17:14:56.000 [kafka-consumer-1] FATAL  com.example.service.DatabaseService - Database connection pool exhausted - application cannot serve requests
+java.lang.RuntimeException: No available connections in pool
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:52)
+	at com.example.repository.UserRepository.findAll(UserRepository.java:18)
+	Caused by: java.sql.SQLException: Pool exhausted, max connections reached
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:155)
+2025-03-10 17:16:30.000 [http-nio-8080-exec-4] ERROR  com.example.service.ReportService - Failed to process payment for order #20499
+2025-03-10 17:16:33.000 [http-nio-8080-exec-4] INFO  com.example.controller.AdminController - Message published to queue: order.created
+2025-03-10 17:18:30.000 [http-nio-8080-exec-2] ERROR  com.example.controller.AdminController - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 17:20:03.000 [kafka-consumer-2] ERROR  com.example.service.AuthService - NullPointerException: Cannot invoke method on null reference
+java.lang.NullPointerException: Cannot invoke method on null reference
+	at com.example.service.PaymentService.process(PaymentService.java:89)
+	at com.example.controller.OrderController.checkout(OrderController.java:145)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 17:21:51.000 [http-nio-8080-exec-5] WARN  com.example.controller.AdminController - SSL certificate expires in 30 days
+2025-03-10 17:22:54.000 [http-nio-8080-exec-9] INFO  com.example.job.SyncJob - GET /api/users - 200 OK (4714ms)
+2025-03-10 17:23:51.000 [kafka-consumer-2] INFO  com.example.controller.PaymentController - Database connection pool initialized (size: 10)
+2025-03-10 17:25:02.000 [http-nio-8080-exec-2] ERROR  com.example.controller.PaymentController - Message delivery failed: queue=order.notifications
+2025-03-10 17:26:03.000 [http-nio-8080-exec-3] INFO  com.example.repository.OrderRepository - GET /api/users - 200 OK (2826ms)
+2025-03-10 17:26:22.000 [kafka-consumer-1] INFO  com.example.service.EmailService - Scheduled job completed in 4203ms
+2025-03-10 17:27:54.000 [main] INFO  com.example.config.SecurityConfig - Configuration reloaded from application.properties
+2025-03-10 17:27:57.000 [async-pool-1] ERROR  com.example.job.MetricsJob - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 17:29:40.000 [http-nio-8080-exec-7] ERROR  com.example.service.UserService - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-10 17:31:37.000 [main] INFO  com.example.config.DatabaseConfig - User authenticated successfully: user_98967
+2025-03-10 17:32:49.000 [http-nio-8080-exec-5] ERROR  com.example.controller.OrderController - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 17:34:42.000 [http-nio-8080-exec-4] INFO  com.example.config.SecurityConfig - SSL certificate valid until 2026-12-31
+2025-03-10 17:34:47.000 [http-nio-8080-exec-4] WARN  com.example.controller.HealthController - Deprecated API endpoint called: /api/v1/users
+2025-03-10 17:36:04.000 [async-pool-1] INFO  com.example.repository.UserRepository - Metrics published: CPU=60%, Memory=63%, Connections=7/10
+2025-03-10 17:36:45.000 [main] INFO  com.example.service.AuthService - Email sent to user_94323@example.com
+2025-03-10 17:38:01.000 [http-nio-8080-exec-6] ERROR  com.example.service.EmailService - Template rendering failed: email/order-confirmation.html
+2025-03-10 17:39:34.000 [http-nio-8080-exec-4] INFO  com.example.job.MetricsJob - User authenticated successfully: user_61126
+2025-03-10 17:39:46.000 [http-nio-8080-exec-4] ERROR  com.example.controller.UserController - Failed to process payment for order #1189
+2025-03-10 17:40:56.000 [http-nio-8080-exec-3] INFO  com.example.job.SyncJob - PUT /api/users/profile - 200 OK (1741ms)
+2025-03-10 17:41:05.000 [async-pool-1] INFO  com.example.controller.AdminController - Database connection pool initialized (size: 10)
+2025-03-10 17:42:18.000 [http-nio-8080-exec-3] WARN  com.example.service.UserService - Rate limit approaching for client IP 192.168.1.17 (2448/100 requests)
+2025-03-10 17:43:33.000 [main] ERROR  com.example.config.SecurityConfig - StackOverflowError in recursive call
+java.lang.StackOverflowError
+	at com.example.service.CacheService.resolve(CacheService.java:34)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	... 1024 more
+2025-03-10 17:45:22.000 [scheduler-2] INFO  com.example.controller.UserController - Database connection pool initialized (size: 10)
+2025-03-10 17:45:41.000 [http-nio-8080-exec-2] ERROR  com.example.config.SecurityConfig - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 17:45:49.000 [main] ERROR  com.example.service.EmailService - Scheduled task failed: data-sync-job
+2025-03-10 17:45:55.000 [http-nio-8080-exec-5] INFO  com.example.service.OrderService - Metrics published: CPU=69%, Memory=77%, Connections=10/10
+2025-03-10 17:46:10.000 [async-pool-2] ERROR  com.example.service.PaymentService - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-10 17:48:01.000 [http-nio-8080-exec-1] WARN  com.example.service.ReportService - JWT token expiring in less than 5 minutes for user_45882
+2025-03-10 17:48:14.000 [scheduler-2] INFO  com.example.controller.UserController - SSL certificate valid until 2026-12-31
+2025-03-10 17:49:42.000 [http-nio-8080-exec-5] ERROR  com.example.controller.UserController - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 17:50:48.000 [scheduler-1] WARN  com.example.job.SyncJob - Response time degradation detected on /api/orders (4282ms avg)
+2025-03-10 17:52:46.000 [http-nio-8080-exec-9] INFO  com.example.service.PaymentService - Request processed: correlationId=a8c4884f-574b-4664-b97c-3b86f8b6232b
+2025-03-10 17:53:39.000 [kafka-consumer-2] ERROR  com.example.service.NotificationService - Message delivery failed: queue=order.notifications
+2025-03-10 17:54:49.000 [http-nio-8080-exec-7] INFO  com.example.service.ReportService - GET /api/users - 200 OK (5183ms)
+2025-03-10 17:55:17.000 [http-nio-8080-exec-5] INFO  com.example.service.UserService - Request processed: correlationId=7508ad7b-01b1-4966-a534-300807d05654
+2025-03-10 17:56:40.000 [http-nio-8080-exec-1] INFO  com.example.job.SyncJob - Request processed: correlationId=9897a101-4330-482a-a479-321131ec4e00
+2025-03-10 17:56:54.000 [async-pool-1] ERROR  com.example.service.ReportService - StackOverflowError in recursive call
+java.lang.StackOverflowError
+	at com.example.service.CacheService.resolve(CacheService.java:34)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	... 1024 more
+2025-03-10 17:57:44.000 [http-nio-8080-exec-10] WARN  com.example.service.EmailService - Deprecated API endpoint called: /api/v1/users
+2025-03-10 17:58:22.000 [http-nio-8080-exec-5] ERROR  com.example.repository.OrderRepository - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 17:59:37.000 [kafka-consumer-2] ERROR  com.example.service.OrderService - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 18:00:16.000 [http-nio-8080-exec-10] WARN  com.example.repository.UserRepository - Response time degradation detected on /api/orders (2762ms avg)
+2025-03-10 18:01:26.000 [async-pool-1] INFO  com.example.controller.HealthController - Message published to queue: order.created
+2025-03-10 18:01:30.000 [http-nio-8080-exec-8] FATAL  com.example.repository.UserRepository - OutOfMemoryError: Java heap space
+java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.util.Arrays.copyOf(Arrays.java:3512)
+	at com.example.service.ReportService.loadAllData(ReportService.java:234)
+	at com.example.job.BackupJob.run(BackupJob.java:45)
+2025-03-10 18:02:17.000 [http-nio-8080-exec-3] INFO  com.example.service.OrderService - Cleanup job started - removed 1679 expired sessions
+2025-03-10 18:03:29.000 [http-nio-8080-exec-7] WARN  com.example.service.DatabaseService - Connection pool exhaustion approaching: 4391/10 active
+2025-03-10 18:04:39.000 [http-nio-8080-exec-10] ERROR  com.example.job.CleanupJob - Message delivery failed: queue=order.notifications
+2025-03-10 18:05:37.000 [http-nio-8080-exec-10] INFO  com.example.controller.AdminController - Email sent to user_52694@example.com
+2025-03-10 18:07:34.000 [http-nio-8080-exec-9] INFO  com.example.controller.OrderController - Report generated: monthly_sales_2025-03.pdf
+2025-03-10 18:07:45.000 [http-nio-8080-exec-9] FATAL  com.example.service.ReportService - Database connection pool exhausted - application cannot serve requests
+java.lang.RuntimeException: No available connections in pool
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:52)
+	at com.example.repository.UserRepository.findAll(UserRepository.java:18)
+	Caused by: java.sql.SQLException: Pool exhausted, max connections reached
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:155)
+2025-03-10 18:09:34.000 [async-pool-1] ERROR  com.example.controller.OrderController - Template rendering failed: email/order-confirmation.html
+2025-03-10 18:10:08.000 [async-pool-2] ERROR  com.example.service.DatabaseService - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 18:11:42.000 [http-nio-8080-exec-8] ERROR  com.example.config.DatabaseConfig - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 18:12:18.000 [http-nio-8080-exec-7] ERROR  com.example.job.BackupJob - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 18:12:57.000 [http-nio-8080-exec-10] INFO  com.example.service.OrderService - Cache refreshed successfully (3175 entries)
+2025-03-10 18:13:04.000 [http-nio-8080-exec-3] WARN  com.example.controller.OrderController - Slow query detected: SELECT * FROM orders WHERE status='pending' (3310ms)
+2025-03-10 18:15:00.000 [http-nio-8080-exec-1] ERROR  com.example.service.PaymentService - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-10 18:15:16.000 [main] INFO  com.example.controller.HealthController - Email sent to user_93505@example.com
+2025-03-10 18:15:55.000 [async-pool-2] ERROR  com.example.repository.ProductRepository - Message delivery failed: queue=order.notifications
+2025-03-10 18:17:45.000 [http-nio-8080-exec-7] INFO  com.example.repository.UserRepository - Message published to queue: order.created
+2025-03-10 18:17:47.000 [http-nio-8080-exec-4] ERROR  com.example.job.BackupJob - Failed to process payment for order #27353
+2025-03-10 18:19:38.000 [http-nio-8080-exec-9] WARN  com.example.job.CleanupJob - Payment gateway response slow (445ms)
+2025-03-10 18:19:45.000 [scheduler-1] INFO  com.example.service.PaymentService - Email sent to user_49813@example.com
+2025-03-10 18:20:18.000 [kafka-consumer-2] INFO  com.example.controller.UserController - Database connection pool initialized (size: 10)
+2025-03-10 18:20:48.000 [async-pool-1] WARN  com.example.service.ReportService - Cache miss rate exceeding threshold (68%)
+2025-03-10 18:21:35.000 [http-nio-8080-exec-6] INFO  com.example.service.EmailService - User authenticated successfully: user_75046
+2025-03-10 18:22:41.000 [kafka-consumer-2] ERROR  com.example.service.CacheService - Message delivery failed: queue=order.notifications
+2025-03-10 18:24:17.000 [http-nio-8080-exec-1] ERROR  com.example.job.CleanupJob - StackOverflowError in recursive call
+java.lang.StackOverflowError
+	at com.example.service.CacheService.resolve(CacheService.java:34)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	... 1024 more
+2025-03-10 18:25:13.000 [scheduler-1] ERROR  com.example.controller.HealthController - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 18:26:01.000 [http-nio-8080-exec-3] INFO  com.example.service.InventoryService - GET /api/users - 200 OK (3506ms)
+2025-03-10 18:26:27.000 [async-pool-2] INFO  com.example.job.BackupJob - Email sent to user_37309@example.com
+2025-03-10 18:27:59.000 [scheduler-1] WARN  com.example.service.PaymentService - Rate limit approaching for client IP 192.168.1.28 (2274/100 requests)
+2025-03-10 18:29:27.000 [http-nio-8080-exec-1] INFO  com.example.job.MetricsJob - Report generated: monthly_sales_2025-03.pdf
+2025-03-10 18:30:23.000 [http-nio-8080-exec-9] WARN  com.example.config.DatabaseConfig - Slow query detected: SELECT * FROM orders WHERE status='pending' (3434ms)
+2025-03-10 18:32:09.000 [http-nio-8080-exec-5] INFO  com.example.controller.AdminController - GET /api/users - 200 OK (4506ms)
+2025-03-10 18:33:06.000 [main] ERROR  com.example.repository.OrderRepository - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 18:34:50.000 [scheduler-2] WARN  com.example.service.PaymentService - Response time degradation detected on /api/orders (5764ms avg)
+2025-03-10 18:35:29.000 [async-pool-2] WARN  com.example.job.SyncJob - Deprecated API endpoint called: /api/v1/users
+2025-03-10 18:36:09.000 [http-nio-8080-exec-8] INFO  com.example.controller.PaymentController - DELETE /api/sessions/28576 - 204 No Content
+2025-03-10 18:37:27.000 [http-nio-8080-exec-2] WARN  com.example.repository.UserRepository - Memory usage above warning threshold: 64%
+2025-03-10 18:38:42.000 [http-nio-8080-exec-10] WARN  com.example.service.DatabaseService - Memory usage above warning threshold: 79%
+2025-03-10 18:39:23.000 [main] INFO  com.example.service.CacheService - Message published to queue: order.created
+2025-03-10 18:40:17.000 [http-nio-8080-exec-6] INFO  com.example.config.SecurityConfig - Metrics published: CPU=88%, Memory=96%, Connections=7/10
+2025-03-10 18:42:09.000 [http-nio-8080-exec-1] FATAL  com.example.service.DatabaseService - Application startup failed - missing required configuration
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource'
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	Caused by: java.lang.IllegalArgumentException: URL must not be null
+	at com.example.config.DatabaseConfig.dataSource(DatabaseConfig.java:34)
+2025-03-10 18:42:46.000 [http-nio-8080-exec-9] FATAL  com.example.controller.AdminController - Kafka broker unreachable - message processing halted
+org.apache.kafka.common.errors.TimeoutException: Failed to update metadata after 60000 ms
+	at org.apache.kafka.clients.producer.KafkaProducer.doSend(KafkaProducer.java:999)
+	at com.example.service.OrderService.publishEvent(OrderService.java:178)
+	Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:741)
+2025-03-10 18:42:49.000 [kafka-consumer-2] INFO  com.example.service.EmailService - Cleanup job started - removed 2973 expired sessions
+2025-03-10 18:43:37.000 [http-nio-8080-exec-5] ERROR  com.example.service.OrderService - Scheduled task failed: data-sync-job
+2025-03-10 18:45:21.000 [main] INFO  com.example.service.UserService - Batch processing completed: 572 records in 4814ms
+2025-03-10 18:46:28.000 [http-nio-8080-exec-10] ERROR  com.example.job.CleanupJob - Message delivery failed: queue=order.notifications
+2025-03-10 18:47:16.000 [http-nio-8080-exec-8] WARN  com.example.service.UserService - Request queue depth increasing: 295 pending
+2025-03-10 18:48:02.000 [main] ERROR  com.example.controller.OrderController - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 18:48:22.000 [http-nio-8080-exec-8] ERROR  com.example.repository.OrderRepository - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 18:49:51.000 [async-pool-1] ERROR  com.example.service.ReportService - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 18:51:45.000 [http-nio-8080-exec-2] WARN  com.example.job.SyncJob - Slow query detected: SELECT * FROM orders WHERE status='pending' (7082ms)
+2025-03-10 18:51:57.000 [http-nio-8080-exec-9] INFO  com.example.service.DatabaseService - Report generated: monthly_sales_2025-03.pdf
+2025-03-10 18:53:15.000 [http-nio-8080-exec-4] INFO  com.example.job.CleanupJob - User authenticated successfully: user_1388
+2025-03-10 18:54:57.000 [http-nio-8080-exec-8] ERROR  com.example.controller.HealthController - WebSocket connection dropped: session_8154
+2025-03-10 18:56:13.000 [scheduler-1] WARN  com.example.controller.OrderController - JWT token expiring in less than 5 minutes for user_95529
+2025-03-10 18:57:36.000 [http-nio-8080-exec-2] ERROR  com.example.service.EmailService - File upload failed: size exceeds maximum (50MB)
+2025-03-10 18:58:17.000 [http-nio-8080-exec-8] ERROR  com.example.repository.UserRepository - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 18:58:24.000 [async-pool-2] ERROR  com.example.service.AuthService - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 18:59:54.000 [scheduler-1] DEBUG  com.example.config.DatabaseConfig - Detailed trace for request 93d59a7d-a16a-4a74-b7fd-3d06ef74b7af
+2025-03-10 19:00:42.000 [scheduler-2] INFO  com.example.service.AuthService - GET /api/products - 200 OK (2344ms)
+2025-03-10 19:02:36.000 [scheduler-2] ERROR  com.example.service.ReportService - Template rendering failed: email/order-confirmation.html
+2025-03-10 19:03:33.000 [http-nio-8080-exec-7] ERROR  com.example.repository.ProductRepository - File upload failed: size exceeds maximum (50MB)
+2025-03-10 19:04:21.000 [http-nio-8080-exec-9] INFO  com.example.controller.PaymentController - PUT /api/users/profile - 200 OK (5779ms)
+2025-03-10 19:06:20.000 [async-pool-1] ERROR  com.example.service.NotificationService - Scheduled task failed: data-sync-job
+2025-03-10 19:06:49.000 [http-nio-8080-exec-4] INFO  com.example.config.SecurityConfig - GET /api/products - 200 OK (3330ms)
+2025-03-10 19:08:04.000 [http-nio-8080-exec-8] ERROR  com.example.repository.OrderRepository - Failed to process payment for order #86021
+2025-03-10 19:08:26.000 [http-nio-8080-exec-1] WARN  com.example.controller.HealthController - Low stock alert for product SKU-34404 (remaining: 2318)
+2025-03-10 19:09:06.000 [kafka-consumer-2] INFO  com.example.repository.OrderRepository - Metrics published: CPU=82%, Memory=70%, Connections=5/10
+2025-03-10 19:10:19.000 [scheduler-1] INFO  com.example.job.CleanupJob - Request processed: correlationId=fb6ba851-f28c-4f34-9e00-d5f560140427
+2025-03-10 19:10:47.000 [http-nio-8080-exec-10] INFO  com.example.job.BackupJob - DELETE /api/sessions/12267 - 204 No Content
+2025-03-10 19:11:26.000 [kafka-consumer-2] ERROR  com.example.service.CacheService - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 19:12:46.000 [http-nio-8080-exec-5] FATAL  com.example.service.ReportService - Disk full - cannot write to /var/log
+java.io.IOException: No space left on device
+	at java.base/java.io.FileOutputStream.writeBytes(FileOutputStream.java:233)
+	at ch.qos.logback.core.FileAppender.writeOut(FileAppender.java:156)
+2025-03-10 19:13:10.000 [kafka-consumer-2] ERROR  com.example.service.OrderService - Failed to process payment for order #35391
+2025-03-10 19:14:25.000 [http-nio-8080-exec-4] ERROR  com.example.repository.ProductRepository - StackOverflowError in recursive call
+java.lang.StackOverflowError
+	at com.example.service.CacheService.resolve(CacheService.java:34)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	... 1024 more
+2025-03-10 19:14:53.000 [scheduler-1] INFO  com.example.service.PaymentService - Email sent to user_18642@example.com
+2025-03-10 19:16:10.000 [http-nio-8080-exec-3] ERROR  com.example.controller.UserController - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-10 19:16:51.000 [async-pool-1] WARN  com.example.repository.UserRepository - SSL certificate expires in 30 days
+2025-03-10 19:17:08.000 [http-nio-8080-exec-4] ERROR  com.example.repository.OrderRepository - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-10 19:18:09.000 [http-nio-8080-exec-7] ERROR  com.example.controller.OrderController - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 19:18:20.000 [http-nio-8080-exec-6] ERROR  com.example.controller.PaymentController - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 19:19:34.000 [http-nio-8080-exec-9] ERROR  com.example.controller.AdminController - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 19:21:15.000 [kafka-consumer-2] ERROR  com.example.controller.HealthController - Authentication failed for user: admin_65456
+2025-03-10 19:23:13.000 [async-pool-2] ERROR  com.example.service.EmailService - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 19:24:12.000 [http-nio-8080-exec-3] ERROR  com.example.controller.UserController - WebSocket connection dropped: session_36585
+2025-03-10 19:25:06.000 [async-pool-1] INFO  com.example.config.DatabaseConfig - Kafka consumer joined group: order-processing
+2025-03-10 19:26:20.000 [async-pool-1] WARN  com.example.controller.OrderController - Rate limit approaching for client IP 192.168.1.129 (759/100 requests)
+2025-03-10 19:27:21.000 [async-pool-2] ERROR  com.example.controller.PaymentController - Failed to process payment for order #41690
+2025-03-10 19:28:09.000 [scheduler-2] INFO  com.example.job.BackupJob - Email sent to user_14312@example.com
+2025-03-10 19:28:49.000 [main] INFO  com.example.config.SecurityConfig - Email sent to user_4481@example.com
+2025-03-10 19:29:10.000 [http-nio-8080-exec-4] INFO  com.example.service.EmailService - SSL certificate valid until 2026-12-31
+2025-03-10 19:30:08.000 [http-nio-8080-exec-2] INFO  com.example.repository.ProductRepository - GET /health - 200 OK (2ms)
+2025-03-10 19:31:43.000 [http-nio-8080-exec-8] INFO  com.example.controller.UserController - Database connection pool initialized (size: 10)
+2025-03-10 19:32:02.000 [scheduler-1] INFO  com.example.service.EmailService - POST /api/orders - 201 Created (7923ms)
+2025-03-10 19:33:09.000 [http-nio-8080-exec-7] INFO  com.example.job.BackupJob - POST /api/orders - 201 Created (574ms)
+2025-03-10 19:33:24.000 [http-nio-8080-exec-4] ERROR  com.example.service.NotificationService - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-10 19:33:36.000 [async-pool-2] ERROR  com.example.controller.HealthController - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 19:34:49.000 [http-nio-8080-exec-2] INFO  com.example.repository.OrderRepository - Configuration reloaded from application.properties
+2025-03-10 19:36:18.000 [scheduler-1] INFO  com.example.service.UserService - Batch processing completed: 1347 records in 1126ms
+2025-03-10 19:36:49.000 [http-nio-8080-exec-3] FATAL  com.example.repository.UserRepository - OutOfMemoryError: Java heap space
+java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.util.Arrays.copyOf(Arrays.java:3512)
+	at com.example.service.ReportService.loadAllData(ReportService.java:234)
+	at com.example.job.BackupJob.run(BackupJob.java:45)
+2025-03-10 19:37:21.000 [http-nio-8080-exec-7] INFO  com.example.controller.OrderController - Metrics published: CPU=85%, Memory=71%, Connections=1/10
+2025-03-10 19:37:49.000 [async-pool-1] INFO  com.example.service.ReportService - GET /api/products - 200 OK (1251ms)
+2025-03-10 19:38:24.000 [async-pool-2] INFO  com.example.job.MetricsJob - Message published to queue: order.created
+2025-03-10 19:39:03.000 [http-nio-8080-exec-5] ERROR  com.example.job.SyncJob - Scheduled task failed: data-sync-job
+2025-03-10 19:39:24.000 [main] INFO  com.example.job.MetricsJob - Email sent to user_25395@example.com
+2025-03-10 19:39:49.000 [http-nio-8080-exec-7] WARN  com.example.repository.OrderRepository - Payment gateway response slow (3232ms)
+2025-03-10 19:41:19.000 [http-nio-8080-exec-8] ERROR  com.example.config.SecurityConfig - File upload failed: size exceeds maximum (50MB)
+2025-03-10 19:42:19.000 [http-nio-8080-exec-6] INFO  com.example.controller.OrderController - DELETE /api/sessions/95064 - 204 No Content
+2025-03-10 19:43:07.000 [http-nio-8080-exec-10] INFO  com.example.repository.OrderRepository - Kafka consumer joined group: order-processing
+2025-03-10 19:44:02.000 [kafka-consumer-2] ERROR  com.example.controller.PaymentController - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-10 19:44:48.000 [http-nio-8080-exec-1] INFO  com.example.service.UserService - GET /api/users - 200 OK (1102ms)
+2025-03-10 19:45:31.000 [http-nio-8080-exec-8] INFO  com.example.job.BackupJob - Cache refreshed successfully (4606 entries)
+2025-03-10 19:47:17.000 [http-nio-8080-exec-9] WARN  com.example.repository.ProductRepository - Database connection pool usage high (95%)
+2025-03-10 19:47:56.000 [kafka-consumer-2] WARN  com.example.job.CleanupJob - Slow query detected: SELECT * FROM orders WHERE status='pending' (7321ms)
+2025-03-10 19:49:17.000 [kafka-consumer-1] ERROR  com.example.controller.AdminController - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-10 19:50:54.000 [http-nio-8080-exec-8] ERROR  com.example.repository.ProductRepository - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 19:50:56.000 [http-nio-8080-exec-3] INFO  com.example.repository.OrderRepository - Configuration reloaded from application.properties
+2025-03-10 19:51:32.000 [http-nio-8080-exec-10] ERROR  com.example.controller.OrderController - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-10 19:53:02.000 [scheduler-2] INFO  com.example.job.MetricsJob - Request processed: correlationId=e42446f9-24f1-4c60-a95c-994274a75446
+2025-03-10 19:53:19.000 [kafka-consumer-1] INFO  com.example.job.BackupJob - Request processed: correlationId=cccb80be-dbe1-45c9-8e78-1d79117676c6
+2025-03-10 19:54:48.000 [async-pool-1] ERROR  com.example.repository.ProductRepository - Template rendering failed: email/order-confirmation.html
+2025-03-10 19:54:49.000 [http-nio-8080-exec-8] INFO  com.example.controller.PaymentController - GET /health - 200 OK (2ms)
+2025-03-10 19:54:53.000 [main] ERROR  com.example.service.NotificationService - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-10 19:56:25.000 [scheduler-1] FATAL  com.example.job.BackupJob - OutOfMemoryError: Java heap space
+java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.util.Arrays.copyOf(Arrays.java:3512)
+	at com.example.service.ReportService.loadAllData(ReportService.java:234)
+	at com.example.job.BackupJob.run(BackupJob.java:45)
+2025-03-10 19:58:10.000 [http-nio-8080-exec-1] ERROR  com.example.controller.AdminController - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 19:59:08.000 [http-nio-8080-exec-7] INFO  com.example.service.InventoryService - Request processed: correlationId=17d2740d-3cdc-4239-a938-2ad2201a3fa4
+2025-03-10 19:59:27.000 [kafka-consumer-2] ERROR  com.example.controller.PaymentController - Template rendering failed: email/order-confirmation.html
+2025-03-10 20:01:27.000 [http-nio-8080-exec-4] INFO  com.example.service.ReportService - POST /api/orders - 201 Created (6919ms)
+2025-03-10 20:03:18.000 [http-nio-8080-exec-1] ERROR  com.example.repository.OrderRepository - StackOverflowError in recursive call
+java.lang.StackOverflowError
+	at com.example.service.CacheService.resolve(CacheService.java:34)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	... 1024 more
+2025-03-10 20:04:37.000 [http-nio-8080-exec-1] ERROR  com.example.controller.PaymentController - Scheduled task failed: data-sync-job
+2025-03-10 20:06:17.000 [http-nio-8080-exec-9] INFO  com.example.service.EmailService - User authenticated successfully: user_17374
+2025-03-10 20:07:24.000 [http-nio-8080-exec-8] FATAL  com.example.controller.UserController - Disk full - cannot write to /var/log
+java.io.IOException: No space left on device
+	at java.base/java.io.FileOutputStream.writeBytes(FileOutputStream.java:233)
+	at ch.qos.logback.core.FileAppender.writeOut(FileAppender.java:156)
+2025-03-10 20:09:04.000 [http-nio-8080-exec-9] INFO  com.example.service.OrderService - Kafka consumer joined group: order-processing
+2025-03-10 20:09:15.000 [http-nio-8080-exec-8] ERROR  com.example.service.PaymentService - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 20:11:01.000 [http-nio-8080-exec-7] INFO  com.example.service.UserService - PUT /api/users/profile - 200 OK (4031ms)
+2025-03-10 20:12:16.000 [main] ERROR  com.example.service.AuthService - NullPointerException: Cannot invoke method on null reference
+java.lang.NullPointerException: Cannot invoke method on null reference
+	at com.example.service.PaymentService.process(PaymentService.java:89)
+	at com.example.controller.OrderController.checkout(OrderController.java:145)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 20:13:20.000 [http-nio-8080-exec-9] ERROR  com.example.service.InventoryService - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 20:14:13.000 [main] ERROR  com.example.job.MetricsJob - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 20:14:25.000 [http-nio-8080-exec-10] INFO  com.example.service.EmailService - Scheduled job completed in 5855ms
+2025-03-10 20:15:17.000 [http-nio-8080-exec-6] INFO  com.example.repository.ProductRepository - Configuration reloaded from application.properties
+2025-03-10 20:15:28.000 [http-nio-8080-exec-9] FATAL  com.example.config.SecurityConfig - Database connection pool exhausted - application cannot serve requests
+java.lang.RuntimeException: No available connections in pool
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:52)
+	at com.example.repository.UserRepository.findAll(UserRepository.java:18)
+	Caused by: java.sql.SQLException: Pool exhausted, max connections reached
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:155)
+2025-03-10 20:16:41.000 [http-nio-8080-exec-3] ERROR  com.example.service.UserService - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-10 20:17:00.000 [http-nio-8080-exec-8] INFO  com.example.service.PaymentService - Scheduled job completed in 754ms
+2025-03-10 20:18:33.000 [scheduler-1] FATAL  com.example.repository.OrderRepository - Database connection pool exhausted - application cannot serve requests
+java.lang.RuntimeException: No available connections in pool
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:52)
+	at com.example.repository.UserRepository.findAll(UserRepository.java:18)
+	Caused by: java.sql.SQLException: Pool exhausted, max connections reached
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:155)
+2025-03-10 20:19:06.000 [http-nio-8080-exec-10] INFO  com.example.config.SecurityConfig - POST /api/orders - 201 Created (82ms)
+2025-03-10 20:20:55.000 [http-nio-8080-exec-1] INFO  com.example.config.DatabaseConfig - User authenticated successfully: user_5359
+2025-03-10 20:22:51.000 [http-nio-8080-exec-1] INFO  com.example.service.AuthService - Batch processing completed: 1609 records in 2630ms
+2025-03-10 20:23:32.000 [http-nio-8080-exec-5] ERROR  com.example.service.PaymentService - WebSocket connection dropped: session_32230
+2025-03-10 20:23:34.000 [async-pool-1] INFO  com.example.service.InventoryService - User authenticated successfully: user_94698
+2025-03-10 20:24:05.000 [http-nio-8080-exec-6] ERROR  com.example.service.UserService - WebSocket connection dropped: session_43024
+2025-03-10 20:24:07.000 [http-nio-8080-exec-4] FATAL  com.example.service.AuthService - Database connection pool exhausted - application cannot serve requests
+java.lang.RuntimeException: No available connections in pool
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:52)
+	at com.example.repository.UserRepository.findAll(UserRepository.java:18)
+	Caused by: java.sql.SQLException: Pool exhausted, max connections reached
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:155)
+2025-03-10 20:25:33.000 [scheduler-1] INFO  com.example.config.SecurityConfig - Scheduled job completed in 7439ms
+2025-03-10 20:27:12.000 [http-nio-8080-exec-3] ERROR  com.example.service.InventoryService - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-10 20:28:23.000 [http-nio-8080-exec-2] ERROR  com.example.service.UserService - StackOverflowError in recursive call
+java.lang.StackOverflowError
+	at com.example.service.CacheService.resolve(CacheService.java:34)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	at com.example.service.CacheService.resolve(CacheService.java:36)
+	... 1024 more
+2025-03-10 20:29:25.000 [http-nio-8080-exec-8] ERROR  com.example.repository.ProductRepository - Scheduled task failed: data-sync-job
+2025-03-10 20:31:01.000 [http-nio-8080-exec-10] ERROR  com.example.service.InventoryService - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 20:32:32.000 [http-nio-8080-exec-10] ERROR  com.example.service.CacheService - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 20:33:42.000 [http-nio-8080-exec-4] ERROR  com.example.controller.HealthController - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 20:35:27.000 [async-pool-1] ERROR  com.example.service.OrderService - NullPointerException: Cannot invoke method on null reference
+java.lang.NullPointerException: Cannot invoke method on null reference
+	at com.example.service.PaymentService.process(PaymentService.java:89)
+	at com.example.controller.OrderController.checkout(OrderController.java:145)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 20:35:29.000 [http-nio-8080-exec-9] INFO  com.example.service.UserService - SSL certificate valid until 2026-12-31
+2025-03-10 20:35:43.000 [scheduler-2] INFO  com.example.service.CacheService - GET /api/users - 200 OK (5943ms)
+2025-03-10 20:37:24.000 [scheduler-1] WARN  com.example.service.ReportService - Connection pool exhaustion approaching: 685/10 active
+2025-03-10 20:38:39.000 [http-nio-8080-exec-2] ERROR  com.example.repository.UserRepository - Authentication failed for user: admin_96203
+2025-03-10 20:39:12.000 [scheduler-1] ERROR  com.example.service.InventoryService - Scheduled task failed: data-sync-job
+2025-03-10 20:39:18.000 [async-pool-2] INFO  com.example.config.DatabaseConfig - Metrics published: CPU=82%, Memory=57%, Connections=5/10
+2025-03-10 20:41:13.000 [http-nio-8080-exec-10] INFO  com.example.job.BackupJob - GET /health - 200 OK (2ms)
+2025-03-10 20:41:23.000 [http-nio-8080-exec-3] WARN  com.example.config.SecurityConfig - Cache miss rate exceeding threshold (48%)
+2025-03-10 20:43:16.000 [kafka-consumer-1] WARN  com.example.job.BackupJob - Disk usage at 82% on /var/log
+2025-03-10 20:44:02.000 [scheduler-1] ERROR  com.example.service.NotificationService - File upload failed: size exceeds maximum (50MB)
+2025-03-10 20:45:34.000 [async-pool-1] ERROR  com.example.controller.UserController - NullPointerException: Cannot invoke method on null reference
+java.lang.NullPointerException: Cannot invoke method on null reference
+	at com.example.service.PaymentService.process(PaymentService.java:89)
+	at com.example.controller.OrderController.checkout(OrderController.java:145)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 20:47:07.000 [kafka-consumer-1] ERROR  com.example.job.MetricsJob - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-10 20:47:24.000 [http-nio-8080-exec-6] WARN  com.example.repository.ProductRepository - Cache miss rate exceeding threshold (71%)
+2025-03-10 20:49:21.000 [http-nio-8080-exec-7] WARN  com.example.service.PaymentService - Low stock alert for product SKU-10589 (remaining: 1688)
+2025-03-10 20:49:47.000 [http-nio-8080-exec-9] WARN  com.example.job.SyncJob - Connection pool exhaustion approaching: 1428/10 active
+2025-03-10 20:51:37.000 [scheduler-2] INFO  com.example.repository.ProductRepository - Cache refreshed successfully (2229 entries)
+2025-03-10 20:51:57.000 [http-nio-8080-exec-10] ERROR  com.example.service.CacheService - NullPointerException: Cannot invoke method on null reference
+java.lang.NullPointerException: Cannot invoke method on null reference
+	at com.example.service.PaymentService.process(PaymentService.java:89)
+	at com.example.controller.OrderController.checkout(OrderController.java:145)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 20:52:50.000 [http-nio-8080-exec-5] WARN  com.example.service.InventoryService - SSL certificate expires in 30 days
+2025-03-10 20:54:42.000 [http-nio-8080-exec-1] WARN  com.example.repository.ProductRepository - Cache miss rate exceeding threshold (54%)
+2025-03-10 20:56:08.000 [http-nio-8080-exec-4] ERROR  com.example.controller.OrderController - NullPointerException: Cannot invoke method on null reference
+java.lang.NullPointerException: Cannot invoke method on null reference
+	at com.example.service.PaymentService.process(PaymentService.java:89)
+	at com.example.controller.OrderController.checkout(OrderController.java:145)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 20:57:30.000 [async-pool-1] ERROR  com.example.controller.HealthController - Failed to process payment for order #1434
+2025-03-10 20:57:39.000 [scheduler-1] ERROR  com.example.job.BackupJob - Failed to process payment for order #19158
+2025-03-10 20:58:23.000 [http-nio-8080-exec-6] ERROR  com.example.controller.OrderController - Scheduled task failed: data-sync-job
+2025-03-10 20:59:02.000 [http-nio-8080-exec-10] WARN  com.example.controller.UserController - Payment gateway response slow (6083ms)
+2025-03-10 21:00:46.000 [http-nio-8080-exec-1] INFO  com.example.service.UserService - User authenticated successfully: user_96140
+2025-03-10 21:01:07.000 [http-nio-8080-exec-8] ERROR  com.example.controller.UserController - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-10 21:02:52.000 [http-nio-8080-exec-4] WARN  com.example.service.AuthService - Cache miss rate exceeding threshold (72%)
+2025-03-10 21:03:40.000 [http-nio-8080-exec-10] INFO  com.example.repository.UserRepository - Kafka consumer joined group: order-processing
+2025-03-10 21:04:11.000 [http-nio-8080-exec-7] ERROR  com.example.job.CleanupJob - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-10 21:05:21.000 [http-nio-8080-exec-8] INFO  com.example.controller.UserController - GET /api/products - 200 OK (3716ms)
+2025-03-10 21:05:52.000 [http-nio-8080-exec-7] WARN  com.example.service.NotificationService - Cache miss rate exceeding threshold (75%)
+2025-03-10 21:07:35.000 [http-nio-8080-exec-6] INFO  com.example.service.DatabaseService - GET /api/users - 200 OK (702ms)
+2025-03-10 21:08:50.000 [scheduler-1] WARN  com.example.service.ReportService - JWT token expiring in less than 5 minutes for user_64917
+2025-03-10 21:09:09.000 [http-nio-8080-exec-6] INFO  com.example.controller.UserController - POST /api/orders - 201 Created (1945ms)
+2025-03-10 21:09:21.000 [http-nio-8080-exec-3] INFO  com.example.service.PaymentService - Database connection pool initialized (size: 10)
+2025-03-10 21:10:34.000 [http-nio-8080-exec-7] ERROR  com.example.controller.OrderController - External API returned 500: https://api.partner.com/v2/sync
+2025-03-10 21:11:06.000 [http-nio-8080-exec-1] ERROR  com.example.job.BackupJob - NullPointerException: Cannot invoke method on null reference
+java.lang.NullPointerException: Cannot invoke method on null reference
+	at com.example.service.PaymentService.process(PaymentService.java:89)
+	at com.example.controller.OrderController.checkout(OrderController.java:145)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-10 21:12:17.000 [http-nio-8080-exec-4] INFO  com.example.service.InventoryService - Configuration reloaded from application.properties
+2025-03-10 21:13:06.000 [http-nio-8080-exec-8] WARN  com.example.config.SecurityConfig - Deprecated API endpoint called: /api/v1/users
+2025-03-10 21:14:00.000 [http-nio-8080-exec-6] INFO  com.example.job.SyncJob - GET /api/products - 200 OK (6247ms)
+2025-03-10 21:15:34.000 [kafka-consumer-1] WARN  com.example.controller.PaymentController - Response time degradation detected on /api/orders (1249ms avg)
+2025-03-10 21:17:19.000 [kafka-consumer-1] INFO  com.example.service.EmailService - SSL certificate valid until 2026-12-31

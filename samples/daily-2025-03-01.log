@@ -1,0 +1,615 @@
+2025-03-01 00:00:14.000 [http-nio-8080-exec-1] ERROR  com.example.service.ReportService - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-01 00:00:40.000 [http-nio-8080-exec-2] INFO  com.example.service.UserService - Cache refreshed successfully (3254 entries)
+2025-03-01 00:02:05.000 [http-nio-8080-exec-6] INFO  com.example.job.BackupJob - GET /health - 200 OK (2ms)
+2025-03-01 00:02:48.000 [http-nio-8080-exec-4] WARN  com.example.service.OrderService - Disk usage at 51% on /var/log
+2025-03-01 00:03:34.000 [http-nio-8080-exec-1] INFO  com.example.config.SecurityConfig - GET /api/users - 200 OK (954ms)
+2025-03-01 00:05:11.000 [http-nio-8080-exec-7] INFO  com.example.service.CacheService - SSL certificate valid until 2026-12-31
+2025-03-01 00:06:28.000 [http-nio-8080-exec-1] INFO  com.example.service.InventoryService - Message published to queue: order.created
+2025-03-01 00:08:11.000 [http-nio-8080-exec-4] INFO  com.example.job.SyncJob - POST /api/orders - 201 Created (4180ms)
+2025-03-01 00:08:45.000 [kafka-consumer-2] INFO  com.example.config.SecurityConfig - Email sent to user_78179@example.com
+2025-03-01 00:10:39.000 [kafka-consumer-2] INFO  com.example.job.MetricsJob - Message published to queue: order.created
+2025-03-01 00:12:39.000 [http-nio-8080-exec-2] INFO  com.example.service.AuthService - SSL certificate valid until 2026-12-31
+2025-03-01 00:13:46.000 [kafka-consumer-2] WARN  com.example.service.EmailService - Slow query detected: SELECT * FROM orders WHERE status='pending' (236ms)
+2025-03-01 00:15:31.000 [http-nio-8080-exec-8] DEBUG  com.example.config.SecurityConfig - Detailed trace for request 974a6800-3e55-4fc6-acb9-d18745773bf8
+2025-03-01 00:15:57.000 [kafka-consumer-1] INFO  com.example.controller.OrderController - Scheduled job completed in 7746ms
+2025-03-01 00:17:43.000 [http-nio-8080-exec-1] INFO  com.example.controller.HealthController - Cleanup job started - removed 3534 expired sessions
+2025-03-01 00:18:50.000 [http-nio-8080-exec-1] INFO  com.example.service.UserService - GET /health - 200 OK (2ms)
+2025-03-01 00:19:51.000 [http-nio-8080-exec-5] INFO  com.example.service.AuthService - Metrics published: CPU=55%, Memory=64%, Connections=3/10
+2025-03-01 00:20:50.000 [http-nio-8080-exec-8] INFO  com.example.service.UserService - Database connection pool initialized (size: 10)
+2025-03-01 00:20:57.000 [http-nio-8080-exec-10] WARN  com.example.service.PaymentService - Request queue depth increasing: 1628 pending
+2025-03-01 00:21:18.000 [http-nio-8080-exec-4] INFO  com.example.controller.OrderController - Email sent to user_97107@example.com
+2025-03-01 00:23:13.000 [kafka-consumer-2] INFO  com.example.job.SyncJob - Cleanup job started - removed 3803 expired sessions
+2025-03-01 00:24:41.000 [http-nio-8080-exec-2] INFO  com.example.controller.UserController - POST /api/orders - 201 Created (3073ms)
+2025-03-01 00:25:02.000 [async-pool-1] INFO  com.example.controller.UserController - User authenticated successfully: user_52538
+2025-03-01 00:26:20.000 [main] INFO  com.example.job.CleanupJob - Database connection pool initialized (size: 10)
+2025-03-01 00:27:22.000 [kafka-consumer-2] ERROR  com.example.controller.AdminController - IllegalStateException: Transaction already committed
+java.lang.IllegalStateException: Transaction already committed
+	at org.hibernate.internal.SessionImpl.checkTransactionStatus(SessionImpl.java:456)
+	at com.example.service.OrderService.updateStatus(OrderService.java:112)
+	at com.example.job.SyncJob.processOrders(SyncJob.java:34)
+2025-03-01 00:27:53.000 [http-nio-8080-exec-1] WARN  com.example.service.DatabaseService - Low stock alert for product SKU-79148 (remaining: 1686)
+2025-03-01 00:28:47.000 [http-nio-8080-exec-3] ERROR  com.example.repository.OrderRepository - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-01 00:29:21.000 [http-nio-8080-exec-2] INFO  com.example.controller.AdminController - Message published to queue: order.created
+2025-03-01 00:29:46.000 [http-nio-8080-exec-3] WARN  com.example.repository.ProductRepository - Payment gateway response slow (3854ms)
+2025-03-01 00:29:51.000 [http-nio-8080-exec-7] ERROR  com.example.repository.OrderRepository - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-01 00:30:44.000 [http-nio-8080-exec-5] INFO  com.example.controller.AdminController - Request processed: correlationId=2dc13f26-c3fa-4838-928b-3686faa0a461
+2025-03-01 00:31:31.000 [kafka-consumer-2] INFO  com.example.service.EmailService - Batch processing completed: 2284 records in 5500ms
+2025-03-01 00:32:37.000 [http-nio-8080-exec-10] INFO  com.example.config.SecurityConfig - Message published to queue: order.created
+2025-03-01 00:33:54.000 [async-pool-1] ERROR  com.example.repository.ProductRepository - Failed to process payment for order #43779
+2025-03-01 00:35:39.000 [http-nio-8080-exec-2] INFO  com.example.controller.AdminController - Batch processing completed: 428 records in 1358ms
+2025-03-01 00:37:21.000 [main] INFO  com.example.service.EmailService - Database connection pool initialized (size: 10)
+2025-03-01 00:38:57.000 [http-nio-8080-exec-9] INFO  com.example.service.EmailService - Batch processing completed: 4215 records in 4487ms
+2025-03-01 00:40:37.000 [http-nio-8080-exec-1] WARN  com.example.job.BackupJob - Circuit breaker half-open for payment-service
+2025-03-01 00:41:40.000 [http-nio-8080-exec-7] INFO  com.example.job.CleanupJob - Cleanup job started - removed 1514 expired sessions
+2025-03-01 00:42:44.000 [http-nio-8080-exec-2] INFO  com.example.service.DatabaseService - GET /health - 200 OK (2ms)
+2025-03-01 00:43:57.000 [main] INFO  com.example.repository.OrderRepository - Scheduled job completed in 2704ms
+2025-03-01 00:45:32.000 [kafka-consumer-1] INFO  com.example.config.DatabaseConfig - Kafka consumer joined group: order-processing
+2025-03-01 00:46:44.000 [http-nio-8080-exec-7] INFO  com.example.controller.PaymentController - POST /api/orders - 201 Created (5535ms)
+2025-03-01 00:48:02.000 [http-nio-8080-exec-1] INFO  com.example.service.AuthService - Scheduled job completed in 7594ms
+2025-03-01 00:48:05.000 [http-nio-8080-exec-4] INFO  com.example.controller.UserController - SSL certificate valid until 2026-12-31
+2025-03-01 00:50:03.000 [http-nio-8080-exec-5] WARN  com.example.config.DatabaseConfig - SSL certificate expires in 30 days
+2025-03-01 00:51:16.000 [http-nio-8080-exec-4] INFO  com.example.service.InventoryService - Message published to queue: order.created
+2025-03-01 00:51:39.000 [http-nio-8080-exec-3] INFO  com.example.repository.ProductRepository - User authenticated successfully: user_88188
+2025-03-01 00:53:37.000 [http-nio-8080-exec-2] INFO  com.example.controller.HealthController - Configuration reloaded from application.properties
+2025-03-01 00:54:54.000 [kafka-consumer-2] DEBUG  com.example.repository.ProductRepository - Detailed trace for request 3fc2ac61-b0ad-4206-8e57-c8ce7877d3ec
+2025-03-01 00:55:38.000 [http-nio-8080-exec-7] INFO  com.example.service.NotificationService - Database connection pool initialized (size: 10)
+2025-03-01 00:57:00.000 [http-nio-8080-exec-9] WARN  com.example.repository.ProductRepository - Disk usage at 76% on /var/log
+2025-03-01 00:58:28.000 [main] INFO  com.example.job.CleanupJob - GET /api/users - 200 OK (5986ms)
+2025-03-01 00:59:18.000 [http-nio-8080-exec-9] INFO  com.example.service.UserService - Message published to queue: order.created
+2025-03-01 01:01:01.000 [http-nio-8080-exec-3] ERROR  com.example.service.ReportService - WebSocket connection dropped: session_53951
+2025-03-01 01:01:06.000 [http-nio-8080-exec-8] INFO  com.example.service.AuthService - SSL certificate valid until 2026-12-31
+2025-03-01 01:02:58.000 [http-nio-8080-exec-4] INFO  com.example.service.AuthService - Metrics published: CPU=32%, Memory=48%, Connections=9/10
+2025-03-01 01:04:14.000 [http-nio-8080-exec-5] INFO  com.example.controller.OrderController - Email sent to user_57737@example.com
+2025-03-01 01:04:55.000 [http-nio-8080-exec-7] INFO  com.example.service.OrderService - Kafka consumer joined group: order-processing
+2025-03-01 01:05:25.000 [http-nio-8080-exec-10] INFO  com.example.job.CleanupJob - Kafka consumer joined group: order-processing
+2025-03-01 01:07:19.000 [scheduler-2] INFO  com.example.service.AuthService - GET /api/products - 200 OK (7333ms)
+2025-03-01 01:08:29.000 [kafka-consumer-1] INFO  com.example.service.OrderService - Cleanup job started - removed 3910 expired sessions
+2025-03-01 01:08:57.000 [http-nio-8080-exec-6] INFO  com.example.job.BackupJob - Cleanup job started - removed 4105 expired sessions
+2025-03-01 01:10:22.000 [http-nio-8080-exec-5] INFO  com.example.job.MetricsJob - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 01:10:28.000 [http-nio-8080-exec-4] ERROR  com.example.repository.ProductRepository - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-01 01:11:43.000 [scheduler-1] INFO  com.example.config.SecurityConfig - Scheduled job completed in 578ms
+2025-03-01 01:12:35.000 [http-nio-8080-exec-3] WARN  com.example.repository.ProductRepository - Retry attempt 1/3 for external service call
+2025-03-01 01:12:53.000 [async-pool-2] INFO  com.example.controller.AdminController - Kafka consumer joined group: order-processing
+2025-03-01 01:12:55.000 [http-nio-8080-exec-10] INFO  com.example.config.DatabaseConfig - Message published to queue: order.created
+2025-03-01 01:13:34.000 [http-nio-8080-exec-1] WARN  com.example.repository.ProductRepository - Low stock alert for product SKU-15445 (remaining: 2162)
+2025-03-01 01:14:25.000 [kafka-consumer-1] DEBUG  com.example.config.DatabaseConfig - Detailed trace for request bca10a36-10f1-483a-8b12-7209aa981c5a
+2025-03-01 01:14:26.000 [scheduler-1] INFO  com.example.controller.OrderController - Cache refreshed successfully (3273 entries)
+2025-03-01 01:15:19.000 [main] WARN  com.example.controller.UserController - Connection pool exhaustion approaching: 4613/10 active
+2025-03-01 01:15:37.000 [kafka-consumer-2] INFO  com.example.repository.ProductRepository - GET /health - 200 OK (2ms)
+2025-03-01 01:17:30.000 [http-nio-8080-exec-5] INFO  com.example.service.NotificationService - Batch processing completed: 3579 records in 5730ms
+2025-03-01 01:18:46.000 [http-nio-8080-exec-6] WARN  com.example.repository.ProductRepository - Retry attempt 3/3 for external service call
+2025-03-01 01:18:51.000 [http-nio-8080-exec-6] INFO  com.example.service.EmailService - Cache refreshed successfully (1260 entries)
+2025-03-01 01:20:35.000 [http-nio-8080-exec-8] INFO  com.example.service.OrderService - Kafka consumer joined group: order-processing
+2025-03-01 01:20:36.000 [http-nio-8080-exec-5] INFO  com.example.service.CacheService - Message published to queue: order.created
+2025-03-01 01:21:28.000 [main] INFO  com.example.job.SyncJob - Cleanup job started - removed 1863 expired sessions
+2025-03-01 01:22:03.000 [http-nio-8080-exec-1] INFO  com.example.repository.OrderRepository - Email sent to user_9732@example.com
+2025-03-01 01:22:23.000 [http-nio-8080-exec-10] INFO  com.example.repository.OrderRepository - User authenticated successfully: user_43588
+2025-03-01 01:24:03.000 [async-pool-2] INFO  com.example.service.CacheService - PUT /api/users/profile - 200 OK (3192ms)
+2025-03-01 01:25:14.000 [http-nio-8080-exec-10] INFO  com.example.controller.OrderController - GET /api/products - 200 OK (4546ms)
+2025-03-01 01:25:48.000 [main] INFO  com.example.service.InventoryService - Batch processing completed: 3584 records in 7995ms
+2025-03-01 01:27:26.000 [main] INFO  com.example.service.AuthService - SSL certificate valid until 2026-12-31
+2025-03-01 01:28:44.000 [http-nio-8080-exec-4] WARN  com.example.service.OrderService - Circuit breaker half-open for payment-service
+2025-03-01 01:28:47.000 [main] INFO  com.example.job.MetricsJob - GET /health - 200 OK (2ms)
+2025-03-01 01:28:49.000 [http-nio-8080-exec-5] INFO  com.example.service.DatabaseService - Email sent to user_22549@example.com
+2025-03-01 01:30:37.000 [async-pool-1] ERROR  com.example.service.PaymentService - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-01 01:31:39.000 [http-nio-8080-exec-10] INFO  com.example.repository.OrderRepository - Message published to queue: order.created
+2025-03-01 01:32:38.000 [http-nio-8080-exec-4] INFO  com.example.service.OrderService - DELETE /api/sessions/80467 - 204 No Content
+2025-03-01 01:34:35.000 [scheduler-1] INFO  com.example.service.AuthService - Batch processing completed: 2146 records in 4266ms
+2025-03-01 01:36:17.000 [http-nio-8080-exec-5] INFO  com.example.controller.OrderController - GET /health - 200 OK (2ms)
+2025-03-01 01:36:22.000 [kafka-consumer-2] WARN  com.example.service.AuthService - Deprecated API endpoint called: /api/v1/users
+2025-03-01 01:37:20.000 [http-nio-8080-exec-4] INFO  com.example.job.BackupJob - GET /api/users - 200 OK (4464ms)
+2025-03-01 01:38:22.000 [http-nio-8080-exec-5] INFO  com.example.service.DatabaseService - SSL certificate valid until 2026-12-31
+2025-03-01 01:39:16.000 [http-nio-8080-exec-5] INFO  com.example.config.SecurityConfig - Scheduled job completed in 1674ms
+2025-03-01 01:41:01.000 [scheduler-2] INFO  com.example.service.InventoryService - Cleanup job started - removed 2874 expired sessions
+2025-03-01 01:41:12.000 [http-nio-8080-exec-8] INFO  com.example.config.DatabaseConfig - DELETE /api/sessions/68937 - 204 No Content
+2025-03-01 01:41:27.000 [main] INFO  com.example.service.EmailService - Message published to queue: order.created
+2025-03-01 01:41:42.000 [http-nio-8080-exec-4] WARN  com.example.service.DatabaseService - Database connection pool usage high (94%)
+2025-03-01 01:43:17.000 [kafka-consumer-2] INFO  com.example.job.MetricsJob - Cache refreshed successfully (566 entries)
+2025-03-01 01:45:08.000 [http-nio-8080-exec-10] INFO  com.example.repository.UserRepository - Message published to queue: order.created
+2025-03-01 01:46:22.000 [main] INFO  com.example.repository.UserRepository - Request processed: correlationId=0575ab8a-4858-4acc-a665-3e2a1240db62
+2025-03-01 01:48:04.000 [kafka-consumer-2] INFO  com.example.service.PaymentService - Metrics published: CPU=84%, Memory=51%, Connections=4/10
+2025-03-01 01:49:20.000 [http-nio-8080-exec-2] INFO  com.example.service.PaymentService - Kafka consumer joined group: order-processing
+2025-03-01 01:50:25.000 [main] DEBUG  com.example.service.PaymentService - Detailed trace for request 32e9d785-86b4-4b17-83eb-1483f002170f
+2025-03-01 01:51:01.000 [http-nio-8080-exec-1] INFO  com.example.service.ReportService - Request processed: correlationId=1038fa5f-5df4-4173-9cf6-308852253b80
+2025-03-01 01:51:53.000 [http-nio-8080-exec-6] INFO  com.example.service.NotificationService - GET /api/users - 200 OK (5311ms)
+2025-03-01 01:52:18.000 [http-nio-8080-exec-4] INFO  com.example.controller.UserController - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 01:54:09.000 [scheduler-1] INFO  com.example.controller.HealthController - PUT /api/users/profile - 200 OK (961ms)
+2025-03-01 01:55:11.000 [main] INFO  com.example.repository.UserRepository - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 01:56:50.000 [http-nio-8080-exec-5] INFO  com.example.service.DatabaseService - Scheduled job completed in 1384ms
+2025-03-01 01:57:14.000 [http-nio-8080-exec-8] WARN  com.example.service.OrderService - Slow query detected: SELECT * FROM orders WHERE status='pending' (3002ms)
+2025-03-01 01:58:39.000 [http-nio-8080-exec-1] INFO  com.example.config.DatabaseConfig - GET /health - 200 OK (2ms)
+2025-03-01 01:59:26.000 [async-pool-1] ERROR  com.example.controller.PaymentController - Message delivery failed: queue=order.notifications
+2025-03-01 01:59:43.000 [http-nio-8080-exec-2] INFO  com.example.service.EmailService - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 02:01:19.000 [kafka-consumer-2] INFO  com.example.service.UserService - GET /api/users - 200 OK (6273ms)
+2025-03-01 02:01:34.000 [http-nio-8080-exec-9] INFO  com.example.config.DatabaseConfig - Metrics published: CPU=57%, Memory=30%, Connections=8/10
+2025-03-01 02:02:38.000 [kafka-consumer-1] INFO  com.example.service.UserService - Scheduled job completed in 1759ms
+2025-03-01 02:04:00.000 [scheduler-2] INFO  com.example.controller.OrderController - Metrics published: CPU=89%, Memory=38%, Connections=10/10
+2025-03-01 02:05:03.000 [scheduler-2] ERROR  com.example.job.MetricsJob - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-01 02:05:23.000 [http-nio-8080-exec-10] WARN  com.example.repository.ProductRepository - Memory usage above warning threshold: 47%
+2025-03-01 02:06:47.000 [main] INFO  com.example.repository.OrderRepository - PUT /api/users/profile - 200 OK (1233ms)
+2025-03-01 02:07:58.000 [kafka-consumer-2] INFO  com.example.job.CleanupJob - Configuration reloaded from application.properties
+2025-03-01 02:08:42.000 [http-nio-8080-exec-8] INFO  com.example.repository.ProductRepository - Batch processing completed: 337 records in 7433ms
+2025-03-01 02:09:43.000 [http-nio-8080-exec-8] INFO  com.example.repository.UserRepository - Cache refreshed successfully (671 entries)
+2025-03-01 02:10:10.000 [main] INFO  com.example.repository.ProductRepository - Batch processing completed: 2266 records in 4730ms
+2025-03-01 02:11:35.000 [async-pool-2] INFO  com.example.service.ReportService - Request processed: correlationId=16a0b9ae-0b20-4c6c-9221-72856ca39119
+2025-03-01 02:13:16.000 [http-nio-8080-exec-2] INFO  com.example.job.SyncJob - Configuration reloaded from application.properties
+2025-03-01 02:13:54.000 [http-nio-8080-exec-4] INFO  com.example.controller.OrderController - Database connection pool initialized (size: 10)
+2025-03-01 02:14:57.000 [http-nio-8080-exec-5] INFO  com.example.controller.HealthController - User authenticated successfully: user_39153
+2025-03-01 02:16:50.000 [async-pool-2] INFO  com.example.service.UserService - Email sent to user_28897@example.com
+2025-03-01 02:17:06.000 [http-nio-8080-exec-8] INFO  com.example.repository.OrderRepository - Database connection pool initialized (size: 10)
+2025-03-01 02:17:48.000 [http-nio-8080-exec-10] INFO  com.example.controller.HealthController - SSL certificate valid until 2026-12-31
+2025-03-01 02:18:00.000 [main] ERROR  com.example.service.ReportService - Message delivery failed: queue=order.notifications
+2025-03-01 02:18:09.000 [http-nio-8080-exec-6] INFO  com.example.service.EmailService - POST /api/orders - 201 Created (4139ms)
+2025-03-01 02:19:23.000 [scheduler-1] INFO  com.example.config.DatabaseConfig - Message published to queue: order.created
+2025-03-01 02:20:04.000 [http-nio-8080-exec-7] INFO  com.example.service.PaymentService - Scheduled job completed in 91ms
+2025-03-01 02:21:04.000 [async-pool-1] WARN  com.example.controller.PaymentController - Request queue depth increasing: 2554 pending
+2025-03-01 02:21:26.000 [http-nio-8080-exec-7] DEBUG  com.example.service.InventoryService - Detailed trace for request 273a497a-2200-4c42-93d7-dbe674e4ac21
+2025-03-01 02:22:12.000 [http-nio-8080-exec-8] INFO  com.example.service.InventoryService - Configuration reloaded from application.properties
+2025-03-01 02:22:35.000 [http-nio-8080-exec-10] INFO  com.example.job.CleanupJob - Batch processing completed: 4860 records in 4776ms
+2025-03-01 02:22:45.000 [http-nio-8080-exec-8] INFO  com.example.service.EmailService - PUT /api/users/profile - 200 OK (610ms)
+2025-03-01 02:22:47.000 [http-nio-8080-exec-7] INFO  com.example.config.DatabaseConfig - Scheduled job completed in 6225ms
+2025-03-01 02:23:51.000 [scheduler-2] WARN  com.example.service.DatabaseService - Rate limit approaching for client IP 192.168.1.240 (1685/100 requests)
+2025-03-01 02:24:15.000 [http-nio-8080-exec-4] INFO  com.example.service.UserService - Message published to queue: order.created
+2025-03-01 02:25:31.000 [http-nio-8080-exec-8] INFO  com.example.repository.OrderRepository - Message published to queue: order.created
+2025-03-01 02:26:22.000 [async-pool-2] INFO  com.example.service.PaymentService - PUT /api/users/profile - 200 OK (743ms)
+2025-03-01 02:27:03.000 [async-pool-2] INFO  com.example.service.NotificationService - SSL certificate valid until 2026-12-31
+2025-03-01 02:27:06.000 [async-pool-1] WARN  com.example.controller.OrderController - Disk usage at 54% on /var/log
+2025-03-01 02:28:36.000 [http-nio-8080-exec-2] INFO  com.example.service.EmailService - GET /api/products - 200 OK (5212ms)
+2025-03-01 02:29:06.000 [scheduler-2] INFO  com.example.service.AuthService - DELETE /api/sessions/29232 - 204 No Content
+2025-03-01 02:29:30.000 [http-nio-8080-exec-8] INFO  com.example.service.CacheService - User authenticated successfully: user_77326
+2025-03-01 02:30:36.000 [kafka-consumer-1] WARN  com.example.controller.UserController - Request queue depth increasing: 374 pending
+2025-03-01 02:31:44.000 [scheduler-2] INFO  com.example.service.EmailService - Configuration reloaded from application.properties
+2025-03-01 02:32:46.000 [kafka-consumer-2] INFO  com.example.controller.OrderController - Message published to queue: order.created
+2025-03-01 02:34:26.000 [kafka-consumer-1] INFO  com.example.repository.ProductRepository - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 02:35:30.000 [kafka-consumer-1] WARN  com.example.service.NotificationService - Deprecated API endpoint called: /api/v1/users
+2025-03-01 02:36:09.000 [http-nio-8080-exec-3] INFO  com.example.config.DatabaseConfig - DELETE /api/sessions/79096 - 204 No Content
+2025-03-01 02:36:22.000 [http-nio-8080-exec-7] INFO  com.example.service.UserService - Message published to queue: order.created
+2025-03-01 02:37:04.000 [http-nio-8080-exec-9] INFO  com.example.controller.PaymentController - Email sent to user_50918@example.com
+2025-03-01 02:38:24.000 [scheduler-1] INFO  com.example.service.InventoryService - Database connection pool initialized (size: 10)
+2025-03-01 02:38:29.000 [http-nio-8080-exec-2] INFO  com.example.service.ReportService - Cache refreshed successfully (3203 entries)
+2025-03-01 02:39:38.000 [http-nio-8080-exec-7] INFO  com.example.service.ReportService - Metrics published: CPU=37%, Memory=74%, Connections=3/10
+2025-03-01 02:40:56.000 [http-nio-8080-exec-5] ERROR  com.example.service.DatabaseService - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-01 02:42:11.000 [kafka-consumer-2] ERROR  com.example.service.NotificationService - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-01 02:42:57.000 [http-nio-8080-exec-9] WARN  com.example.repository.ProductRepository - Database connection pool usage high (48%)
+2025-03-01 02:43:27.000 [http-nio-8080-exec-9] INFO  com.example.controller.OrderController - GET /api/products - 200 OK (158ms)
+2025-03-01 02:44:13.000 [http-nio-8080-exec-9] INFO  com.example.job.CleanupJob - GET /api/users - 200 OK (4393ms)
+2025-03-01 02:45:42.000 [http-nio-8080-exec-10] INFO  com.example.job.SyncJob - Scheduled job completed in 6051ms
+2025-03-01 02:46:13.000 [http-nio-8080-exec-5] DEBUG  com.example.service.DatabaseService - Detailed trace for request 91e92b92-e05f-4a10-b24a-594db5c6a846
+2025-03-01 02:48:10.000 [scheduler-1] ERROR  com.example.config.DatabaseConfig - Message delivery failed: queue=order.notifications
+2025-03-01 02:48:27.000 [scheduler-1] INFO  com.example.service.DatabaseService - Email sent to user_25270@example.com
+2025-03-01 02:49:35.000 [scheduler-1] INFO  com.example.config.DatabaseConfig - Scheduled job completed in 5438ms
+2025-03-01 02:50:12.000 [http-nio-8080-exec-4] INFO  com.example.config.DatabaseConfig - Cache refreshed successfully (3243 entries)
+2025-03-01 02:51:55.000 [scheduler-2] INFO  com.example.service.UserService - Database connection pool initialized (size: 10)
+2025-03-01 02:52:30.000 [http-nio-8080-exec-2] INFO  com.example.service.PaymentService - Cleanup job started - removed 3794 expired sessions
+2025-03-01 02:54:28.000 [scheduler-1] INFO  com.example.job.SyncJob - PUT /api/users/profile - 200 OK (5583ms)
+2025-03-01 02:54:29.000 [http-nio-8080-exec-5] ERROR  com.example.service.UserService - Template rendering failed: email/order-confirmation.html
+2025-03-01 02:55:36.000 [kafka-consumer-2] INFO  com.example.service.EmailService - DELETE /api/sessions/83204 - 204 No Content
+2025-03-01 02:55:54.000 [http-nio-8080-exec-9] WARN  com.example.config.DatabaseConfig - Request queue depth increasing: 1992 pending
+2025-03-01 02:56:27.000 [http-nio-8080-exec-5] INFO  com.example.service.ReportService - Message published to queue: order.created
+2025-03-01 02:56:36.000 [http-nio-8080-exec-5] INFO  com.example.config.DatabaseConfig - Email sent to user_91543@example.com
+2025-03-01 02:57:49.000 [http-nio-8080-exec-4] INFO  com.example.controller.PaymentController - SSL certificate valid until 2026-12-31
+2025-03-01 02:59:14.000 [http-nio-8080-exec-1] WARN  com.example.controller.PaymentController - Connection pool exhaustion approaching: 3271/10 active
+2025-03-01 02:59:40.000 [http-nio-8080-exec-7] WARN  com.example.config.DatabaseConfig - Payment gateway response slow (2110ms)
+2025-03-01 03:01:38.000 [http-nio-8080-exec-1] INFO  com.example.config.SecurityConfig - Scheduled job completed in 1149ms
+2025-03-01 03:02:53.000 [http-nio-8080-exec-9] INFO  com.example.job.CleanupJob - Configuration reloaded from application.properties
+2025-03-01 03:03:33.000 [main] INFO  com.example.service.PaymentService - Database connection pool initialized (size: 10)
+2025-03-01 03:05:02.000 [http-nio-8080-exec-5] INFO  com.example.config.DatabaseConfig - Kafka consumer joined group: order-processing
+2025-03-01 03:06:44.000 [http-nio-8080-exec-4] INFO  com.example.job.CleanupJob - DELETE /api/sessions/50650 - 204 No Content
+2025-03-01 03:08:39.000 [http-nio-8080-exec-10] INFO  com.example.service.DatabaseService - Email sent to user_82421@example.com
+2025-03-01 03:09:38.000 [main] WARN  com.example.service.DatabaseService - Slow query detected: SELECT * FROM orders WHERE status='pending' (916ms)
+2025-03-01 03:11:04.000 [main] INFO  com.example.service.ReportService - Metrics published: CPU=48%, Memory=77%, Connections=9/10
+2025-03-01 03:12:10.000 [scheduler-2] WARN  com.example.service.AuthService - Low stock alert for product SKU-84188 (remaining: 3021)
+2025-03-01 03:13:47.000 [http-nio-8080-exec-4] INFO  com.example.service.DatabaseService - Request processed: correlationId=5c12f871-fd10-477c-9bdb-4986074cd079
+2025-03-01 03:14:59.000 [http-nio-8080-exec-2] INFO  com.example.config.SecurityConfig - GET /api/users - 200 OK (4561ms)
+2025-03-01 03:16:05.000 [http-nio-8080-exec-4] INFO  com.example.controller.HealthController - POST /api/orders - 201 Created (3732ms)
+2025-03-01 03:16:24.000 [http-nio-8080-exec-4] INFO  com.example.service.EmailService - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 03:17:08.000 [http-nio-8080-exec-5] INFO  com.example.service.ReportService - GET /api/products - 200 OK (6476ms)
+2025-03-01 03:17:22.000 [http-nio-8080-exec-3] INFO  com.example.job.MetricsJob - GET /api/products - 200 OK (2079ms)
+2025-03-01 03:18:42.000 [http-nio-8080-exec-7] INFO  com.example.service.InventoryService - SSL certificate valid until 2026-12-31
+2025-03-01 03:19:50.000 [scheduler-2] INFO  com.example.controller.OrderController - DELETE /api/sessions/32671 - 204 No Content
+2025-03-01 03:21:36.000 [http-nio-8080-exec-4] INFO  com.example.service.NotificationService - DELETE /api/sessions/78702 - 204 No Content
+2025-03-01 03:23:01.000 [async-pool-1] INFO  com.example.controller.HealthController - Database connection pool initialized (size: 10)
+2025-03-01 03:23:16.000 [kafka-consumer-1] INFO  com.example.controller.AdminController - GET /api/users - 200 OK (1933ms)
+2025-03-01 03:24:03.000 [http-nio-8080-exec-6] INFO  com.example.service.ReportService - User authenticated successfully: user_22252
+2025-03-01 03:25:45.000 [http-nio-8080-exec-7] INFO  com.example.job.MetricsJob - GET /api/users - 200 OK (2537ms)
+2025-03-01 03:26:25.000 [http-nio-8080-exec-7] INFO  com.example.config.DatabaseConfig - DELETE /api/sessions/26944 - 204 No Content
+2025-03-01 03:26:28.000 [http-nio-8080-exec-6] INFO  com.example.controller.HealthController - Database connection pool initialized (size: 10)
+2025-03-01 03:27:09.000 [http-nio-8080-exec-1] INFO  com.example.service.PaymentService - POST /api/orders - 201 Created (6684ms)
+2025-03-01 03:27:48.000 [http-nio-8080-exec-7] INFO  com.example.job.CleanupJob - PUT /api/users/profile - 200 OK (7985ms)
+2025-03-01 03:29:39.000 [http-nio-8080-exec-6] INFO  com.example.controller.UserController - GET /api/users - 200 OK (487ms)
+2025-03-01 03:31:02.000 [http-nio-8080-exec-7] INFO  com.example.service.OrderService - Kafka consumer joined group: order-processing
+2025-03-01 03:31:40.000 [scheduler-2] WARN  com.example.repository.OrderRepository - Request queue depth increasing: 4850 pending
+2025-03-01 03:33:23.000 [http-nio-8080-exec-9] INFO  com.example.service.InventoryService - Metrics published: CPU=34%, Memory=95%, Connections=8/10
+2025-03-01 03:34:45.000 [http-nio-8080-exec-7] ERROR  com.example.service.ReportService - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-01 03:35:21.000 [http-nio-8080-exec-7] WARN  com.example.service.ReportService - Memory usage above warning threshold: 52%
+2025-03-01 03:36:39.000 [scheduler-1] INFO  com.example.repository.UserRepository - Email sent to user_71274@example.com
+2025-03-01 03:37:41.000 [scheduler-2] INFO  com.example.service.DatabaseService - DELETE /api/sessions/21975 - 204 No Content
+2025-03-01 03:37:47.000 [async-pool-2] WARN  com.example.service.ReportService - Disk usage at 98% on /var/log
+2025-03-01 03:38:14.000 [scheduler-1] INFO  com.example.controller.UserController - Metrics published: CPU=90%, Memory=70%, Connections=5/10
+2025-03-01 03:38:57.000 [http-nio-8080-exec-10] INFO  com.example.config.SecurityConfig - Configuration reloaded from application.properties
+2025-03-01 03:40:39.000 [http-nio-8080-exec-2] INFO  com.example.service.ReportService - GET /health - 200 OK (2ms)
+2025-03-01 03:42:16.000 [http-nio-8080-exec-3] INFO  com.example.job.MetricsJob - SSL certificate valid until 2026-12-31
+2025-03-01 03:43:17.000 [kafka-consumer-2] INFO  com.example.service.CacheService - Metrics published: CPU=82%, Memory=60%, Connections=2/10
+2025-03-01 03:43:27.000 [http-nio-8080-exec-1] ERROR  com.example.service.CacheService - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-01 03:44:28.000 [http-nio-8080-exec-3] INFO  com.example.service.OrderService - DELETE /api/sessions/32994 - 204 No Content
+2025-03-01 03:45:29.000 [kafka-consumer-1] INFO  com.example.service.AuthService - Message published to queue: order.created
+2025-03-01 03:47:16.000 [async-pool-1] WARN  com.example.service.CacheService - Response time degradation detected on /api/orders (606ms avg)
+2025-03-01 03:48:36.000 [async-pool-2] ERROR  com.example.service.CacheService - Failed to process payment for order #18154
+2025-03-01 03:49:31.000 [http-nio-8080-exec-4] INFO  com.example.service.PaymentService - User authenticated successfully: user_48535
+2025-03-01 03:50:27.000 [scheduler-1] INFO  com.example.controller.PaymentController - Email sent to user_98174@example.com
+2025-03-01 03:51:55.000 [http-nio-8080-exec-1] WARN  com.example.repository.ProductRepository - Request queue depth increasing: 560 pending
+2025-03-01 03:51:58.000 [http-nio-8080-exec-3] INFO  com.example.service.PaymentService - User authenticated successfully: user_82207
+2025-03-01 03:53:53.000 [http-nio-8080-exec-10] INFO  com.example.job.MetricsJob - Email sent to user_8466@example.com
+2025-03-01 03:54:51.000 [http-nio-8080-exec-7] INFO  com.example.controller.OrderController - Metrics published: CPU=49%, Memory=96%, Connections=6/10
+2025-03-01 03:55:01.000 [http-nio-8080-exec-4] INFO  com.example.repository.UserRepository - Configuration reloaded from application.properties
+2025-03-01 03:56:39.000 [http-nio-8080-exec-3] ERROR  com.example.service.ReportService - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-01 03:58:28.000 [kafka-consumer-2] INFO  com.example.service.NotificationService - Database connection pool initialized (size: 10)
+2025-03-01 03:59:20.000 [kafka-consumer-2] INFO  com.example.repository.OrderRepository - Message published to queue: order.created
+2025-03-01 04:00:04.000 [http-nio-8080-exec-1] INFO  com.example.controller.UserController - User authenticated successfully: user_17303
+2025-03-01 04:01:07.000 [http-nio-8080-exec-3] INFO  com.example.controller.AdminController - Email sent to user_77730@example.com
+2025-03-01 04:01:10.000 [http-nio-8080-exec-3] INFO  com.example.service.CacheService - GET /health - 200 OK (2ms)
+2025-03-01 04:02:10.000 [http-nio-8080-exec-8] INFO  com.example.config.SecurityConfig - GET /api/users - 200 OK (7486ms)
+2025-03-01 04:02:29.000 [async-pool-1] INFO  com.example.service.CacheService - Metrics published: CPU=75%, Memory=98%, Connections=4/10
+2025-03-01 04:03:21.000 [http-nio-8080-exec-1] INFO  com.example.controller.PaymentController - PUT /api/users/profile - 200 OK (756ms)
+2025-03-01 04:03:47.000 [http-nio-8080-exec-2] INFO  com.example.service.InventoryService - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 04:05:29.000 [http-nio-8080-exec-5] INFO  com.example.controller.HealthController - GET /api/products - 200 OK (7348ms)
+2025-03-01 04:06:20.000 [kafka-consumer-1] INFO  com.example.job.MetricsJob - Cleanup job started - removed 3711 expired sessions
+2025-03-01 04:06:35.000 [http-nio-8080-exec-2] INFO  com.example.job.MetricsJob - Email sent to user_90130@example.com
+2025-03-01 04:06:54.000 [main] INFO  com.example.service.OrderService - Batch processing completed: 2807 records in 3619ms
+2025-03-01 04:07:50.000 [async-pool-2] INFO  com.example.service.EmailService - Kafka consumer joined group: order-processing
+2025-03-01 04:09:38.000 [http-nio-8080-exec-6] INFO  com.example.service.OrderService - Configuration reloaded from application.properties
+2025-03-01 04:10:45.000 [http-nio-8080-exec-9] INFO  com.example.controller.PaymentController - Kafka consumer joined group: order-processing
+2025-03-01 04:12:36.000 [kafka-consumer-2] INFO  com.example.repository.OrderRepository - User authenticated successfully: user_28321
+2025-03-01 04:12:47.000 [http-nio-8080-exec-7] INFO  com.example.controller.HealthController - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 04:12:48.000 [http-nio-8080-exec-9] ERROR  com.example.controller.UserController - NullPointerException: Cannot invoke method on null reference
+java.lang.NullPointerException: Cannot invoke method on null reference
+	at com.example.service.PaymentService.process(PaymentService.java:89)
+	at com.example.controller.OrderController.checkout(OrderController.java:145)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-01 04:14:31.000 [http-nio-8080-exec-7] WARN  com.example.controller.AdminController - Database connection pool usage high (57%)
+2025-03-01 04:16:28.000 [main] WARN  com.example.service.EmailService - Connection pool exhaustion approaching: 4326/10 active
+2025-03-01 04:17:42.000 [http-nio-8080-exec-4] INFO  com.example.service.OrderService - Scheduled job completed in 1226ms
+2025-03-01 04:18:18.000 [http-nio-8080-exec-2] WARN  com.example.repository.ProductRepository - Circuit breaker half-open for payment-service
+2025-03-01 04:18:21.000 [http-nio-8080-exec-7] WARN  com.example.service.InventoryService - Disk usage at 63% on /var/log
+2025-03-01 04:20:16.000 [async-pool-1] INFO  com.example.repository.UserRepository - GET /api/products - 200 OK (4048ms)
+2025-03-01 04:21:03.000 [async-pool-1] ERROR  com.example.repository.ProductRepository - Connection timeout to database
+java.sql.SQLTimeoutException: Connection timed out after 30000ms
+	at com.example.service.DatabaseService.getConnection(DatabaseService.java:45)
+	at com.example.repository.OrderRepository.findById(OrderRepository.java:23)
+	at com.example.service.OrderService.getOrder(OrderService.java:67)
+2025-03-01 04:21:19.000 [scheduler-1] INFO  com.example.job.BackupJob - Database connection pool initialized (size: 10)
+2025-03-01 04:22:36.000 [async-pool-2] INFO  com.example.controller.AdminController - GET /api/users - 200 OK (5616ms)
+2025-03-01 04:24:14.000 [http-nio-8080-exec-2] DEBUG  com.example.config.DatabaseConfig - Detailed trace for request 42da18de-e982-466a-b06f-a37cc928c343
+2025-03-01 04:25:25.000 [kafka-consumer-2] INFO  com.example.service.OrderService - DELETE /api/sessions/99597 - 204 No Content
+2025-03-01 04:27:25.000 [kafka-consumer-2] INFO  com.example.repository.ProductRepository - POST /api/orders - 201 Created (1388ms)
+2025-03-01 04:28:03.000 [http-nio-8080-exec-10] WARN  com.example.controller.UserController - Low stock alert for product SKU-7338 (remaining: 29)
+2025-03-01 04:28:22.000 [scheduler-2] INFO  com.example.service.PaymentService - Cache refreshed successfully (1112 entries)
+2025-03-01 04:29:16.000 [http-nio-8080-exec-5] INFO  com.example.repository.UserRepository - GET /health - 200 OK (2ms)
+2025-03-01 04:31:11.000 [http-nio-8080-exec-3] INFO  com.example.repository.UserRepository - SSL certificate valid until 2026-12-31
+2025-03-01 04:32:01.000 [http-nio-8080-exec-9] INFO  com.example.config.DatabaseConfig - PUT /api/users/profile - 200 OK (4050ms)
+2025-03-01 04:33:18.000 [http-nio-8080-exec-2] INFO  com.example.service.OrderService - DELETE /api/sessions/42305 - 204 No Content
+2025-03-01 04:34:51.000 [scheduler-2] INFO  com.example.repository.OrderRepository - Email sent to user_87820@example.com
+2025-03-01 04:36:33.000 [http-nio-8080-exec-6] INFO  com.example.job.SyncJob - Configuration reloaded from application.properties
+2025-03-01 04:36:59.000 [http-nio-8080-exec-5] INFO  com.example.controller.UserController - Metrics published: CPU=42%, Memory=69%, Connections=7/10
+2025-03-01 04:38:46.000 [scheduler-2] INFO  com.example.service.UserService - Email sent to user_58238@example.com
+2025-03-01 04:40:42.000 [http-nio-8080-exec-4] INFO  com.example.config.DatabaseConfig - Request processed: correlationId=a75a8525-8086-4a29-85a8-27ffbe422be0
+2025-03-01 04:42:11.000 [http-nio-8080-exec-9] WARN  com.example.controller.AdminController - Database connection pool usage high (67%)
+2025-03-01 04:44:08.000 [http-nio-8080-exec-2] INFO  com.example.job.MetricsJob - Database connection pool initialized (size: 10)
+2025-03-01 04:45:05.000 [http-nio-8080-exec-7] INFO  com.example.job.BackupJob - PUT /api/users/profile - 200 OK (3423ms)
+2025-03-01 04:46:22.000 [http-nio-8080-exec-6] DEBUG  com.example.config.SecurityConfig - Detailed trace for request e7d8c54c-9865-43bd-a9d7-19ce8a04671a
+2025-03-01 04:47:19.000 [http-nio-8080-exec-10] INFO  com.example.job.SyncJob - POST /api/orders - 201 Created (3206ms)
+2025-03-01 04:47:33.000 [scheduler-2] INFO  com.example.controller.AdminController - SSL certificate valid until 2026-12-31
+2025-03-01 04:48:35.000 [http-nio-8080-exec-5] INFO  com.example.service.InventoryService - DELETE /api/sessions/65818 - 204 No Content
+2025-03-01 04:49:49.000 [async-pool-2] INFO  com.example.controller.OrderController - Metrics published: CPU=90%, Memory=66%, Connections=10/10
+2025-03-01 04:50:46.000 [async-pool-2] INFO  com.example.controller.PaymentController - DELETE /api/sessions/81413 - 204 No Content
+2025-03-01 04:51:25.000 [http-nio-8080-exec-5] INFO  com.example.service.ReportService - Request processed: correlationId=9b849264-6fd6-468b-880c-8d117bdae7df
+2025-03-01 04:51:32.000 [http-nio-8080-exec-3] WARN  com.example.controller.AdminController - Connection pool exhaustion approaching: 4044/10 active
+2025-03-01 04:53:01.000 [async-pool-2] INFO  com.example.service.DatabaseService - GET /api/products - 200 OK (3519ms)
+2025-03-01 04:53:12.000 [async-pool-1] WARN  com.example.service.AuthService - Response time degradation detected on /api/orders (1271ms avg)
+2025-03-01 04:54:31.000 [scheduler-2] WARN  com.example.config.SecurityConfig - JWT token expiring in less than 5 minutes for user_46504
+2025-03-01 04:56:00.000 [http-nio-8080-exec-3] INFO  com.example.service.UserService - GET /api/users - 200 OK (4474ms)
+2025-03-01 04:57:19.000 [scheduler-2] INFO  com.example.service.OrderService - PUT /api/users/profile - 200 OK (6089ms)
+2025-03-01 04:58:06.000 [http-nio-8080-exec-6] INFO  com.example.controller.OrderController - Cache refreshed successfully (4185 entries)
+2025-03-01 04:59:07.000 [async-pool-2] WARN  com.example.job.MetricsJob - Cache miss rate exceeding threshold (53%)
+2025-03-01 05:00:37.000 [scheduler-2] INFO  com.example.service.InventoryService - Message published to queue: order.created
+2025-03-01 05:01:21.000 [http-nio-8080-exec-9] INFO  com.example.service.EmailService - Database connection pool initialized (size: 10)
+2025-03-01 05:03:00.000 [async-pool-2] INFO  com.example.service.EmailService - Message published to queue: order.created
+2025-03-01 05:04:51.000 [http-nio-8080-exec-10] INFO  com.example.repository.OrderRepository - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 05:04:52.000 [http-nio-8080-exec-4] INFO  com.example.repository.OrderRepository - GET /health - 200 OK (2ms)
+2025-03-01 05:04:55.000 [http-nio-8080-exec-6] INFO  com.example.repository.ProductRepository - Kafka consumer joined group: order-processing
+2025-03-01 05:05:26.000 [main] INFO  com.example.controller.AdminController - POST /api/orders - 201 Created (2358ms)
+2025-03-01 05:05:52.000 [http-nio-8080-exec-4] WARN  com.example.service.UserService - Payment gateway response slow (5011ms)
+2025-03-01 05:07:51.000 [scheduler-2] INFO  com.example.repository.ProductRepository - POST /api/orders - 201 Created (5744ms)
+2025-03-01 05:07:59.000 [http-nio-8080-exec-10] INFO  com.example.service.ReportService - Message published to queue: order.created
+2025-03-01 05:08:01.000 [kafka-consumer-2] INFO  com.example.controller.OrderController - Batch processing completed: 1688 records in 7426ms
+2025-03-01 05:09:13.000 [scheduler-2] WARN  com.example.service.OrderService - Circuit breaker half-open for payment-service
+2025-03-01 05:10:00.000 [http-nio-8080-exec-8] ERROR  com.example.config.DatabaseConfig - DataIntegrityViolationException: Duplicate key
+org.springframework.dao.DataIntegrityViolationException: Duplicate entry 'order-12345' for key 'PRIMARY'
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)
+	at com.example.repository.OrderRepository.save(OrderRepository.java:45)
+	at com.example.service.OrderService.createOrder(OrderService.java:89)
+2025-03-01 05:11:32.000 [http-nio-8080-exec-6] DEBUG  com.example.job.CleanupJob - Detailed trace for request 806048a5-544d-4580-aa63-a1d36e80d9be
+2025-03-01 05:13:04.000 [scheduler-1] INFO  com.example.service.EmailService - POST /api/orders - 201 Created (1010ms)
+2025-03-01 05:14:00.000 [async-pool-2] INFO  com.example.config.SecurityConfig - Message published to queue: order.created
+2025-03-01 05:14:15.000 [scheduler-2] ERROR  com.example.job.BackupJob - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-01 05:15:23.000 [main] DEBUG  com.example.config.DatabaseConfig - Detailed trace for request 6f37c449-97b4-4933-a0ee-c9a18573d60b
+2025-03-01 05:17:20.000 [http-nio-8080-exec-4] ERROR  com.example.service.DatabaseService - ClassCastException: cannot cast String to Integer
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer
+	at com.example.service.ReportService.aggregateData(ReportService.java:123)
+	at com.example.job.BackupJob.generateReport(BackupJob.java:67)
+2025-03-01 05:19:20.000 [http-nio-8080-exec-2] INFO  com.example.service.PaymentService - GET /api/products - 200 OK (7738ms)
+2025-03-01 05:21:19.000 [async-pool-2] INFO  com.example.service.DatabaseService - Batch processing completed: 2814 records in 4402ms
+2025-03-01 05:23:16.000 [http-nio-8080-exec-1] INFO  com.example.service.DatabaseService - Batch processing completed: 2447 records in 2238ms
+2025-03-01 05:24:10.000 [kafka-consumer-2] INFO  com.example.controller.UserController - SSL certificate valid until 2026-12-31
+2025-03-01 05:24:21.000 [scheduler-2] INFO  com.example.repository.ProductRepository - Scheduled job completed in 2920ms
+2025-03-01 05:25:09.000 [kafka-consumer-1] INFO  com.example.service.PaymentService - Batch processing completed: 2884 records in 3052ms
+2025-03-01 05:25:34.000 [async-pool-1] WARN  com.example.service.CacheService - Low stock alert for product SKU-90317 (remaining: 4806)
+2025-03-01 05:25:36.000 [http-nio-8080-exec-3] INFO  com.example.service.EmailService - Email sent to user_19747@example.com
+2025-03-01 05:26:01.000 [http-nio-8080-exec-9] INFO  com.example.controller.HealthController - SSL certificate valid until 2026-12-31
+2025-03-01 05:26:17.000 [http-nio-8080-exec-4] WARN  com.example.service.ReportService - Low stock alert for product SKU-30521 (remaining: 1699)
+2025-03-01 05:26:49.000 [kafka-consumer-2] INFO  com.example.service.ReportService - Request processed: correlationId=1d8a25bf-f042-493a-b3a5-59185600544c
+2025-03-01 05:27:15.000 [main] INFO  com.example.service.DatabaseService - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 05:28:41.000 [main] INFO  com.example.controller.UserController - Cache refreshed successfully (1679 entries)
+2025-03-01 05:28:44.000 [http-nio-8080-exec-7] INFO  com.example.service.AuthService - GET /api/users - 200 OK (7934ms)
+2025-03-01 05:30:42.000 [kafka-consumer-2] INFO  com.example.service.DatabaseService - Batch processing completed: 2048 records in 332ms
+2025-03-01 05:31:55.000 [http-nio-8080-exec-8] INFO  com.example.job.SyncJob - PUT /api/users/profile - 200 OK (5563ms)
+2025-03-01 05:33:45.000 [http-nio-8080-exec-1] WARN  com.example.service.EmailService - Connection pool exhaustion approaching: 4748/10 active
+2025-03-01 05:34:11.000 [http-nio-8080-exec-2] INFO  com.example.config.DatabaseConfig - Database connection pool initialized (size: 10)
+2025-03-01 05:35:04.000 [http-nio-8080-exec-4] WARN  com.example.job.MetricsJob - Cache miss rate exceeding threshold (48%)
+2025-03-01 05:36:25.000 [http-nio-8080-exec-9] INFO  com.example.controller.AdminController - POST /api/orders - 201 Created (149ms)
+2025-03-01 05:37:53.000 [http-nio-8080-exec-3] INFO  com.example.service.AuthService - Cache refreshed successfully (316 entries)
+2025-03-01 05:39:53.000 [kafka-consumer-1] INFO  com.example.job.BackupJob - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 05:40:44.000 [http-nio-8080-exec-5] DEBUG  com.example.service.OrderService - Detailed trace for request 1dac7cdd-7f5c-49cd-abc5-b407eebde297
+2025-03-01 05:42:29.000 [async-pool-2] INFO  com.example.service.ReportService - User authenticated successfully: user_49754
+2025-03-01 05:43:38.000 [http-nio-8080-exec-6] WARN  com.example.controller.PaymentController - Connection pool exhaustion approaching: 1082/10 active
+2025-03-01 05:43:53.000 [http-nio-8080-exec-7] INFO  com.example.repository.OrderRepository - Metrics published: CPU=88%, Memory=80%, Connections=3/10
+2025-03-01 05:44:39.000 [kafka-consumer-1] INFO  com.example.repository.UserRepository - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 05:46:05.000 [async-pool-2] ERROR  com.example.service.OrderService - Authentication failed for user: admin_25532
+2025-03-01 05:47:20.000 [http-nio-8080-exec-8] INFO  com.example.service.NotificationService - DELETE /api/sessions/61398 - 204 No Content
+2025-03-01 05:48:06.000 [http-nio-8080-exec-6] INFO  com.example.controller.UserController - Email sent to user_9886@example.com
+2025-03-01 05:48:24.000 [scheduler-2] INFO  com.example.job.SyncJob - User authenticated successfully: user_82054
+2025-03-01 05:48:59.000 [async-pool-1] WARN  com.example.controller.AdminController - Disk usage at 40% on /var/log
+2025-03-01 05:49:25.000 [http-nio-8080-exec-8] ERROR  com.example.controller.AdminController - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-01 05:50:18.000 [kafka-consumer-1] INFO  com.example.service.OrderService - User authenticated successfully: user_30343
+2025-03-01 05:52:12.000 [kafka-consumer-1] ERROR  com.example.service.PaymentService - Authentication failed for user: admin_34543
+2025-03-01 05:52:37.000 [http-nio-8080-exec-4] INFO  com.example.controller.OrderController - Cache refreshed successfully (4440 entries)
+2025-03-01 05:53:16.000 [scheduler-2] ERROR  com.example.service.PaymentService - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-01 05:54:06.000 [http-nio-8080-exec-8] INFO  com.example.service.ReportService - PUT /api/users/profile - 200 OK (2114ms)
+2025-03-01 05:54:46.000 [scheduler-2] ERROR  com.example.controller.AdminController - Authentication failed for user: admin_44386
+2025-03-01 05:56:26.000 [http-nio-8080-exec-10] WARN  com.example.repository.ProductRepository - Disk usage at 44% on /var/log
+2025-03-01 05:57:36.000 [http-nio-8080-exec-7] INFO  com.example.service.PaymentService - SSL certificate valid until 2026-12-31
+2025-03-01 05:58:22.000 [http-nio-8080-exec-4] INFO  com.example.service.AuthService - Kafka consumer joined group: order-processing
+2025-03-01 05:59:18.000 [http-nio-8080-exec-8] INFO  com.example.repository.OrderRepository - Kafka consumer joined group: order-processing
+2025-03-01 06:01:15.000 [scheduler-2] INFO  com.example.service.ReportService - DELETE /api/sessions/86291 - 204 No Content
+2025-03-01 06:01:41.000 [main] INFO  com.example.config.DatabaseConfig - User authenticated successfully: user_86230
+2025-03-01 06:02:39.000 [http-nio-8080-exec-5] INFO  com.example.service.UserService - PUT /api/users/profile - 200 OK (700ms)
+2025-03-01 06:02:47.000 [http-nio-8080-exec-1] FATAL  com.example.controller.OrderController - Disk full - cannot write to /var/log
+java.io.IOException: No space left on device
+	at java.base/java.io.FileOutputStream.writeBytes(FileOutputStream.java:233)
+	at ch.qos.logback.core.FileAppender.writeOut(FileAppender.java:156)
+2025-03-01 06:03:50.000 [kafka-consumer-1] WARN  com.example.job.BackupJob - Disk usage at 83% on /var/log
+2025-03-01 06:04:30.000 [http-nio-8080-exec-10] INFO  com.example.service.AuthService - Kafka consumer joined group: order-processing
+2025-03-01 06:05:02.000 [scheduler-1] INFO  com.example.repository.OrderRepository - GET /api/products - 200 OK (1628ms)
+2025-03-01 06:05:10.000 [async-pool-1] INFO  com.example.service.DatabaseService - Request processed: correlationId=0aaa5272-a0f2-48ed-bf69-8930f881e1ec
+2025-03-01 06:06:40.000 [main] INFO  com.example.job.BackupJob - Cache refreshed successfully (1426 entries)
+2025-03-01 06:06:45.000 [http-nio-8080-exec-4] INFO  com.example.controller.UserController - SSL certificate valid until 2026-12-31
+2025-03-01 06:06:53.000 [http-nio-8080-exec-10] INFO  com.example.controller.HealthController - Kafka consumer joined group: order-processing
+2025-03-01 06:08:49.000 [scheduler-2] INFO  com.example.repository.ProductRepository - Cache refreshed successfully (4424 entries)
+2025-03-01 06:10:06.000 [scheduler-2] ERROR  com.example.service.PaymentService - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-01 06:11:42.000 [scheduler-1] INFO  com.example.config.SecurityConfig - Database connection pool initialized (size: 10)
+2025-03-01 06:13:30.000 [http-nio-8080-exec-1] INFO  com.example.config.DatabaseConfig - Database connection pool initialized (size: 10)
+2025-03-01 06:14:47.000 [http-nio-8080-exec-3] INFO  com.example.job.MetricsJob - GET /api/products - 200 OK (6916ms)
+2025-03-01 06:15:02.000 [http-nio-8080-exec-1] INFO  com.example.job.SyncJob - Cleanup job started - removed 1017 expired sessions
+2025-03-01 06:16:32.000 [http-nio-8080-exec-6] INFO  com.example.config.SecurityConfig - Email sent to user_7909@example.com
+2025-03-01 06:18:15.000 [http-nio-8080-exec-3] ERROR  com.example.controller.HealthController - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-01 06:18:31.000 [http-nio-8080-exec-6] INFO  com.example.service.CacheService - SSL certificate valid until 2026-12-31
+2025-03-01 06:18:39.000 [async-pool-2] INFO  com.example.service.InventoryService - GET /health - 200 OK (2ms)
+2025-03-01 06:18:43.000 [async-pool-2] INFO  com.example.job.BackupJob - DELETE /api/sessions/69448 - 204 No Content
+2025-03-01 06:18:59.000 [http-nio-8080-exec-9] INFO  com.example.config.DatabaseConfig - GET /api/products - 200 OK (6669ms)
+2025-03-01 06:20:05.000 [async-pool-1] ERROR  com.example.service.AuthService - SocketTimeoutException: Read timed out
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:285)
+	at com.example.service.EmailService.send(EmailService.java:56)
+	at com.example.job.MetricsJob.reportMetrics(MetricsJob.java:45)
+2025-03-01 06:21:02.000 [http-nio-8080-exec-10] INFO  com.example.repository.UserRepository - GET /health - 200 OK (2ms)
+2025-03-01 06:21:28.000 [http-nio-8080-exec-5] INFO  com.example.service.AuthService - PUT /api/users/profile - 200 OK (3524ms)
+2025-03-01 06:23:20.000 [http-nio-8080-exec-7] INFO  com.example.service.ReportService - GET /health - 200 OK (2ms)
+2025-03-01 06:24:57.000 [scheduler-1] INFO  com.example.job.SyncJob - User authenticated successfully: user_80808
+2025-03-01 06:26:26.000 [http-nio-8080-exec-4] INFO  com.example.service.UserService - Metrics published: CPU=22%, Memory=87%, Connections=5/10
+2025-03-01 06:26:45.000 [http-nio-8080-exec-9] INFO  com.example.job.MetricsJob - GET /api/products - 200 OK (5561ms)
+2025-03-01 06:28:35.000 [http-nio-8080-exec-4] INFO  com.example.repository.OrderRepository - GET /api/products - 200 OK (2611ms)
+2025-03-01 06:29:55.000 [async-pool-1] INFO  com.example.service.ReportService - Email sent to user_78310@example.com
+2025-03-01 06:31:29.000 [scheduler-1] INFO  com.example.service.InventoryService - SSL certificate valid until 2026-12-31
+2025-03-01 06:31:33.000 [http-nio-8080-exec-10] INFO  com.example.job.SyncJob - Database connection pool initialized (size: 10)
+2025-03-01 06:32:42.000 [main] ERROR  com.example.service.CacheService - HttpClientErrorException: 429 Too Many Requests
+org.springframework.web.client.HttpClientErrorException$TooManyRequests: 429 Too Many Requests
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:137)
+	at com.example.service.NotificationService.sendPush(NotificationService.java:78)
+	at com.example.service.OrderService.notifyCustomer(OrderService.java:134)
+2025-03-01 06:34:28.000 [scheduler-2] INFO  com.example.job.BackupJob - Configuration reloaded from application.properties
+2025-03-01 06:35:48.000 [http-nio-8080-exec-8] INFO  com.example.controller.HealthController - POST /api/orders - 201 Created (6152ms)
+2025-03-01 06:36:42.000 [http-nio-8080-exec-3] INFO  com.example.job.BackupJob - POST /api/orders - 201 Created (1905ms)
+2025-03-01 06:38:28.000 [async-pool-2] INFO  com.example.service.PaymentService - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 06:39:45.000 [async-pool-1] INFO  com.example.repository.UserRepository - Database connection pool initialized (size: 10)
+2025-03-01 06:41:36.000 [kafka-consumer-1] INFO  com.example.repository.OrderRepository - Metrics published: CPU=58%, Memory=32%, Connections=4/10
+2025-03-01 06:42:46.000 [scheduler-1] ERROR  com.example.job.BackupJob - AccessDeniedException: User not authorized
+org.springframework.security.access.AccessDeniedException: Access is denied
+	at org.springframework.security.access.vote.AffirmativeBased.decide(AffirmativeBased.java:73)
+	at com.example.controller.AdminController.deleteUser(AdminController.java:89)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:897)
+2025-03-01 06:43:30.000 [http-nio-8080-exec-5] INFO  com.example.config.DatabaseConfig - Configuration reloaded from application.properties
+2025-03-01 06:45:30.000 [main] INFO  com.example.config.DatabaseConfig - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 06:46:55.000 [http-nio-8080-exec-2] INFO  com.example.controller.OrderController - SSL certificate valid until 2026-12-31
+2025-03-01 06:47:48.000 [http-nio-8080-exec-2] INFO  com.example.service.DatabaseService - GET /health - 200 OK (2ms)
+2025-03-01 06:48:01.000 [http-nio-8080-exec-6] INFO  com.example.service.DatabaseService - GET /api/users - 200 OK (1504ms)
+2025-03-01 06:49:44.000 [scheduler-1] INFO  com.example.controller.AdminController - PUT /api/users/profile - 200 OK (2179ms)
+2025-03-01 06:50:48.000 [async-pool-2] INFO  com.example.service.OrderService - DELETE /api/sessions/27360 - 204 No Content
+2025-03-01 06:52:44.000 [async-pool-2] WARN  com.example.service.UserService - Deprecated API endpoint called: /api/v1/users
+2025-03-01 06:53:48.000 [kafka-consumer-1] INFO  com.example.service.DatabaseService - Email sent to user_22038@example.com
+2025-03-01 06:55:16.000 [http-nio-8080-exec-10] INFO  com.example.controller.AdminController - Message published to queue: order.created
+2025-03-01 06:56:05.000 [http-nio-8080-exec-7] INFO  com.example.repository.OrderRepository - User authenticated successfully: user_48017
+2025-03-01 06:56:43.000 [scheduler-2] INFO  com.example.service.ReportService - Database connection pool initialized (size: 10)
+2025-03-01 06:58:26.000 [http-nio-8080-exec-3] INFO  com.example.service.OrderService - Scheduled job completed in 5314ms
+2025-03-01 06:59:10.000 [main] INFO  com.example.config.SecurityConfig - Database connection pool initialized (size: 10)
+2025-03-01 07:00:23.000 [http-nio-8080-exec-7] INFO  com.example.job.MetricsJob - Batch processing completed: 691 records in 1120ms
+2025-03-01 07:02:14.000 [http-nio-8080-exec-8] INFO  com.example.service.ReportService - DELETE /api/sessions/1826 - 204 No Content
+2025-03-01 07:03:02.000 [http-nio-8080-exec-3] INFO  com.example.service.UserService - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 07:03:17.000 [http-nio-8080-exec-8] INFO  com.example.job.MetricsJob - User authenticated successfully: user_16457
+2025-03-01 07:04:25.000 [kafka-consumer-1] INFO  com.example.job.BackupJob - PUT /api/users/profile - 200 OK (7509ms)
+2025-03-01 07:04:27.000 [http-nio-8080-exec-7] WARN  com.example.controller.UserController - Slow query detected: SELECT * FROM orders WHERE status='pending' (1985ms)
+2025-03-01 07:04:58.000 [async-pool-2] INFO  com.example.repository.OrderRepository - Email sent to user_63785@example.com
+2025-03-01 07:05:05.000 [kafka-consumer-1] INFO  com.example.job.CleanupJob - SSL certificate valid until 2026-12-31
+2025-03-01 07:06:20.000 [async-pool-1] INFO  com.example.service.EmailService - Cache refreshed successfully (3932 entries)
+2025-03-01 07:06:29.000 [kafka-consumer-2] INFO  com.example.service.InventoryService - Cache refreshed successfully (2499 entries)
+2025-03-01 07:07:26.000 [kafka-consumer-1] WARN  com.example.repository.ProductRepository - Payment gateway response slow (2824ms)
+2025-03-01 07:08:40.000 [main] INFO  com.example.service.CacheService - GET /api/products - 200 OK (1641ms)
+2025-03-01 07:09:07.000 [async-pool-1] INFO  com.example.service.UserService - GET /api/products - 200 OK (4358ms)
+2025-03-01 07:11:05.000 [async-pool-1] WARN  com.example.service.PaymentService - Cache miss rate exceeding threshold (54%)
+2025-03-01 07:12:09.000 [kafka-consumer-1] INFO  com.example.service.AuthService - GET /api/users - 200 OK (5498ms)
+2025-03-01 07:13:47.000 [http-nio-8080-exec-8] INFO  com.example.config.SecurityConfig - Message published to queue: order.created
+2025-03-01 07:14:22.000 [http-nio-8080-exec-4] INFO  com.example.service.UserService - Configuration reloaded from application.properties
+2025-03-01 07:15:36.000 [http-nio-8080-exec-2] WARN  com.example.job.BackupJob - Disk usage at 86% on /var/log
+2025-03-01 07:17:29.000 [http-nio-8080-exec-10] WARN  com.example.controller.AdminController - Rate limit approaching for client IP 192.168.1.126 (2514/100 requests)
+2025-03-01 07:18:37.000 [async-pool-1] INFO  com.example.service.ReportService - Scheduled job completed in 1018ms
+2025-03-01 07:19:05.000 [http-nio-8080-exec-4] INFO  com.example.repository.OrderRepository - Database connection pool initialized (size: 10)
+2025-03-01 07:20:15.000 [http-nio-8080-exec-9] INFO  com.example.config.DatabaseConfig - Scheduled job completed in 433ms
+2025-03-01 07:22:14.000 [http-nio-8080-exec-5] INFO  com.example.service.EmailService - Kafka consumer joined group: order-processing
+2025-03-01 07:22:20.000 [http-nio-8080-exec-3] INFO  com.example.job.CleanupJob - Email sent to user_12581@example.com
+2025-03-01 07:23:53.000 [http-nio-8080-exec-6] INFO  com.example.service.CacheService - Request processed: correlationId=37320f7b-03d9-42e3-994e-075d836ff32e
+2025-03-01 07:25:01.000 [http-nio-8080-exec-2] INFO  com.example.controller.OrderController - Email sent to user_6831@example.com
+2025-03-01 07:25:05.000 [async-pool-2] INFO  com.example.service.CacheService - Cleanup job started - removed 4668 expired sessions
+2025-03-01 07:25:47.000 [http-nio-8080-exec-1] WARN  com.example.job.SyncJob - Disk usage at 83% on /var/log
+2025-03-01 07:27:21.000 [http-nio-8080-exec-5] WARN  com.example.service.CacheService - Cache miss rate exceeding threshold (59%)
+2025-03-01 07:29:06.000 [http-nio-8080-exec-6] INFO  com.example.controller.OrderController - Configuration reloaded from application.properties
+2025-03-01 07:29:45.000 [http-nio-8080-exec-4] INFO  com.example.config.SecurityConfig - Cache refreshed successfully (432 entries)
+2025-03-01 07:30:21.000 [http-nio-8080-exec-2] ERROR  com.example.service.NotificationService - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-01 07:30:25.000 [http-nio-8080-exec-3] INFO  com.example.service.CacheService - SSL certificate valid until 2026-12-31
+2025-03-01 07:31:34.000 [http-nio-8080-exec-5] INFO  com.example.job.SyncJob - Email sent to user_53362@example.com
+2025-03-01 07:31:41.000 [scheduler-2] INFO  com.example.controller.PaymentController - POST /api/orders - 201 Created (6839ms)
+2025-03-01 07:32:28.000 [http-nio-8080-exec-7] INFO  com.example.service.PaymentService - GET /api/products - 200 OK (166ms)
+2025-03-01 07:32:45.000 [http-nio-8080-exec-10] INFO  com.example.config.DatabaseConfig - Email sent to user_3618@example.com
+2025-03-01 07:34:24.000 [main] INFO  com.example.service.AuthService - Request processed: correlationId=5876fa13-7bc0-498e-9d53-f6e369d939ea
+2025-03-01 07:35:34.000 [http-nio-8080-exec-6] INFO  com.example.job.SyncJob - Batch processing completed: 4355 records in 7711ms
+2025-03-01 07:37:21.000 [http-nio-8080-exec-10] INFO  com.example.config.SecurityConfig - Scheduled job completed in 2047ms
+2025-03-01 07:38:53.000 [http-nio-8080-exec-3] WARN  com.example.service.CacheService - Cache miss rate exceeding threshold (75%)
+2025-03-01 07:40:16.000 [http-nio-8080-exec-1] ERROR  com.example.controller.AdminController - External API returned 500: https://api.partner.com/v2/sync
+2025-03-01 07:41:56.000 [http-nio-8080-exec-6] INFO  com.example.service.NotificationService - Email sent to user_1831@example.com
+2025-03-01 07:42:04.000 [http-nio-8080-exec-10] INFO  com.example.controller.HealthController - Scheduled job completed in 1935ms
+2025-03-01 07:44:00.000 [http-nio-8080-exec-6] INFO  com.example.job.CleanupJob - Batch processing completed: 1663 records in 3041ms
+2025-03-01 07:45:22.000 [kafka-consumer-1] INFO  com.example.service.EmailService - Message published to queue: order.created
+2025-03-01 07:47:12.000 [kafka-consumer-1] INFO  com.example.service.OrderService - Metrics published: CPU=95%, Memory=59%, Connections=2/10
+2025-03-01 07:47:40.000 [kafka-consumer-2] WARN  com.example.job.MetricsJob - Deprecated API endpoint called: /api/v1/users
+2025-03-01 07:48:16.000 [scheduler-1] INFO  com.example.job.SyncJob - PUT /api/users/profile - 200 OK (488ms)
+2025-03-01 07:49:54.000 [http-nio-8080-exec-5] INFO  com.example.service.OrderService - Message published to queue: order.created
+2025-03-01 07:51:30.000 [http-nio-8080-exec-1] INFO  com.example.job.MetricsJob - Batch processing completed: 1673 records in 1568ms
+2025-03-01 07:52:51.000 [async-pool-2] INFO  com.example.service.EmailService - DELETE /api/sessions/6041 - 204 No Content
+2025-03-01 07:53:08.000 [http-nio-8080-exec-1] INFO  com.example.controller.OrderController - Configuration reloaded from application.properties
+2025-03-01 07:54:54.000 [http-nio-8080-exec-8] INFO  com.example.job.BackupJob - Database connection pool initialized (size: 10)
+2025-03-01 07:55:13.000 [http-nio-8080-exec-2] WARN  com.example.service.OrderService - Circuit breaker half-open for payment-service
+2025-03-01 07:55:55.000 [http-nio-8080-exec-1] DEBUG  com.example.repository.UserRepository - Detailed trace for request d583b308-dd61-4426-8c62-573610480c7d
+2025-03-01 07:56:35.000 [kafka-consumer-2] INFO  com.example.repository.UserRepository - POST /api/orders - 201 Created (2167ms)
+2025-03-01 07:56:43.000 [http-nio-8080-exec-5] INFO  com.example.config.DatabaseConfig - Scheduled job completed in 5811ms
+2025-03-01 07:57:58.000 [http-nio-8080-exec-10] INFO  com.example.service.UserService - Metrics published: CPU=70%, Memory=45%, Connections=4/10
+2025-03-01 07:58:17.000 [main] WARN  com.example.controller.PaymentController - Response time degradation detected on /api/orders (7464ms avg)
+2025-03-01 08:00:14.000 [http-nio-8080-exec-2] INFO  com.example.service.DatabaseService - Cache refreshed successfully (3724 entries)
+2025-03-01 08:02:10.000 [http-nio-8080-exec-2] INFO  com.example.repository.UserRepository - Configuration reloaded from application.properties
+2025-03-01 08:02:21.000 [http-nio-8080-exec-6] INFO  com.example.service.NotificationService - Metrics published: CPU=92%, Memory=47%, Connections=5/10
+2025-03-01 08:03:58.000 [kafka-consumer-1] INFO  com.example.controller.PaymentController - POST /api/orders - 201 Created (7186ms)
+2025-03-01 08:05:52.000 [http-nio-8080-exec-4] INFO  com.example.job.MetricsJob - GET /api/users - 200 OK (3283ms)
+2025-03-01 08:07:10.000 [http-nio-8080-exec-10] WARN  com.example.repository.UserRepository - Connection pool exhaustion approaching: 2011/10 active
+2025-03-01 08:07:18.000 [kafka-consumer-2] INFO  com.example.service.PaymentService - Batch processing completed: 4859 records in 2250ms
+2025-03-01 08:08:58.000 [async-pool-1] INFO  com.example.service.NotificationService - POST /api/orders - 201 Created (6896ms)
+2025-03-01 08:09:19.000 [scheduler-2] INFO  com.example.service.CacheService - Cache refreshed successfully (203 entries)
+2025-03-01 08:10:40.000 [http-nio-8080-exec-9] INFO  com.example.config.DatabaseConfig - Scheduled job completed in 5186ms
+2025-03-01 08:11:38.000 [http-nio-8080-exec-5] INFO  com.example.service.EmailService - GET /api/products - 200 OK (5447ms)
+2025-03-01 08:13:10.000 [kafka-consumer-1] ERROR  com.example.controller.UserController - JsonParseException: Unexpected token at position 45
+com.fasterxml.jackson.core.JsonParseException: Unexpected token at position 45
+	at com.fasterxml.jackson.core.JsonParser._reportUnexpectedToken(JsonParser.java:234)
+	at com.example.service.UserService.parseProfile(UserService.java:67)
+	at com.example.controller.UserController.getProfile(UserController.java:89)
+2025-03-01 08:13:20.000 [kafka-consumer-1] INFO  com.example.job.MetricsJob - Kafka consumer joined group: order-processing
+2025-03-01 08:14:11.000 [http-nio-8080-exec-5] INFO  com.example.service.UserService - Email sent to user_93973@example.com
+2025-03-01 08:14:48.000 [http-nio-8080-exec-5] INFO  com.example.controller.AdminController - Configuration reloaded from application.properties
+2025-03-01 08:15:52.000 [http-nio-8080-exec-9] INFO  com.example.job.BackupJob - User authenticated successfully: user_49038
+2025-03-01 08:17:48.000 [http-nio-8080-exec-2] FATAL  com.example.repository.OrderRepository - Disk full - cannot write to /var/log
+java.io.IOException: No space left on device
+	at java.base/java.io.FileOutputStream.writeBytes(FileOutputStream.java:233)
+	at ch.qos.logback.core.FileAppender.writeOut(FileAppender.java:156)
+2025-03-01 08:19:12.000 [http-nio-8080-exec-4] WARN  com.example.job.SyncJob - Cache miss rate exceeding threshold (82%)
+2025-03-01 08:20:59.000 [http-nio-8080-exec-10] INFO  com.example.job.SyncJob - User authenticated successfully: user_40769
+2025-03-01 08:21:05.000 [main] INFO  com.example.controller.OrderController - Configuration reloaded from application.properties
+2025-03-01 08:22:52.000 [async-pool-2] INFO  com.example.config.DatabaseConfig - PUT /api/users/profile - 200 OK (7898ms)
+2025-03-01 08:24:37.000 [http-nio-8080-exec-9] DEBUG  com.example.repository.UserRepository - Detailed trace for request b5c8edc1-2e0c-4eee-8f7b-0a8730013472
+2025-03-01 08:25:15.000 [kafka-consumer-1] INFO  com.example.service.CacheService - Metrics published: CPU=16%, Memory=87%, Connections=4/10
+2025-03-01 08:27:09.000 [http-nio-8080-exec-3] INFO  com.example.controller.PaymentController - Metrics published: CPU=76%, Memory=76%, Connections=6/10
+2025-03-01 08:28:38.000 [http-nio-8080-exec-7] INFO  com.example.repository.OrderRepository - Report generated: monthly_sales_2025-03.pdf
+2025-03-01 08:28:40.000 [scheduler-1] INFO  com.example.service.DatabaseService - Kafka consumer joined group: order-processing
+2025-03-01 08:29:56.000 [async-pool-1] INFO  com.example.service.CacheService - PUT /api/users/profile - 200 OK (1181ms)
