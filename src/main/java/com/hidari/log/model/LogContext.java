@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class LogContext {
@@ -76,7 +77,7 @@ public class LogContext {
     public LocalDateTime startTime() {
         return entries.stream()
                 .map(LogEntry::timestamp)
-                .filter(t -> t != null)
+                .filter(Objects::nonNull)
                 .min(LocalDateTime::compareTo)
                 .orElse(null);
     }
@@ -84,7 +85,7 @@ public class LogContext {
     public LocalDateTime endTime() {
         return entries.stream()
                 .map(LogEntry::timestamp)
-                .filter(t -> t != null)
+                .filter(Objects::nonNull)
                 .max(LocalDateTime::compareTo)
                 .orElse(null);
     }
