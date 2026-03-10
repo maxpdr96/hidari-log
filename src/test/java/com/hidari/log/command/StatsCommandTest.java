@@ -39,4 +39,22 @@ class StatsCommandTest {
 
         assertTrue(output.startsWith("heatmap"));
     }
+
+    @Test
+    void fluxosDelegatesArguments() {
+        when(service.flows("2s", 2, 5)).thenReturn("fluxos");
+
+        String output = command.fluxos("2s", 2, 5);
+
+        assertTrue(output.startsWith("fluxos"));
+    }
+
+    @Test
+    void chamadaProvavelDelegatesArguments() {
+        when(service.probableCall(42L, "1s")).thenReturn("chamada");
+
+        String output = command.chamadaProvavel(42L, "1s");
+
+        assertTrue(output.startsWith("chamada"));
+    }
 }

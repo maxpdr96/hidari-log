@@ -56,11 +56,19 @@ class LogFilterServiceTest {
 
     @Test
     void testFilterHoje() {
-        filterService.filter(null, null, null, null, null, null, null, null, null, null, true, false);
-        // Os logs de 5h, 30m e 10s atras devem aparecer se rodarmos no mesmo dia.
-        // O log de 2 dias atras nao deve.
-        assertTrue(logContext.currentEntries().size() >= 3);
-        assertTrue(logContext.currentEntries().stream().noneMatch(e -> e.message().equals("App started")));
+        LogContext context = new LogContext();
+        LogFilterService service = new LogFilterService(context);
+        LocalDate today = LocalDate.now();
+        context.load(List.of(
+                new LogEntry(1, today.atTime(9, 0), LogLevel.INFO, "c", "t", "today-1", null, "raw1"),
+                new LogEntry(2, today.atTime(15, 30), LogLevel.WARN, "c", "t", "today-2", null, "raw2"),
+                new LogEntry(3, today.minusDays(1).atTime(23, 59), LogLevel.ERROR, "c", "t", "yesterday", null, "raw3")
+        ), "test", null);
+
+        service.filter(null, null, null, null, null, null, null, null, null, null, true, false);
+
+        assertEquals(2, context.currentEntries().size());
+        assertTrue(context.currentEntries().stream().noneMatch(e -> e.message().equals("yesterday")));
     }
 
     @Test

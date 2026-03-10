@@ -301,6 +301,123 @@ public class LogStatsService {
         return sb.toString();
     }
 
+    public String flows(String janela, int minOcorrencias, int limite) {
+        if (!context.isLoaded()) return "Nenhum log carregado. Use 'abrir' primeiro.";
+
+        List<FlowCluster> clusters = flowData(janela, minOcorrencias, limite);
+        if (clusters.isEmpty()) {
+            return "Nenhum fluxo recorrente encontrado com os criterios atuais.";
+        }
+
+        var sb = new StringBuilder();
+        sb.append("\n").append(ConsoleFormatter.bold("FLUXOS PROVAVEIS")).append("\n\n");
+        sb.append("  Janela: ").append(janela).append(" | Min ocorrencias: ")
+          .append(Math.max(1, minOcorrencias)).append("\n\n");
+
+        for (int i = 0; i < clusters.size(); i++) {
+            FlowCluster cluster = clusters.get(i);
+            sb.append(String.format("  %s%d.%s %s  (%s sessoes, %s entradas, %s)\n",
+                    ConsoleFormatter.YELLOW, i + 1, ConsoleFormatter.RESET,
+                    cluster.signature(),
+                    formatNumber(cluster.sessions()),
+                    formatNumber(cluster.totalEntries()),
+                    cluster.errorSessions() > 0
+                            ? formatNumber(cluster.errorSessions()) + " com erro"
+                            : "sem erro"));
+            sb.append("     Threads: ").append(cluster.threadSummary()).append("\n");
+            sb.append("     Exemplo: ").append(cluster.exampleWindow()).append("\n\n");
+        }
+
+        return sb.toString();
+    }
+
+    public String probableCall(long linha, String janela) {
+        if (!context.isLoaded()) return "Nenhum log carregado. Use 'abrir' primeiro.";
+
+        Optional<FlowSession> session = probableCallData(linha, janela);
+        if (session.isEmpty()) {
+            return "Nao foi possivel reconstruir a chamada provavel para a linha " + linha + ".";
+        }
+
+        FlowSession flow = session.get();
+        LogEntry anchor = flow.anchor();
+        var sb = new StringBuilder();
+        sb.append("\n").append(ConsoleFormatter.bold("CHAMADA PROVAVEL")).append("\n\n");
+        sb.append("  Linha ancora: ").append(anchor.lineNumber()).append("\n");
+        sb.append("  Thread: ").append(flow.thread() != null ? flow.thread() : "(sem thread)").append("\n");
+        sb.append("  Janela: ").append(janela).append(" | Entradas: ").append(formatNumber(flow.entries().size())).append("\n");
+        if (flow.start() != null && flow.end() != null) {
+            sb.append("  Intervalo: ").append(flow.start().format(REPORT_TIMESTAMP))
+              .append(" -> ").append(flow.end().format(REPORT_TIMESTAMP)).append("\n");
+        }
+        sb.append("  Sequencia: ").append(flow.signature()).append("\n\n");
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        for (LogEntry entry : flow.entries()) {
+            boolean isAnchor = entry.lineNumber() == anchor.lineNumber();
+            String prefix = isAnchor ? " >>> " : "     ";
+            sb.append(levelColor(entry.level()))
+              .append(prefix)
+              .append(String.format("%6d ", entry.lineNumber()));
+            if (entry.timestamp() != null) {
+                sb.append(entry.timestamp().format(dtf)).append(" ");
+            }
+            sb.append(shortLogger(entry.logger())).append(" - ")
+              .append(truncate(entry.message() != null ? entry.message() : "", 90))
+              .append(ConsoleFormatter.RESET)
+              .append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    public List<FlowCluster> flowData(String janela, int minOcorrencias, int limite) {
+        if (!context.isLoaded()) return List.of();
+
+        long windowMillis = parseDurationMillis(janela, 2_000L);
+        int effectiveMin = Math.max(1, minOcorrencias);
+        int effectiveLimit = limite > 0 ? limite : 10;
+        List<FlowSession> sessions = buildFlowSessions(windowMillis);
+        if (sessions.isEmpty()) return List.of();
+
+        Map<String, List<FlowSession>> grouped = sessions.stream()
+                .collect(Collectors.groupingBy(FlowSession::signature, LinkedHashMap::new, Collectors.toList()));
+
+        return grouped.entrySet().stream()
+                .map(entry -> toCluster(entry.getKey(), entry.getValue()))
+                .filter(cluster -> cluster.sessions() >= effectiveMin)
+                .sorted(Comparator.comparingLong(FlowCluster::sessions).reversed()
+                        .thenComparingLong(FlowCluster::totalEntries).reversed())
+                .limit(effectiveLimit)
+                .toList();
+    }
+
+    public Optional<FlowSession> probableCallData(long linha, String janela) {
+        if (!context.isLoaded()) return Optional.empty();
+
+        long windowMillis = parseDurationMillis(janela, 2_000L);
+        List<LogEntry> entries = context.currentEntries();
+        LogEntry anchor = entries.stream()
+                .filter(entry -> entry.lineNumber() == linha)
+                .findFirst()
+                .orElse(null);
+        if (anchor == null || anchor.timestamp() == null) {
+            return Optional.empty();
+        }
+
+        List<LogEntry> candidates = entries.stream()
+                .filter(entry -> entry.timestamp() != null)
+                .filter(entry -> anchor.thread() == null || Objects.equals(anchor.thread(), entry.thread()))
+                .filter(entry -> Math.abs(Duration.between(anchor.timestamp(), entry.timestamp()).toMillis()) <= windowMillis)
+                .sorted(Comparator.comparing(LogEntry::timestamp).thenComparingLong(LogEntry::lineNumber))
+                .toList();
+        if (candidates.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(toSession(candidates, anchor));
+    }
+
     private String extractErrorSignature(LogEntry entry) {
         String msg = entry.message() != null ? entry.message() : "";
 
@@ -342,6 +459,92 @@ public class LogStatsService {
                 .toList();
     }
 
+    private List<FlowSession> buildFlowSessions(long windowMillis) {
+        Map<String, List<LogEntry>> byThread = context.currentEntries().stream()
+                .filter(entry -> entry.timestamp() != null)
+                .collect(Collectors.groupingBy(entry -> entry.thread() != null ? entry.thread() : "__sem_thread__"));
+
+        List<FlowSession> sessions = new ArrayList<>();
+        for (var entry : byThread.entrySet()) {
+            List<LogEntry> sorted = entry.getValue().stream()
+                    .sorted(Comparator.comparing(LogEntry::timestamp).thenComparingLong(LogEntry::lineNumber))
+                    .toList();
+            List<LogEntry> current = new ArrayList<>();
+            for (LogEntry logEntry : sorted) {
+                if (current.isEmpty()) {
+                    current.add(logEntry);
+                    continue;
+                }
+
+                LogEntry previous = current.getLast();
+                long gapMillis = Math.abs(Duration.between(previous.timestamp(), logEntry.timestamp()).toMillis());
+                if (gapMillis > windowMillis) {
+                    sessions.add(toSession(current, null));
+                    current = new ArrayList<>();
+                }
+                current.add(logEntry);
+            }
+
+            if (!current.isEmpty()) {
+                sessions.add(toSession(current, null));
+            }
+        }
+        return sessions.stream()
+                .filter(session -> !session.entries().isEmpty())
+                .toList();
+    }
+
+    private FlowSession toSession(List<LogEntry> entries, LogEntry anchor) {
+        List<LogEntry> sortedEntries = entries.stream()
+                .sorted(Comparator.comparing(LogEntry::timestamp).thenComparingLong(LogEntry::lineNumber))
+                .toList();
+        LogEntry first = sortedEntries.getFirst();
+        LogEntry last = sortedEntries.getLast();
+        String thread = first.thread();
+        String signature = flowSignature(sortedEntries);
+        boolean hasError = sortedEntries.stream().anyMatch(entry -> entry.level().isAtLeast(LogLevel.ERROR));
+        LogEntry resolvedAnchor = anchor != null ? anchor : first;
+        return new FlowSession(thread, sortedEntries, first.timestamp(), last.timestamp(), signature, hasError, resolvedAnchor);
+    }
+
+    private FlowCluster toCluster(String signature, List<FlowSession> sessions) {
+        long errorSessions = sessions.stream().filter(FlowSession::hasError).count();
+        long totalEntries = sessions.stream().mapToLong(session -> session.entries().size()).sum();
+        String threadSummary = sessions.stream()
+                .map(session -> session.thread() != null ? session.thread() : "(sem thread)")
+                .collect(Collectors.groupingBy(thread -> thread, LinkedHashMap::new, Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .limit(3)
+                .map(entry -> entry.getKey() + " (" + formatNumber(entry.getValue()) + ")")
+                .collect(Collectors.joining(", "));
+        FlowSession example = sessions.getFirst();
+        String exampleWindow = example.start().format(REPORT_TIMESTAMP) + " -> " + example.end().format(REPORT_TIMESTAMP);
+        return new FlowCluster(signature, sessions.size(), totalEntries, errorSessions, threadSummary, exampleWindow);
+    }
+
+    private String flowSignature(List<LogEntry> entries) {
+        List<String> parts = new ArrayList<>();
+        String previous = null;
+        for (LogEntry entry : entries) {
+            String current = shortLogger(entry.logger());
+            if (current.isBlank()) {
+                current = entry.level().name();
+            }
+            if (!current.equals(previous)) {
+                parts.add(current);
+                previous = current;
+            }
+        }
+        if (parts.isEmpty()) {
+            return "(sem assinatura)";
+        }
+        if (parts.size() > 6) {
+            return String.join(" -> ", parts.subList(0, 6)) + " -> ...";
+        }
+        return String.join(" -> ", parts);
+    }
+
     private List<LogEntry> applyLevelFilter(List<LogEntry> entries, String nivel) {
         if (nivel == null || nivel.isBlank()) {
             return entries;
@@ -370,8 +573,33 @@ public class LogStatsService {
         return amount;
     }
 
+    private long parseDurationMillis(String text, long fallbackMillis) {
+        if (text == null || text.isBlank()) return fallbackMillis;
+        String cleaned = text.trim().toLowerCase(Locale.ROOT);
+        long amount;
+        try {
+            amount = Long.parseLong(cleaned.replaceAll("[^0-9]", ""));
+        } catch (NumberFormatException e) {
+            return fallbackMillis;
+        }
+        if (cleaned.endsWith("ms")) return amount;
+        if (cleaned.endsWith("s")) return amount * 1_000;
+        if (cleaned.endsWith("m") || cleaned.endsWith("min")) return amount * 60_000;
+        if (cleaned.endsWith("h")) return amount * 3_600_000;
+        return amount * 1_000;
+    }
+
     private String truncate(String s, int max) {
         return s.length() > max ? s.substring(0, max - 3) + "..." : s;
+    }
+
+    private String shortLogger(String logger) {
+        if (logger == null || logger.isBlank()) return "";
+        int lastDot = logger.lastIndexOf('.');
+        if (lastDot > 0 && lastDot < logger.length() - 1) {
+            return logger.substring(lastDot + 1);
+        }
+        return logger;
     }
 
     public String formatDuration(Duration duration) {
@@ -448,4 +676,23 @@ public class LogStatsService {
             return 4;
         }
     }
+
+    public record FlowSession(
+            String thread,
+            List<LogEntry> entries,
+            LocalDateTime start,
+            LocalDateTime end,
+            String signature,
+            boolean hasError,
+            LogEntry anchor
+    ) {}
+
+    public record FlowCluster(
+            String signature,
+            long sessions,
+            long totalEntries,
+            long errorSessions,
+            String threadSummary,
+            String exampleWindow
+    ) {}
 }

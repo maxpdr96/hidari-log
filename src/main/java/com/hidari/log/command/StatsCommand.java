@@ -59,4 +59,23 @@ public class StatsCommand {
         long start = System.currentTimeMillis();
         return statsService.heatmap(nivel) + ConsoleFormatter.formatDuration(start);
     }
+
+    @Command(name = "fluxos", description = "Descobrir fluxos provaveis por thread e sequencia de loggers")
+    public String fluxos(
+            @Option(longName = "janela", defaultValue = "2s", description = "Quebra de sessao por intervalo (ex: 500ms, 2s, 1m)") String janela,
+            @Option(longName = "min-ocorrencias", defaultValue = "2", description = "Minimo de ocorrencias para listar") int minOcorrencias,
+            @Option(longName = "limite", shortName = 'l', defaultValue = "10", description = "Numero maximo de fluxos") int limite
+    ) {
+        long start = System.currentTimeMillis();
+        return statsService.flows(janela, minOcorrencias, limite) + ConsoleFormatter.formatDuration(start);
+    }
+
+    @Command(name = "chamada-provavel", description = "Reconstruir a chamada provavel de uma linha usando thread e janela temporal")
+    public String chamadaProvavel(
+            @Option(longName = "linha", required = true, description = "Numero da linha ancora") long linha,
+            @Option(longName = "janela", defaultValue = "2s", description = "Janela antes/depois da linha (ex: 500ms, 2s, 1m)") String janela
+    ) {
+        long start = System.currentTimeMillis();
+        return statsService.probableCall(linha, janela) + ConsoleFormatter.formatDuration(start);
+    }
 }
