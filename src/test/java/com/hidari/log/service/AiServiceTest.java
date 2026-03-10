@@ -18,6 +18,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.springframework.test.util.ReflectionTestUtils;
+
 class AiServiceTest {
 
     private LogContext logContext;
@@ -29,7 +31,8 @@ class AiServiceTest {
     void setUp() throws Exception {
         logContext = new LogContext();
         httpClientMock = mock(HttpClient.class);
-        aiService = new AiService(logContext, "http://localhost:11434", "llama3.2", httpClientMock);
+        aiService = new AiService(logContext, "http://localhost:11434", "llama3.2");
+        ReflectionTestUtils.setField(aiService, "httpClient", httpClientMock);
 
         HttpResponse<String> responseMock = mock(HttpResponse.class);
         when(responseMock.body()).thenReturn("{\"response\":\"Resposta mockada da IA\"}");
