@@ -10,6 +10,8 @@ import java.io.BufferedWriter;
 import java.nio.file.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,20 +38,23 @@ public class LogManipulationService {
                         Collectors.toList()
                 ));
 
-        int files = 0;
-        for (var entry : byDay.entrySet()) {
-            String filename = entry.getKey().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".log";
-            Path file = dir.resolve(filename);
-            try (BufferedWriter writer = Files.newBufferedWriter(file)) {
-                for (var logEntry : entry.getValue()) {
-                    writer.write(logEntry.raw());
-                    writer.newLine();
-                }
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            for (var entry : byDay.entrySet()) {
+                String filename = entry.getKey().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".log";
+                Path file = dir.resolve(filename);
+                executor.submit(() -> {
+                    try (BufferedWriter writer = Files.newBufferedWriter(file)) {
+                        for (var logEntry : entry.getValue()) {
+                            writer.write(logEntry.raw());
+                            writer.newLine();
+                        }
+                    }
+                    return null;
+                });
             }
-            files++;
         }
 
-        return String.format("Dividido em %d arquivos por dia em %s", files, outputDir);
+        return String.format("Dividido em %d arquivos por dia em %s", byDay.size(), outputDir);
     }
 
     public String splitByLevel(String outputDir) throws IOException {
@@ -61,20 +66,23 @@ public class LogManipulationService {
         var byLevel = context.allEntries().stream()
                 .collect(Collectors.groupingBy(LogEntry::level));
 
-        int files = 0;
-        for (var entry : byLevel.entrySet()) {
-            String filename = entry.getKey().name().toLowerCase() + ".log";
-            Path file = dir.resolve(filename);
-            try (BufferedWriter writer = Files.newBufferedWriter(file)) {
-                for (var logEntry : entry.getValue()) {
-                    writer.write(logEntry.raw());
-                    writer.newLine();
-                }
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            for (var entry : byLevel.entrySet()) {
+                String filename = entry.getKey().name().toLowerCase() + ".log";
+                Path file = dir.resolve(filename);
+                executor.submit(() -> {
+                    try (BufferedWriter writer = Files.newBufferedWriter(file)) {
+                        for (var logEntry : entry.getValue()) {
+                            writer.write(logEntry.raw());
+                            writer.newLine();
+                        }
+                    }
+                    return null;
+                });
             }
-            files++;
         }
 
-        return String.format("Dividido em %d arquivos por nivel em %s", files, outputDir);
+        return String.format("Dividido em %d arquivos por nivel em %s", byLevel.size(), outputDir);
     }
 
     public String splitBySize(String inputFile, String sizeStr, String outputDir) throws IOException {
@@ -190,18 +198,25 @@ public class LogManipulationService {
     }
 
     private String mergeSorted(List<String> files, String output) throws IOException {
-        var allLines = new ArrayList<String>();
+        var allLines = Collections.synchronizedList(new ArrayList<String>());
 
-        for (String file : files) {
-            Path path = Path.of(file.trim());
-            if (!Files.exists(path)) {
-                continue;
-            }
-            try (var reader = Files.newBufferedReader(path)) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    allLines.add(line);
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            for (String file : files) {
+                Path path = Path.of(file.trim());
+                if (!Files.exists(path)) {
+                    continue;
                 }
+                executor.submit(() -> {
+                    try (var reader = Files.newBufferedReader(path)) {
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            allLines.add(line);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return null;
+                });
             }
         }
 

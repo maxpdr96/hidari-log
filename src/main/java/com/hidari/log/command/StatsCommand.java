@@ -1,6 +1,7 @@
 package com.hidari.log.command;
 
 import com.hidari.log.service.LogStatsService;
+import com.hidari.log.util.ConsoleFormatter;
 import org.springframework.shell.core.command.annotation.Command;
 import org.springframework.shell.core.command.annotation.Option;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,8 @@ public class StatsCommand {
 
     @Command(name = "stats", description = "Visao geral do arquivo de log")
     public String stats() {
-        return statsService.stats();
+        long start = System.currentTimeMillis();
+        return statsService.stats() + ConsoleFormatter.formatDuration(start);
     }
 
     @Command(name = "timeline", description = "Analise temporal dos logs")
@@ -24,32 +26,37 @@ public class StatsCommand {
             @Option(longName = "intervalo", defaultValue = "1h", description = "Intervalo (ex: 15m, 1h)") String intervalo,
             @Option(longName = "nivel", description = "Filtrar por nivel") String nivel
     ) {
-        return statsService.timeline(intervalo, nivel);
+        long start = System.currentTimeMillis();
+        return statsService.timeline(intervalo, nivel) + ConsoleFormatter.formatDuration(start);
     }
 
     @Command(name = "top-erros", description = "Top erros mais frequentes")
     public String topErros(
             @Option(longName = "limite", shortName = 'l', defaultValue = "10", description = "Numero de erros") int limite
     ) {
-        return statsService.topErrors(limite);
+        long start = System.currentTimeMillis();
+        return statsService.topErrors(limite) + ConsoleFormatter.formatDuration(start);
     }
 
     @Command(name = "por-classe", description = "Distribuicao de logs por classe/logger")
     public String porClasse(
             @Option(longName = "nivel", description = "Filtrar por nivel") String nivel
     ) {
-        return statsService.byClass(nivel);
+        long start = System.currentTimeMillis();
+        return statsService.byClass(nivel) + ConsoleFormatter.formatDuration(start);
     }
 
     @Command(name = "por-thread", description = "Distribuicao de logs por thread")
     public String porThread() {
-        return statsService.byThread();
+        long start = System.currentTimeMillis();
+        return statsService.byThread() + ConsoleFormatter.formatDuration(start);
     }
 
     @Command(name = "heatmap", description = "Heatmap temporal por dia da semana e hora")
     public String heatmap(
             @Option(longName = "nivel", defaultValue = "ERROR+", description = "Nivel exato ou minimo (ex: ERROR, WARN, ERROR+)") String nivel
     ) {
-        return statsService.heatmap(nivel);
+        long start = System.currentTimeMillis();
+        return statsService.heatmap(nivel) + ConsoleFormatter.formatDuration(start);
     }
 }

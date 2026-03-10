@@ -1,6 +1,7 @@
 package com.hidari.log.command;
 
 import com.hidari.log.service.LogLoaderService;
+import com.hidari.log.util.ConsoleFormatter;
 import org.springframework.shell.core.command.annotation.Command;
 import org.springframework.shell.core.command.annotation.Option;
 import org.springframework.stereotype.Component;
@@ -24,22 +25,23 @@ public class AbrirCommand {
             @Option(longName = "formato", shortName = 'f', description = "Formato: logback, log4j, json, nginx, apache, personalizado") String formato,
             @Option(longName = "padrao", description = "Padrao personalizado ex: {data} {nivel} {mensagem}") String padrao
     ) {
+        long start = System.currentTimeMillis();
         try {
+            String result;
             if (pasta != null) {
-                return loaderService.loadFolder(pasta, extensao);
+                result = loaderService.loadFolder(pasta, extensao);
+            } else if (glob != null) {
+                result = loaderService.loadGlob(glob, formato);
+            } else if (url != null) {
+                result = loaderService.loadFromUrl(url);
+            } else if (arquivo != null) {
+                result = loaderService.loadFile(arquivo, formato, padrao);
+            } else {
+                return "Especifique um arquivo, pasta, glob ou URL. Ex: abrir --arquivo app.log";
             }
-            if (glob != null) {
-                return loaderService.loadGlob(glob, formato);
-            }
-            if (url != null) {
-                return loaderService.loadFromUrl(url);
-            }
-            if (arquivo != null) {
-                return loaderService.loadFile(arquivo, formato, padrao);
-            }
-            return "Especifique um arquivo, pasta, glob ou URL. Ex: abrir --arquivo app.log";
+            return result + ConsoleFormatter.formatDuration(start);
         } catch (Exception e) {
-            return "Erro ao abrir: " + e.getMessage();
+            return "Erro ao abrir: " + e.getMessage() + ConsoleFormatter.formatDuration(start);
         }
     }
 }

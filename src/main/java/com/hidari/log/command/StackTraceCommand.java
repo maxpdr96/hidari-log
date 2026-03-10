@@ -1,6 +1,7 @@
 package com.hidari.log.command;
 
 import com.hidari.log.service.StackTraceService;
+import com.hidari.log.util.ConsoleFormatter;
 import org.springframework.shell.core.command.annotation.Command;
 import org.springframework.shell.core.command.annotation.Option;
 import org.springframework.stereotype.Component;
@@ -18,17 +19,20 @@ public class StackTraceCommand {
     public String stacktraces(
             @Option(longName = "agrupar-similares", description = "Agrupar stack traces similares") boolean agrupar
     ) {
-        return stackTraceService.listStackTraces(agrupar);
+        long start = System.currentTimeMillis();
+        return stackTraceService.listStackTraces(agrupar) + ConsoleFormatter.formatDuration(start);
     }
 
     @Command(name = "stacktraces-exportar", description = "Exportar stack traces para arquivo")
     public String stacktracesExportar(
             @Option(longName = "saida", required = true, description = "Arquivo de saida") String saida
     ) {
+        long start = System.currentTimeMillis();
         try {
-            return stackTraceService.exportStackTraces(saida);
+            String result = stackTraceService.exportStackTraces(saida);
+            return result + ConsoleFormatter.formatDuration(start);
         } catch (Exception e) {
-            return "Erro ao exportar: " + e.getMessage();
+            return "Erro ao exportar: " + e.getMessage() + ConsoleFormatter.formatDuration(start);
         }
     }
 }

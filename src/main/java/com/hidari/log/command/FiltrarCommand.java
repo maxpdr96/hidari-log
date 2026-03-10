@@ -35,7 +35,9 @@ public class FiltrarCommand {
             @Option(longName = "hoje", description = "Somente entradas de hoje") boolean hoje,
             @Option(longName = "ontem", description = "Somente entradas de ontem") boolean ontem
     ) {
-        return filterService.filter(nivel, nivelMinimo, de, ate, ultimos, texto, regex, classe, thread, excluir, hoje, ontem);
+        long start = System.currentTimeMillis();
+        String result = filterService.filter(nivel, nivelMinimo, de, ate, ultimos, texto, regex, classe, thread, excluir, hoje, ontem);
+        return result + ConsoleFormatter.formatDuration(start);
     }
 
     @Command(name = "limpar-filtro", description = "Remover filtros aplicados")

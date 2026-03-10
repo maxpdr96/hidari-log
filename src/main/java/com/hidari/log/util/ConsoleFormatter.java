@@ -19,6 +19,11 @@ public final class ConsoleFormatter {
     public static final String BAR_FULL = "\u2588";
     public static final String BAR_EMPTY = "\u2591";
 
+    public static String formatDuration(long startMillis) {
+        long duration = System.currentTimeMillis() - startMillis;
+        return String.format(" [Tempo: %.3fs]", duration / 1000.0);
+    }
+
     public static String bold(String text) {
         return BOLD + text + RESET;
     }

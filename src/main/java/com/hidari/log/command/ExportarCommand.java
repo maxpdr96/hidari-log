@@ -1,6 +1,7 @@
 package com.hidari.log.command;
 
 import com.hidari.log.service.ExportService;
+import com.hidari.log.util.ConsoleFormatter;
 import org.springframework.shell.core.command.annotation.Command;
 import org.springframework.shell.core.command.annotation.Option;
 import org.springframework.stereotype.Component;
@@ -19,10 +20,12 @@ public class ExportarCommand {
             @Option(longName = "formato", required = true, description = "Formato: json, csv, html, markdown, html-report, markdown-report") String formato,
             @Option(longName = "saida", required = true, description = "Caminho do arquivo de saida") String saida
     ) {
+        long start = System.currentTimeMillis();
         try {
-            return exportService.export(formato, saida);
+            String result = exportService.export(formato, saida);
+            return result + ConsoleFormatter.formatDuration(start);
         } catch (Exception e) {
-            return "Erro ao exportar: " + e.getMessage();
+            return "Erro ao exportar: " + e.getMessage() + ConsoleFormatter.formatDuration(start);
         }
     }
 }

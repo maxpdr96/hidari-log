@@ -28,7 +28,7 @@ public class LogFilterService {
                          String thread, String excluir, boolean hoje, boolean ontem) {
         if (!context.isLoaded()) return "Nenhum log carregado. Use 'abrir' primeiro.";
 
-        Stream<LogEntry> stream = context.allEntries().stream();
+        Stream<LogEntry> stream = context.allEntries().parallelStream();
 
         // Filter by level
         if (nivel != null && !nivel.isBlank()) {

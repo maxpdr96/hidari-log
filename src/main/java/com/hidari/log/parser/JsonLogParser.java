@@ -4,13 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hidari.log.model.LogEntry;
 import com.hidari.log.model.LogLevel;
+import com.hidari.log.util.StringInterner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Component
 public class JsonLogParser implements LogParser {
@@ -45,41 +46,51 @@ public class JsonLogParser implements LogParser {
     );
 
     @Override
-    public List<LogEntry> parse(List<String> lines) {
-        var entries = new ArrayList<LogEntry>();
-
-        for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i).trim();
-            if (line.isEmpty() || !line.startsWith("{")) continue;
-
-            try {
-                JsonNode node = MAPPER.readTree(line);
-                entries.add(new LogEntry(
-                        i + 1,
-                        parseTimestamp(findField(node, TIMESTAMP_FIELDS)),
-                        LogLevel.fromString(findField(node, LEVEL_FIELDS)),
-                        findField(node, LOGGER_FIELDS),
-                        findField(node, THREAD_FIELDS),
-                        findField(node, MESSAGE_FIELDS),
-                        findField(node, STACK_FIELDS),
-                        line
-                ));
-            } catch (Exception ignored) {}
+    public void parse(Iterable<String> lines, Consumer<LogEntry> sink) {
+        long lineNumber = 0;
+        for (String line : lines) {
+            lineNumber++;
+            LogEntry entry = parseSingle(lineNumber, line);
+            if (entry != null) {
+                sink.accept(entry);
+            }
         }
-
-        return entries;
     }
 
     @Override
     public boolean canParse(String sampleLine) {
+        return isStartOfEntry(sampleLine);
+    }
+
+    @Override
+    public boolean isStartOfEntry(String line) {
         try {
-            String trimmed = sampleLine.trim();
+            String trimmed = line.trim();
             if (!trimmed.startsWith("{")) return false;
             JsonNode node = MAPPER.readTree(trimmed);
             return node.isObject() &&
                    (hasAnyField(node, TIMESTAMP_FIELDS) || hasAnyField(node, LEVEL_FIELDS) || hasAnyField(node, MESSAGE_FIELDS));
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @Override
+    public LogEntry parseSingle(long lineNumber, String line) {
+        try {
+            JsonNode node = MAPPER.readTree(line);
+            return new LogEntry(
+                    lineNumber,
+                    parseTimestamp(findField(node, TIMESTAMP_FIELDS)),
+                    LogLevel.fromString(findField(node, LEVEL_FIELDS)),
+                    StringInterner.intern(findField(node, LOGGER_FIELDS)),
+                    StringInterner.intern(findField(node, THREAD_FIELDS)),
+                    findField(node, MESSAGE_FIELDS),
+                    findField(node, STACK_FIELDS),
+                    line
+            );
+        } catch (Exception e) {
+            return null;
         }
     }
 

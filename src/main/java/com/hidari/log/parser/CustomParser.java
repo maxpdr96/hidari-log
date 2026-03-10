@@ -2,13 +2,14 @@ package com.hidari.log.parser;
 
 import com.hidari.log.model.LogEntry;
 import com.hidari.log.model.LogLevel;
+import com.hidari.log.util.StringInterner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,10 +17,8 @@ import java.util.regex.Pattern;
 public class CustomParser implements LogParser {
 
     private Pattern compiledPattern;
-    private String patternTemplate;
 
     public void setPattern(String template) {
-        this.patternTemplate = template;
         String regex = template
                 .replace("{data}", "(?<data>\\d{4}-\\d{2}-\\d{2}[T ]\\d{2}:\\d{2}:\\d{2}[.,]?\\d{0,3})")
                 .replace("{nivel}", "(?<nivel>TRACE|DEBUG|INFO|WARN|ERROR|FATAL)")
@@ -31,32 +30,51 @@ public class CustomParser implements LogParser {
     }
 
     @Override
-    public List<LogEntry> parse(List<String> lines) {
-        if (compiledPattern == null) return List.of();
+    public void parse(Iterable<String> lines, Consumer<LogEntry> sink) {
+        if (compiledPattern == null) return;
 
-        var entries = new ArrayList<LogEntry>();
-        for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i);
-            Matcher matcher = compiledPattern.matcher(line);
-            if (matcher.matches()) {
-                entries.add(new LogEntry(
-                        i + 1,
-                        safeGroup(matcher, "data") != null ? parseTimestamp(safeGroup(matcher, "data")) : null,
-                        safeGroup(matcher, "nivel") != null ? LogLevel.fromString(safeGroup(matcher, "nivel")) : LogLevel.INFO,
-                        safeGroup(matcher, "logger") != null ? safeGroup(matcher, "logger") : safeGroup(matcher, "classe"),
-                        safeGroup(matcher, "thread"),
-                        safeGroup(matcher, "mensagem"),
-                        null,
-                        line
-                ));
+        long lineNumber = 0;
+        for (String line : lines) {
+            lineNumber++;
+            LogEntry entry = parseSingle(lineNumber, line);
+            if (entry != null) {
+                sink.accept(entry);
             }
         }
-        return entries;
     }
 
     @Override
     public boolean canParse(String sampleLine) {
-        return compiledPattern != null && compiledPattern.matcher(sampleLine).matches();
+        return isStartOfEntry(sampleLine);
+    }
+
+    @Override
+    public boolean isStartOfEntry(String line) {
+        return compiledPattern != null && compiledPattern.matcher(line).matches();
+    }
+
+    @Override
+    public LogEntry parseSingle(long lineNumber, String line) {
+        if (compiledPattern == null) return null;
+        Matcher matcher = compiledPattern.matcher(line);
+        if (matcher.matches()) {
+            String data = safeGroup(matcher, "data");
+            String nivel = safeGroup(matcher, "nivel");
+            String logger = safeGroup(matcher, "logger") != null ? safeGroup(matcher, "logger") : safeGroup(matcher, "classe");
+            String thread = safeGroup(matcher, "thread");
+
+            return new LogEntry(
+                    lineNumber,
+                    data != null ? parseTimestamp(data) : null,
+                    nivel != null ? LogLevel.fromString(nivel) : LogLevel.INFO,
+                    StringInterner.intern(logger),
+                    StringInterner.intern(thread),
+                    safeGroup(matcher, "mensagem"),
+                    null,
+                    line
+            );
+        }
+        return null;
     }
 
     private String safeGroup(Matcher matcher, String group) {

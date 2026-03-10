@@ -2,13 +2,14 @@ package com.hidari.log.parser;
 
 import com.hidari.log.model.LogEntry;
 import com.hidari.log.model.LogLevel;
+import com.hidari.log.util.StringInterner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,21 +32,21 @@ public class LogbackParser implements LogParser {
     );
 
     @Override
-    public List<LogEntry> parse(List<String> lines) {
-        var entries = new ArrayList<LogEntry>();
+    public void parse(Iterable<String> lines, Consumer<LogEntry> sink) {
         LogEntry current = null;
         var stackBuilder = new StringBuilder();
+        long lineNumber = 0;
 
-        for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i);
+        for (String line : lines) {
+            lineNumber++;
             Matcher matcher = LOGBACK_PATTERN.matcher(line);
 
             if (matcher.matches()) {
                 if (current != null) {
-                    entries.add(finalizeEntry(current, stackBuilder));
+                    sink.accept(finalizeEntry(current, stackBuilder));
                     stackBuilder.setLength(0);
                 }
-                current = buildEntry(i + 1, matcher, line);
+                current = buildEntry(lineNumber, matcher, line);
             } else if (current != null && isStackTraceLine(line)) {
                 if (!stackBuilder.isEmpty()) stackBuilder.append("\n");
                 stackBuilder.append(line);
@@ -56,10 +57,8 @@ public class LogbackParser implements LogParser {
         }
 
         if (current != null) {
-            entries.add(finalizeEntry(current, stackBuilder));
+            sink.accept(finalizeEntry(current, stackBuilder));
         }
-
-        return entries;
     }
 
     @Override
@@ -67,13 +66,27 @@ public class LogbackParser implements LogParser {
         return LOGBACK_PATTERN.matcher(sampleLine).matches();
     }
 
-    private LogEntry buildEntry(int lineNumber, Matcher matcher, String raw) {
+    @Override
+    public boolean isStartOfEntry(String line) {
+        return LOGBACK_PATTERN.matcher(line).matches();
+    }
+
+    @Override
+    public LogEntry parseSingle(long lineNumber, String line) {
+        Matcher matcher = LOGBACK_PATTERN.matcher(line);
+        if (matcher.matches()) {
+            return buildEntry(lineNumber, matcher, line);
+        }
+        return null;
+    }
+
+    private LogEntry buildEntry(long lineNumber, Matcher matcher, String raw) {
         return new LogEntry(
                 lineNumber,
                 parseTimestamp(matcher.group(1)),
                 LogLevel.fromString(matcher.group(3)),
-                matcher.group(4).trim(),
-                matcher.group(2).trim(),
+                StringInterner.intern(matcher.group(4).trim()),
+                StringInterner.intern(matcher.group(2).trim()),
                 matcher.group(5).trim(),
                 null,
                 raw

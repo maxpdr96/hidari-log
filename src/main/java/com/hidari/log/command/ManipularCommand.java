@@ -1,6 +1,7 @@
 package com.hidari.log.command;
 
 import com.hidari.log.service.LogManipulationService;
+import com.hidari.log.util.ConsoleFormatter;
 import org.springframework.shell.core.command.annotation.Command;
 import org.springframework.shell.core.command.annotation.Option;
 import org.springframework.stereotype.Component;
@@ -22,8 +23,9 @@ public class ManipularCommand {
             @Option(longName = "tamanho", description = "Tamanho maximo (ex: 100MB)") String tamanho,
             @Option(longName = "saida", defaultValue = "./split", description = "Diretorio de saida") String saida
     ) {
+        long start = System.currentTimeMillis();
         try {
-            return switch (por.toLowerCase()) {
+            String result = switch (por.toLowerCase()) {
                 case "dia" -> manipulationService.splitByDay(saida);
                 case "nivel" -> manipulationService.splitByLevel(saida);
                 case "tamanho" -> {
@@ -33,8 +35,9 @@ public class ManipularCommand {
                 }
                 default -> "Criterio invalido. Use: dia, nivel, tamanho";
             };
+            return result + ConsoleFormatter.formatDuration(start);
         } catch (Exception e) {
-            return "Erro ao dividir: " + e.getMessage();
+            return "Erro ao dividir: " + e.getMessage() + ConsoleFormatter.formatDuration(start);
         }
     }
 
@@ -45,17 +48,20 @@ public class ManipularCommand {
             @Option(longName = "saida", required = true, description = "Arquivo de saida") String saida,
             @Option(longName = "ordenar-por-data", description = "Ordenar linhas por data") boolean ordenar
     ) {
+        long start = System.currentTimeMillis();
         try {
+            String result;
             if (pasta != null) {
-                return manipulationService.mergeFolder(pasta, saida, ordenar);
-            }
-            if (arquivos != null) {
+                result = manipulationService.mergeFolder(pasta, saida, ordenar);
+            } else if (arquivos != null) {
                 var fileList = Arrays.asList(arquivos.split(","));
-                return manipulationService.merge(fileList, saida, ordenar);
+                result = manipulationService.merge(fileList, saida, ordenar);
+            } else {
+                return "Especifique --arquivos ou --pasta.";
             }
-            return "Especifique --arquivos ou --pasta.";
+            return result + ConsoleFormatter.formatDuration(start);
         } catch (Exception e) {
-            return "Erro ao mesclar: " + e.getMessage();
+            return "Erro ao mesclar: " + e.getMessage() + ConsoleFormatter.formatDuration(start);
         }
     }
 }
