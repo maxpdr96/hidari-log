@@ -45,4 +45,11 @@ public class StatsCommand {
     public String porThread() {
         return statsService.byThread();
     }
+
+    @Command(name = "heatmap", description = "Heatmap temporal por dia da semana e hora")
+    public String heatmap(
+            @Option(longName = "nivel", defaultValue = "ERROR+", description = "Nivel exato ou minimo (ex: ERROR, WARN, ERROR+)") String nivel
+    ) {
+        return statsService.heatmap(nivel);
+    }
 }

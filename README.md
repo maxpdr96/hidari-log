@@ -547,6 +547,7 @@ Communication with Ollama uses `java.net.http.HttpClient` (no Spring Web depende
 |---------|-------------|---------|
 | `stats` | Overview | - |
 | `timeline` | Volume by interval | `--intervalo`, `--nivel` |
+| `heatmap` | Temporal heatmap by weekday/hour | `--nivel` |
 | `top-erros` | Most frequent errors | `--limite` |
 | `por-classe` | Entries by class | `--nivel` |
 | `por-thread` | Entries by thread | - |
@@ -585,7 +586,7 @@ Communication with Ollama uses `java.net.http.HttpClient` (no Spring Web depende
 
 | Command | Description | Options |
 |---------|-------------|---------|
-| `exportar` | Export logs | `--formato` (json/csv/html/markdown), `--saida` |
+| `exportar` | Export logs or executive reports | `--formato` (json/csv/html/markdown/html-report/markdown-report), `--saida` |
 
 ### AI (requires --hidari.ai.enabled=true)
 
@@ -624,11 +625,14 @@ stacktraces --agrupar-similares
 # 7. Detect anomalies
 anomalias
 
-# 8. Correlate a specific event
+# 8. View temporal heatmap
+heatmap --nivel ERROR+
+
+# 9. Correlate a specific event
 correlacionar --evento "OutOfMemoryError" --janela 10m
 
-# 9. Export errors to a report
-exportar --formato html --saida relatorio.html
+# 10. Export executive report
+exportar --formato html-report --saida executive-report.html
 ```
 
 ### AI flow
@@ -1268,6 +1272,7 @@ A comunicacao com Ollama usa `java.net.http.HttpClient` (sem dependencia do Spri
 |---------|-----------|--------|
 | `stats` | Visao geral | - |
 | `timeline` | Volume por intervalo | `--intervalo`, `--nivel` |
+| `heatmap` | Heatmap temporal por dia/hora | `--nivel` |
 | `top-erros` | Erros mais frequentes | `--limite` |
 | `por-classe` | Entradas por classe | `--nivel` |
 | `por-thread` | Entradas por thread | - |
@@ -1306,7 +1311,7 @@ A comunicacao com Ollama usa `java.net.http.HttpClient` (sem dependencia do Spri
 
 | Comando | Descricao | Opcoes |
 |---------|-----------|--------|
-| `exportar` | Exportar logs | `--formato` (json/csv/html/markdown), `--saida` |
+| `exportar` | Exportar logs ou relatorios executivos | `--formato` (json/csv/html/markdown/html-report/markdown-report), `--saida` |
 
 ### IA (requer --hidari.ai.enabled=true)
 
@@ -1345,11 +1350,14 @@ stacktraces --agrupar-similares
 # 7. Detectar anomalias
 anomalias
 
-# 8. Correlacionar um evento especifico
+# 8. Visualizar heatmap temporal
+heatmap --nivel ERROR+
+
+# 9. Correlacionar um evento especifico
 correlacionar --evento "OutOfMemoryError" --janela 10m
 
-# 9. Exportar erros para relatorio
-exportar --formato html --saida relatorio.html
+# 10. Exportar relatorio executivo
+exportar --formato html-report --saida executive-report.html
 ```
 
 ### Fluxo com IA

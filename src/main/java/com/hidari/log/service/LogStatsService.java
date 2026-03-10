@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 @Service
 public class LogStatsService {
     private static final int DEFAULT_TOP_ERRORS_LIMIT = 10;
+    private static final DateTimeFormatter REPORT_TIMESTAMP = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final List<String> WEEKDAY_LABELS = List.of("Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom");
 
     private final LogContext context;
 
@@ -26,42 +28,31 @@ public class LogStatsService {
     public String stats() {
         if (!context.isLoaded()) return "Nenhum log carregado. Use 'abrir' primeiro.";
 
-        var entries = context.currentEntries();
+        var summary = buildSummary();
         var sb = new StringBuilder();
 
-        var start = context.startTime();
-        var end = context.endTime();
-
         sb.append("\n");
-        sb.append(ConsoleFormatter.bold("  Arquivo:     ")).append(context.sourceName()).append("\n");
-        sb.append(ConsoleFormatter.bold("  Entradas:    ")).append(formatNumber(entries.size())).append("\n");
+        sb.append(ConsoleFormatter.bold("  Arquivo:     ")).append(summary.source()).append("\n");
+        sb.append(ConsoleFormatter.bold("  Entradas:    ")).append(formatNumber(summary.totalEntries())).append("\n");
 
-        if (start != null && end != null) {
+        if (summary.start() != null && summary.end() != null) {
             sb.append(ConsoleFormatter.bold("  Periodo:     "))
-              .append(start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+              .append(summary.start().format(REPORT_TIMESTAMP))
               .append(" -> ")
-              .append(end.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+              .append(summary.end().format(REPORT_TIMESTAMP))
               .append("\n");
 
-            Duration duration = Duration.between(start, end);
-            long days = duration.toDays();
-            long hours = duration.toHours() % 24;
             sb.append(ConsoleFormatter.bold("  Duracao:     "))
-              .append(days > 0 ? days + " dias, " : "")
-              .append(hours).append(" horas\n");
+              .append(formatDuration(summary.duration()))
+              .append("\n");
         }
 
         sb.append("\n").append(ConsoleFormatter.bold("DISTRIBUICAO POR NIVEL:")).append("\n");
 
-        Map<LogLevel, Long> countByLevel = entries.stream()
-                .collect(Collectors.groupingBy(LogEntry::level, Collectors.counting()));
-
-        long total = entries.size();
-
         for (LogLevel level : LogLevel.values()) {
-            long count = countByLevel.getOrDefault(level, 0L);
+            long count = summary.countByLevel().getOrDefault(level, 0L);
             if (count == 0) continue;
-            int pct = (int) (count * 100 / total);
+            int pct = (int) (count * 100 / summary.totalEntries());
             String bar = ConsoleFormatter.progressBar(pct, 20);
             String color = levelColor(level);
             sb.append(String.format("  %s%-5s%s %s %3d%%  %s\n",
@@ -74,17 +65,117 @@ public class LogStatsService {
     public String timeline(String intervaloStr, String nivel) {
         if (!context.isLoaded()) return "Nenhum log carregado. Use 'abrir' primeiro.";
 
-        var entries = context.currentEntries();
-        long intervalMinutes = parseInterval(intervaloStr != null ? intervaloStr : "1h");
+        List<TimeBucket> buckets = timelineData(intervaloStr, nivel);
+        if (buckets.isEmpty()) return "Nenhuma entrada com timestamp encontrada.";
 
-        var filtered = entries.stream();
-        if (nivel != null && !nivel.isBlank()) {
-            LogLevel targetLevel = LogLevel.fromString(nivel);
-            filtered = entries.stream().filter(e -> e.level() == targetLevel);
+        long maxCount = buckets.stream().mapToLong(TimeBucket::count).max().orElse(1);
+        var sb = new StringBuilder();
+        sb.append("\n").append(ConsoleFormatter.bold("VOLUME POR INTERVALO")).append("\n\n");
+
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM HH:mm");
+        for (var entry : buckets) {
+            int barLen = (int) (entry.count() * 20 / Math.max(maxCount, 1));
+            String bar = ConsoleFormatter.BAR_FULL.repeat(barLen) +
+                         ConsoleFormatter.BAR_EMPTY.repeat(20 - barLen);
+            String marker = entry.count() == maxCount ? "  <- pico" : "";
+            sb.append(String.format("  %s [%s] %,d%s\n",
+                    entry.bucket().format(fmt), bar, entry.count(), marker));
         }
 
-        List<LogEntry> list = filtered.filter(e -> e.timestamp() != null).toList();
-        if (list.isEmpty()) return "Nenhuma entrada com timestamp encontrada.";
+        return sb.toString();
+    }
+
+    public String topErrors(int limite) {
+        if (!context.isLoaded()) return "Nenhum log carregado. Use 'abrir' primeiro.";
+        int effectiveLimit = limite > 0 ? limite : DEFAULT_TOP_ERRORS_LIMIT;
+
+        var sorted = topErrorData(effectiveLimit);
+
+        if (sorted.isEmpty()) return "Nenhum erro encontrado nos logs carregados.";
+
+        var sb = new StringBuilder();
+        sb.append("\n").append(ConsoleFormatter.bold("TOP " + effectiveLimit + " ERROS:")).append("\n\n");
+
+        for (int i = 0; i < sorted.size(); i++) {
+            var entry = sorted.get(i);
+            sb.append(String.format("  %s%d.%s %s  (%sx)\n",
+                    ConsoleFormatter.YELLOW, i + 1, ConsoleFormatter.RESET,
+                    entry.signature(), formatNumber(entry.count())));
+        }
+
+        return sb.toString();
+    }
+
+    public String heatmap(String nivel) {
+        if (!context.isLoaded()) return "Nenhum log carregado. Use 'abrir' primeiro.";
+
+        HeatmapData heatmap = heatmapData(nivel);
+        if (heatmap.totalEvents() == 0) {
+            return "Nenhuma entrada com timestamp encontrada para o heatmap.";
+        }
+
+        var sb = new StringBuilder();
+        sb.append("\n").append(ConsoleFormatter.bold("HEATMAP TEMPORAL")).append("\n");
+        sb.append("  Nivel: ").append(heatmap.levelLabel()).append(" | Eventos: ")
+          .append(formatNumber(heatmap.totalEvents())).append("\n\n");
+        sb.append("      ");
+        for (int hour = 0; hour < 24; hour++) {
+            sb.append(String.format("%02d ", hour));
+        }
+        sb.append("\n");
+
+        for (int day = 0; day < WEEKDAY_LABELS.size(); day++) {
+            sb.append(String.format("  %s | ", WEEKDAY_LABELS.get(day)));
+            for (int hour = 0; hour < 24; hour++) {
+                sb.append(heatmapIntensityChar(heatmap.intensityAt(day, hour))).append("  ");
+            }
+            sb.append("\n");
+        }
+
+        sb.append("\n")
+          .append("  Escala: ")
+          .append(heatmapIntensityChar(0)).append(" sem eventos, ")
+          .append(heatmapIntensityChar(1)).append(" baixo, ")
+          .append(heatmapIntensityChar(2)).append(" medio, ")
+          .append(heatmapIntensityChar(3)).append(" alto, ")
+          .append(heatmapIntensityChar(4)).append(" pico\n");
+        sb.append("  Pico: ").append(heatmap.peakLabel());
+
+        return sb.toString();
+    }
+
+    public Summary buildSummary() {
+        if (!context.isLoaded()) {
+            return new Summary("", 0, null, null, Duration.ZERO, new EnumMap<>(LogLevel.class));
+        }
+
+        var entries = context.currentEntries();
+        Map<LogLevel, Long> countByLevel = entries.stream()
+                .collect(Collectors.groupingBy(LogEntry::level,
+                        () -> new EnumMap<>(LogLevel.class),
+                        Collectors.counting()));
+
+        var start = entries.stream()
+                .map(LogEntry::timestamp)
+                .filter(Objects::nonNull)
+                .min(LocalDateTime::compareTo)
+                .orElse(null);
+        var end = entries.stream()
+                .map(LogEntry::timestamp)
+                .filter(Objects::nonNull)
+                .max(LocalDateTime::compareTo)
+                .orElse(null);
+
+        Duration duration = start != null && end != null ? Duration.between(start, end) : Duration.ZERO;
+        return new Summary(context.sourceName(), entries.size(), start, end, duration, countByLevel);
+    }
+
+    public List<TimeBucket> timelineData(String intervaloStr, String nivel) {
+        if (!context.isLoaded()) return List.of();
+
+        long intervalMinutes = parseInterval(intervaloStr != null ? intervaloStr : "1h");
+        List<LogEntry> list = filteredEntriesWithTimestamp(nivel);
+        if (list.isEmpty()) return List.of();
 
         var start = list.getFirst().timestamp().truncatedTo(ChronoUnit.HOURS);
         var end = list.getLast().timestamp();
@@ -104,52 +195,50 @@ public class LogStatsService {
             buckets.merge(bucketTime, 1L, Long::sum);
         }
 
-        long maxCount = buckets.values().stream().mapToLong(Long::longValue).max().orElse(1);
-        var sb = new StringBuilder();
-        sb.append("\n").append(ConsoleFormatter.bold("VOLUME POR INTERVALO")).append("\n\n");
-
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM HH:mm");
-        for (var entry : buckets.entrySet()) {
-            int barLen = (int) (entry.getValue() * 20 / Math.max(maxCount, 1));
-            String bar = ConsoleFormatter.BAR_FULL.repeat(barLen) +
-                         ConsoleFormatter.BAR_EMPTY.repeat(20 - barLen);
-            String marker = entry.getValue().equals(maxCount) ? "  <- pico" : "";
-            sb.append(String.format("  %s [%s] %,d%s\n",
-                    entry.getKey().format(fmt), bar, entry.getValue(), marker));
-        }
-
-        return sb.toString();
+        return buckets.entrySet().stream()
+                .map(e -> new TimeBucket(e.getKey(), e.getValue()))
+                .toList();
     }
 
-    public String topErrors(int limite) {
-        if (!context.isLoaded()) return "Nenhum log carregado. Use 'abrir' primeiro.";
-        int effectiveLimit = limite > 0 ? limite : DEFAULT_TOP_ERRORS_LIMIT;
+    public List<ErrorCount> topErrorData(int limite) {
+        if (!context.isLoaded()) return List.of();
 
-        var errors = context.currentEntries().stream()
+        return context.currentEntries().stream()
                 .filter(e -> e.level().isAtLeast(LogLevel.ERROR))
-                .collect(Collectors.groupingBy(
-                        e -> extractErrorSignature(e),
-                        Collectors.counting()
-                ));
-
-        var sorted = errors.entrySet().stream()
+                .collect(Collectors.groupingBy(this::extractErrorSignature, Collectors.counting()))
+                .entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-                .limit(effectiveLimit)
+                .limit(limite)
+                .map(e -> new ErrorCount(e.getKey(), e.getValue()))
                 .toList();
+    }
 
-        if (sorted.isEmpty()) return "Nenhum erro encontrado nos logs carregados.";
-
-        var sb = new StringBuilder();
-        sb.append("\n").append(ConsoleFormatter.bold("TOP " + effectiveLimit + " ERROS:")).append("\n\n");
-
-        for (int i = 0; i < sorted.size(); i++) {
-            var entry = sorted.get(i);
-            sb.append(String.format("  %s%d.%s %s  (%sx)\n",
-                    ConsoleFormatter.YELLOW, i + 1, ConsoleFormatter.RESET,
-                    entry.getKey(), formatNumber(entry.getValue())));
+    public HeatmapData heatmapData(String nivel) {
+        if (!context.isLoaded()) {
+            return new HeatmapData(nivelLabel(nivel), 0, new long[7][24], "", 0);
         }
 
-        return sb.toString();
+        List<LogEntry> entries = filteredEntriesWithTimestamp(nivel != null ? nivel : "ERROR+");
+        long[][] matrix = new long[7][24];
+        long peakValue = 0;
+        int peakDay = 0;
+        int peakHour = 0;
+
+        for (var entry : entries) {
+            int dayIndex = entry.timestamp().getDayOfWeek().getValue() - 1;
+            int hour = entry.timestamp().getHour();
+            long value = ++matrix[dayIndex][hour];
+            if (value > peakValue) {
+                peakValue = value;
+                peakDay = dayIndex;
+                peakHour = hour;
+            }
+        }
+
+        String peakLabel = peakValue == 0
+                ? "sem eventos"
+                : WEEKDAY_LABELS.get(peakDay) + " " + String.format("%02d:00", peakHour) + " (" + formatNumber(peakValue) + ")";
+        return new HeatmapData(nivelLabel(nivel), entries.size(), matrix, peakLabel, peakValue);
     }
 
     public String byClass(String nivel) {
@@ -246,6 +335,28 @@ public class LogStatsService {
         return msg.length() > 80 ? msg.substring(0, 80) + "..." : msg;
     }
 
+    private List<LogEntry> filteredEntriesWithTimestamp(String nivel) {
+        return applyLevelFilter(context.currentEntries(), nivel).stream()
+                .filter(e -> e.timestamp() != null)
+                .sorted(Comparator.comparing(LogEntry::timestamp))
+                .toList();
+    }
+
+    private List<LogEntry> applyLevelFilter(List<LogEntry> entries, String nivel) {
+        if (nivel == null || nivel.isBlank()) {
+            return entries;
+        }
+
+        String normalized = nivel.trim().toUpperCase(Locale.ROOT);
+        if (normalized.endsWith("+")) {
+            LogLevel minLevel = LogLevel.fromString(normalized.substring(0, normalized.length() - 1));
+            return entries.stream().filter(e -> e.level().isAtLeast(minLevel)).toList();
+        }
+
+        LogLevel targetLevel = LogLevel.fromString(normalized);
+        return entries.stream().filter(e -> e.level() == targetLevel).toList();
+    }
+
     private long parseInterval(String text) {
         String cleaned = text.trim().toLowerCase();
         long amount;
@@ -261,6 +372,22 @@ public class LogStatsService {
 
     private String truncate(String s, int max) {
         return s.length() > max ? s.substring(0, max - 3) + "..." : s;
+    }
+
+    public String formatDuration(Duration duration) {
+        long days = duration.toDays();
+        long hours = duration.toHours() % 24;
+        long minutes = duration.toMinutes() % 60;
+
+        StringBuilder sb = new StringBuilder();
+        if (days > 0) sb.append(days).append(" dias, ");
+        if (hours > 0 || days > 0) sb.append(hours).append(" horas");
+        if (minutes > 0 && days == 0) {
+            if (sb.length() > 0) sb.append(", ");
+            sb.append(minutes).append(" min");
+        }
+        if (sb.length() == 0) sb.append("0 min");
+        return sb.toString();
     }
 
     private String formatNumber(long n) {
@@ -280,5 +407,45 @@ public class LogStatsService {
             case DEBUG -> ConsoleFormatter.CYAN;
             case TRACE -> ConsoleFormatter.DIM;
         };
+    }
+
+    private char heatmapIntensityChar(int intensity) {
+        return switch (intensity) {
+            case 0 -> '·';
+            case 1 -> '░';
+            case 2 -> '▒';
+            case 3 -> '▓';
+            default -> '█';
+        };
+    }
+
+    private String nivelLabel(String nivel) {
+        if (nivel == null || nivel.isBlank()) return "todos";
+        return nivel.trim().toUpperCase(Locale.ROOT);
+    }
+
+    public record Summary(
+            String source,
+            int totalEntries,
+            LocalDateTime start,
+            LocalDateTime end,
+            Duration duration,
+            Map<LogLevel, Long> countByLevel
+    ) {}
+
+    public record TimeBucket(LocalDateTime bucket, long count) {}
+
+    public record ErrorCount(String signature, long count) {}
+
+    public record HeatmapData(String levelLabel, int totalEvents, long[][] matrix, String peakLabel, long peakValue) {
+        public int intensityAt(int day, int hour) {
+            if (peakValue == 0) return 0;
+            double ratio = (double) matrix[day][hour] / peakValue;
+            if (ratio == 0) return 0;
+            if (ratio < 0.25) return 1;
+            if (ratio < 0.5) return 2;
+            if (ratio < 0.75) return 3;
+            return 4;
+        }
     }
 }

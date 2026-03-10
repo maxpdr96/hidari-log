@@ -25,53 +25,38 @@ public class AnomalyDetectionService {
     public String detectAnomalies() {
         if (!context.isLoaded()) return "Nenhum log carregado. Use 'abrir' primeiro.";
 
-        var entries = context.currentEntries();
         var sb = new StringBuilder();
         sb.append("\n").append(ConsoleFormatter.bold("ANOMALIAS DETECTADAS:")).append("\n\n");
 
-        boolean found = false;
-
-        // 1. Error spikes
-        var errorSpikes = detectErrorSpikes(entries);
-        if (!errorSpikes.isEmpty()) {
-            found = true;
-            for (String spike : errorSpikes) {
-                sb.append(ConsoleFormatter.RED).append("  [CRITICO] ").append(ConsoleFormatter.RESET).append(spike).append("\n");
-            }
-        }
-
-        // 2. New error types (first occurrence)
-        var newErrors = detectNewErrors(entries);
-        if (!newErrors.isEmpty()) {
-            found = true;
-            for (String err : newErrors) {
-                sb.append(ConsoleFormatter.RED).append("  [CRITICO] ").append(ConsoleFormatter.RESET).append(err).append("\n");
-            }
-        }
-
-        // 3. Recurring patterns
-        var recurring = detectRecurringPatterns(entries);
-        if (!recurring.isEmpty()) {
-            found = true;
-            for (String pattern : recurring) {
-                sb.append(ConsoleFormatter.YELLOW).append("  [ALERTA]  ").append(ConsoleFormatter.RESET).append(pattern).append("\n");
-            }
-        }
-
-        // 4. Log gaps (possible crashes/restarts)
-        var gaps = detectLogGaps(entries);
-        if (!gaps.isEmpty()) {
-            found = true;
-            for (String gap : gaps) {
-                sb.append(ConsoleFormatter.YELLOW).append("  [ALERTA]  ").append(ConsoleFormatter.RESET).append(gap).append("\n");
-            }
-        }
-
-        if (!found) {
+        var findings = analyzeAnomalies();
+        if (findings.isEmpty()) {
             sb.append("  Nenhuma anomalia significativa detectada.\n");
+        } else {
+            for (var finding : findings) {
+                String color = finding.severity() == Severity.CRITICO
+                        ? ConsoleFormatter.RED
+                        : ConsoleFormatter.YELLOW;
+                sb.append(color)
+                  .append("  [").append(finding.severity()).append("] ")
+                  .append(ConsoleFormatter.RESET)
+                  .append(finding.message())
+                  .append("\n");
+            }
         }
 
         return sb.toString();
+    }
+
+    public List<AnomalyFinding> analyzeAnomalies() {
+        if (!context.isLoaded()) return List.of();
+
+        var entries = context.currentEntries();
+        var findings = new ArrayList<AnomalyFinding>();
+        detectErrorSpikes(entries).forEach(spike -> findings.add(new AnomalyFinding(Severity.CRITICO, spike)));
+        detectNewErrors(entries).forEach(err -> findings.add(new AnomalyFinding(Severity.CRITICO, err)));
+        detectRecurringPatterns(entries).forEach(pattern -> findings.add(new AnomalyFinding(Severity.ALERTA, pattern)));
+        detectLogGaps(entries).forEach(gap -> findings.add(new AnomalyFinding(Severity.ALERTA, gap)));
+        return findings;
     }
 
     public String detectPatterns() {
@@ -340,5 +325,12 @@ public class AnomalyDetectionService {
             case DEBUG -> ConsoleFormatter.CYAN;
             case TRACE -> ConsoleFormatter.DIM;
         };
+    }
+
+    public record AnomalyFinding(Severity severity, String message) {}
+
+    public enum Severity {
+        CRITICO,
+        ALERTA
     }
 }

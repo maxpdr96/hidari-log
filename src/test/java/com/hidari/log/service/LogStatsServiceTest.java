@@ -55,10 +55,33 @@ class LogStatsServiceTest {
         assertFalse(output.contains("cache miss  (1x)"));
     }
 
+    @Test
+    void heatmapShowsPeakWindowForErrors() {
+        LogContext context = new LogContext();
+        context.load(List.of(
+                entry(1, LogLevel.ERROR, "db timeout", LocalDateTime.of(2025, 3, 3, 9, 0)),
+                entry(2, LogLevel.ERROR, "db timeout", LocalDateTime.of(2025, 3, 3, 9, 10)),
+                entry(3, LogLevel.ERROR, "db timeout", LocalDateTime.of(2025, 3, 3, 9, 20)),
+                entry(4, LogLevel.WARN, "warn", LocalDateTime.of(2025, 3, 4, 15, 0))
+        ), "test.log", LogFormat.LOGBACK);
+
+        LogStatsService service = new LogStatsService(context);
+
+        String output = service.heatmap("ERROR+");
+
+        assertTrue(output.contains("HEATMAP TEMPORAL"));
+        assertTrue(output.contains("Nivel: ERROR+ | Eventos: 3"));
+        assertTrue(output.contains("Pico: Seg 09:00 (3)"));
+    }
+
     private static LogEntry entry(long line, LogLevel level, String message) {
+        return entry(line, level, message, LocalDateTime.of(2025, 3, 5, 0, 0).plusMinutes(line));
+    }
+
+    private static LogEntry entry(long line, LogLevel level, String message, LocalDateTime timestamp) {
         return new LogEntry(
                 line,
-                LocalDateTime.of(2025, 3, 5, 0, 0).plusMinutes(line),
+                timestamp,
                 level,
                 "com.example.Service",
                 "main",

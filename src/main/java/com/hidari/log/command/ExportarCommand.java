@@ -16,7 +16,7 @@ public class ExportarCommand {
 
     @Command(name = "exportar", description = "Exportar logs filtrados para arquivo")
     public String exportar(
-            @Option(longName = "formato", required = true, description = "Formato: json, csv, html, markdown") String formato,
+            @Option(longName = "formato", required = true, description = "Formato: json, csv, html, markdown, html-report, markdown-report") String formato,
             @Option(longName = "saida", required = true, description = "Caminho do arquivo de saida") String saida
     ) {
         try {
